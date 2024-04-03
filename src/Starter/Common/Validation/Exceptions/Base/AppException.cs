@@ -4,18 +4,15 @@ using System.Net;
 
 internal class AppException : InvalidOperationException
 {
-    internal AppException(string message, HttpStatusCode statusCode) : base(message)
+    internal AppException(string message) : base(message)
     {
         ErrorMessages = [message];
-        StatusCode = statusCode;
     }
 
-    internal AppException(IEnumerable<string> errorMessages, HttpStatusCode statusCode) : base(errorMessages.FirstOrDefault())
+    internal AppException(IEnumerable<string> errorMessages) : base(errorMessages.FirstOrDefault())
     {
         ErrorMessages = errorMessages;
-        StatusCode = statusCode;
     }
 
     internal IEnumerable<string> ErrorMessages { get; }
-    internal HttpStatusCode StatusCode { get; }
 }

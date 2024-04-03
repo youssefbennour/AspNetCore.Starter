@@ -2,14 +2,9 @@
 
 namespace Starter.Common.Validation.Requests.Exceptions;
 
-internal sealed class NotFoundException : AppException
+internal class NotFoundException : AppException
 {
-    internal NotFoundException(string message) : base(message, System.Net.HttpStatusCode.BadRequest)
-    {
+    internal NotFoundException(string message) : base(message){}
 
-    }
-    internal NotFoundException(IEnumerable<string> messages) : base(messages, System.Net.HttpStatusCode.BadRequest)
-    {
-
-    }
+    internal NotFoundException(IEnumerable<string> messages) : base(messages){}
 }
