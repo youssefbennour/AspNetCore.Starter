@@ -1,6 +1,6 @@
-﻿using Starter.Common.Validation.Exceptions.Base;
+﻿using Starter.Common.ErrorHandling.Exceptions.Base;
 
-namespace Starter.Common.Validation.Requests.Exceptions;
+namespace Starter.Common.ErrorHandling.Exceptions;
 
 internal class InternalServerException : AppException
 {
