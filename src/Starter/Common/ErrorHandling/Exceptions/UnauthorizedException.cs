@@ -1,4 +1,4 @@
-﻿using Starter.Common.Validation.Exceptions.Base;
+﻿using Starter.Common.ErrorHandling.Exceptions.Abstractions;
 
 namespace Starter.Common.Validation.Requests.Exceptions;
 
