@@ -1,4 +1,5 @@
-﻿using Starter.Common.ErrorHandling.Exceptions.Base;
+﻿
+using Starter.Common.ErrorHandling.Exceptions.Abstractions;
 
 namespace Starter.Common.ErrorHandling.Exceptions;
 
