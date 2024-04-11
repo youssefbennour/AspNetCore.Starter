@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
-using Starter.Common;
 using Starter.Common.Clock;
 using Starter.Common.ErrorHandling;
 using Starter.Common.Events.EventBus;
 using Starter.Common.Validation.Requests;
+using Starter.Resources;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,7 +55,7 @@ app.UseErrorHandling();
 
 app.MapControllers();
 
-app.MapGet("/", (IStringLocalizer<LocalizationTest> localizer) =>
+app.MapGet("/", () =>
 {
     return localizer["Hello"];
 });
