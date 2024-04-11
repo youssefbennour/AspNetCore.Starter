@@ -57,7 +57,7 @@ app.MapControllers();
 
 app.MapGet("/", () =>
 {
-    return localizer["Hello"];
+    return "Fellow developers please fasten your seat belts, our starter is taking off ...";
 });
 
 app.Run();
