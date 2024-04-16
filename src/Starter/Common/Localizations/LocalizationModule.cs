@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Localization;
+﻿using Ardalis.GuardClauses;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 using System.Globalization;
 
-namespace Starter.Common.Localizations
-{
-    internal static class LocalizationModule
-    {
+namespace Starter.Common.Localizations {
+    internal static class LocalizationModule {
 
-        internal static IServiceCollection AddRequestBasedLocalization(this IServiceCollection services)
-        {
+        internal static IServiceCollection AddRequestBasedLocalization(this IServiceCollection services) {
             services.AddLocalization();
             services.Configure<RequestLocalizationOptions>(
-                opts =>
-                {
+                opts => {
                     var supportedCultures = new List<CultureInfo>
                     {
                         new CultureInfo("en"),
@@ -27,6 +25,16 @@ namespace Starter.Common.Localizations
                 });
 
             return services;
+        }
+
+        internal static IApplicationBuilder UseRequestBasedLocalization(this IApplicationBuilder applicationBuilder) {
+            IOptions<RequestLocalizationOptions>? options =
+                applicationBuilder.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+
+            Guard.Against.Null(options);
+            applicationBuilder.UseRequestLocalization(options.Value);
+
+            return applicationBuilder;
         }
     }
 }
