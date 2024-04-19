@@ -9,30 +9,31 @@ namespace Starter.Common.ErrorHandling;
 
 internal static class ErrorHandlingExtensions {
 
-    internal static ProblemDetails ToUndetailedError(this AppException appException) =>
-        new() {
-            Status = appException.GetHttpStatusCode(),
-            Title = appException.Message,
-        };
-
-    internal static ProblemDetails ToValidationError(this AppException appException) {
+    internal static ProblemDetails ToProblemDetails(this Exception exception) {
         ProblemDetails problemDetails = new() {
-            Status = appException.GetHttpStatusCode(),
-            Title = appException.Message,
+            Status = exception.GetHttpStatusCode(),
+            Title = exception.Message,
         };
 
-        problemDetails.Extensions["Errors"] = appException.GetFieldValidationErrors();
+        if(exception is BusinessRuleValidationException businessRuleValidationException) {
+            problemDetails.Extensions.Add("Errors", businessRuleValidationException.GetFieldValidationErrors());
+        }
+
         return problemDetails;
     }
 
-    internal static IEnumerable<FieldValidationError> GetFieldValidationErrors(this AppException appException) {
+    internal static List<FieldValidationError> GetFieldValidationErrors(this AppException appException) {
+        List<FieldValidationError> fieldValidationErrors = new();
+
         foreach(DictionaryEntry error in appException.Data) {
             if(error.Key.ToString() is not string field
-               || error.Key.ToString() is not string errorMessage) {
+               || error.Value?.ToString() is not string errorMessage) {
                 continue;
             }
-            yield return new FieldValidationError(field, errorMessage);
+            fieldValidationErrors.Add(new FieldValidationError(field, errorMessage));
         }
+
+        return fieldValidationErrors;
     }
     internal static int GetHttpStatusCode(this Exception exception) {
 

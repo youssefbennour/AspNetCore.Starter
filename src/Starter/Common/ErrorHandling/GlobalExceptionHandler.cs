@@ -2,9 +2,6 @@ namespace Starter.Common.ErrorHandling;
 
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Starter.Common.BusinessRuleEngine;
-using Starter.Common.ErrorHandling.ErrorModels;
-using Starter.Common.Validation.Requests.Exceptions;
 
 internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler {
     private const string ErrorOccurredMessage = "An error occurred.";
@@ -19,17 +16,7 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         CancellationToken cancellationToken) {
         LogException(logger, ErrorOccurredMessage, exception);
 
-        ProblemDetails problemDetails = exception switch {
-            BusinessRuleValidationException businessRuleValidationException =>
-                businessRuleValidationException.ToValidationError(),
-
-            AlreadyExistsException alreadyExistsException => alreadyExistsException.ToUndetailedError(),
-            BadRequestException badRequestException => badRequestException.ToUndetailedError(),
-            NotFoundException notFoundException => notFoundException.ToUndetailedError(),
-            UnauthorizedException unauthorizedException => unauthorizedException.ToUndetailedError(),
-            ForbiddenException forbiddenException => forbiddenException.ToUndetailedError(),
-            _ => ValidationError.InternalServerError,
-        };
+        ProblemDetails problemDetails = exception.ToProblemDetails();
 
         httpContext.Response.StatusCode = problemDetails.Status!.Value;
         await httpContext.Response

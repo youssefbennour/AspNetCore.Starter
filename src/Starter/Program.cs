@@ -1,3 +1,4 @@
+using Starter.Common.BusinessRuleEngine;
 using Starter.Common.Clock;
 using Starter.Common.ErrorHandling;
 using Starter.Common.Events.EventBus;
@@ -30,7 +31,9 @@ app.MapControllers();
 
 
 app.MapGet("/", () => {
-    return "Hello fellow developers";
+    var ex = new BusinessRuleValidationException("qsdfqsdfqsdf");
+    ex.Data["Youssef"] = "Bhim";
+    throw ex;
 });
 
 app.Run();
