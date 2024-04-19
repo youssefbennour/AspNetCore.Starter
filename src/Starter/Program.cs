@@ -28,8 +28,9 @@ app.UseAuthorization();
 app.UseErrorHandling();
 app.MapControllers();
 
+
 app.MapGet("/", () => {
-    return "Fellow developers please fasten your seat belts, our starter is taking off ...";
+    return "Hello fellow developers";
 });
 
 app.Run();

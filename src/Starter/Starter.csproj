@@ -27,9 +27,6 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="Starter.UnitTests" />
 		<InternalsVisibleTo Include="Starter.IntegrationTests" />
+		<!--<InternalsVisibleTo Include="DynamicProxyGenAssembly2" />-->
 	</ItemGroup>
-	<ItemGroup>
-		<InternalsVisibleTo Include="EvolutionaryArchitecture.Fitnet.IntegrationTests" />
-	</ItemGroup>
-
 </Project>
