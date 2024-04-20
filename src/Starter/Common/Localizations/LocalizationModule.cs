@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using System.Globalization;
 
@@ -35,8 +36,18 @@ namespace Starter.Common.Localizations {
 
             Guard.Against.Null(options);
             applicationBuilder.UseRequestLocalization(options.Value);
-
             return applicationBuilder;
+        }
+
+        /// <summary>
+        /// Maps an endpoint with 'GET' method, for localization testing purposes.
+        /// </summary>
+        /// <param name="app">injected instance of <see cref="IEndpointRouteBuilder"/></param>
+        internal static void MapLocalizationSampleEndpoint(this IEndpointRouteBuilder app)
+        {
+            app.MapGet("/localization-tests", (IStringLocalizer<LocalizationSample> localizer) => {
+                return localizer["Hello"];
+            });
         }
     }
 }

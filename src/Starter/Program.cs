@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Starter.Common.ApiConfiguration;
 using Starter.Common.BusinessRuleEngine;
@@ -33,10 +34,8 @@ app.UseAuthorization();
 app.UseErrorHandling();
 app.MapControllers();
 
-
-app.MapGet("/", (IStringLocalizer<TestLocalization> loc) => {
-    return loc["Hello"].Value;
-});
+app.MapLocalizationSampleEndpoint();
+app.MapGet("/", () => "Hello world");
 
 app.Run();
 

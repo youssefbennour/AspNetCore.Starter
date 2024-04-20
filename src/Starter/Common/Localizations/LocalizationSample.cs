@@ -1,6 +1,6 @@
 ﻿namespace Starter.Common.Localizations
 {
-    public class TestLocalization
+    public class LocalizationSample
     {
     }
 }
