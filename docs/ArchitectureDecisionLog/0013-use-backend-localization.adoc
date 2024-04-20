@@ -1,0 +1,29 @@
+# 1. Use exceptions for validations
+
+Date: 2024-04-17
+
+## Status
+
+Accepted
+
+## Context
+
+Users from different nationalitites should be able to interact with our system, for this purpose implementing multilingual support is crucial.
+
+We have thought of 2 options:
+
+1 - implement localization in the back-end.
+
+2 - implement localization in the front-end.
+
+## Decision
+
+After considering our current situation, and since we currently have a shortage of front-end developers, we decided to delegate the process of localization to the back-end.
+
+## Consequences
+
+- Users from differente nationalities and differenet mother tongues, will be able to easily interact with our APIs, SPAs...
+
+- Since our API reponses and error messages by default originate from the back-end, back-end developers, are the most knowledgeable of what the back-end is responding with, thus we win the time front-end developers would have spent navigating through hundreds of responses and error messages.
+
+- We should expect some latency in our API respons times, since localization/translation is happening in the back-end.

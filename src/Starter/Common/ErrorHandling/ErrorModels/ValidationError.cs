@@ -1,10 +1,8 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 
-namespace Starter.Common.ErrorHandling.ErrorModels
-{
-    internal sealed class ValidationError
-    {
+namespace Starter.Common.ErrorHandling.ErrorModels {
+    internal sealed class ValidationError {
 
         internal ValidationError(string message) {
             Message = message;
@@ -19,13 +17,11 @@ namespace Starter.Common.ErrorHandling.ErrorModels
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         internal List<FieldValidationError>? Errors { get; set; }
 
-        internal static ValidationError InternalServerError => new("Server error");
+        internal static ProblemDetails InternalServerError => new() { Title = "Internal server error" };
     }
 
-    internal sealed class FieldValidationError
-    {
-        internal FieldValidationError(string field, string message)
-        {
+    internal sealed class FieldValidationError {
+        internal FieldValidationError(string field, string message) {
             Field = field;
             Message = message;
         }
@@ -33,5 +29,5 @@ namespace Starter.Common.ErrorHandling.ErrorModels
         internal string Field { get; private set; }
         internal string Message { get; private set; }
     }
-    
+
 }

@@ -1,40 +1,47 @@
+using Microsoft.AspNetCore.Mvc;
 using Starter.Common.BusinessRuleEngine;
 using Starter.Common.ErrorHandling.ErrorModels;
-using Starter.Common.ErrorHandling.Exceptions;
 using Starter.Common.ErrorHandling.Exceptions.Abstractions;
 using Starter.Common.Validation.Requests.Exceptions;
 using System.Collections;
 
 namespace Starter.Common.ErrorHandling;
 
-internal static class ErrorHandlingExtensions
-{
+internal static class ErrorHandlingExtensions {
 
-    internal static ValidationError ToUndetailedError(this AppException appException) =>
-        new ValidationError(appException.Message);
-
-    internal static ValidationError ToValidationError(this AppException appException) =>
-        new ValidationError(appException.Message)
-        {
-            Errors = appException.GetFieldValidationErrors()
-            .ToList()
+    internal static ProblemDetails ToProblemDetails(this Exception exception) {
+        ProblemDetails problemDetails = new() {
+            Status = exception.GetHttpStatusCode(),
+            Title = exception.Message,
         };
 
-    internal static IEnumerable<FieldValidationError> GetFieldValidationErrors(this AppException appException)
-    {
-        foreach (DictionaryEntry error in appException.Data)
-        {
-            if (error.Key.ToString() is not string field
-               || error.Key.ToString() is not string errorMessage)
-            {
+        if(exception is BusinessRuleValidationException businessRuleValidationException) {
+            problemDetails.Extensions.Add("Errors", businessRuleValidationException.GetFieldValidationErrors());
+        }
+
+        return problemDetails;
+    }
+
+    internal static List<FieldValidationError> GetFieldValidationErrors(this AppException appException) {
+        List<FieldValidationError> fieldValidationErrors = new();
+
+        foreach(DictionaryEntry error in appException.Data) {
+            if(error.Key.ToString() is not string field
+               || error.Value?.ToString() is not string errorMessage) {
                 continue;
             }
-            yield return new FieldValidationError(field, errorMessage);
+            fieldValidationErrors.Add(new FieldValidationError(field, errorMessage));
         }
+
+        return fieldValidationErrors;
     }
-    internal static int GetHttpStatusCode(this AppException appException) =>
-        appException switch
-        {
+    internal static int GetHttpStatusCode(this Exception exception) {
+
+        if(exception is not AppException appException) {
+            return StatusCodes.Status500InternalServerError;
+        }
+
+        return appException switch {
             BusinessRuleValidationException => StatusCodes.Status422UnprocessableEntity,
             NotFoundException => StatusCodes.Status404NotFound,
             BadRequestException => StatusCodes.Status400BadRequest,
@@ -43,20 +50,17 @@ internal static class ErrorHandlingExtensions
             UnauthorizedException => StatusCodes.Status401Unauthorized,
             _ => StatusCodes.Status500InternalServerError,
         };
-        
+    }
 
-    internal static IApplicationBuilder UseErrorHandling(this IApplicationBuilder applicationBuilder)
-    {
-        applicationBuilder.UseExceptionHandler();
+    internal static IApplicationBuilder UseErrorHandling(this IApplicationBuilder applicationBuilder) {
+        applicationBuilder.UseExceptionHandler(o => { });
 
         return applicationBuilder;
     }
 
-    internal static IServiceCollection AddExceptionHandling(this IServiceCollection services)
-    {
+    internal static IServiceCollection AddExceptionHandling(this IServiceCollection services) {
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
-
         return services;
     }
 }

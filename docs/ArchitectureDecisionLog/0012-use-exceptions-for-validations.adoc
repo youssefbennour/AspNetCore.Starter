@@ -1,0 +1,21 @@
+# 1. Use exceptions for validations
+
+Date: 2024-04-16
+
+## Status
+
+Accepted
+
+## Context
+
+We need to terminate any process as soon as an invalid state is found, and our logic is unable to handle it, and the problem should be sent back to the client.
+## Decision
+
+After evaluating our options, we have decided to throw specific types of exceptions that would be handled by a global exception handler reflecting error API status code that we had decided to use.
+## Consequences
+
+- By using exceptions for validation, we ensure easy development, since exceptions are sure to terminate business processes automatically and we don't rely on the developer's awareness for propagating an error manually and translating it to the correct API response.
+
+- There is a performance overhead for throwing exceptions (see https://gunnarpeipman.com/cost-of-exceptions/), however the scale of projects we're working on make it negligible.
+
+  In the future, if a noticable performance penalty is observed we can opt for another solution like 'service result' pattern.
