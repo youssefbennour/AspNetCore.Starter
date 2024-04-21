@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starter.UnitTests.Localizations
+namespace Starter.IntegrationTests.Localizations
 {
     /// <summary>
     /// Since the base class has multiple constructors, and its source is <see cref="Microsoft.Extensions.Localization"/>.

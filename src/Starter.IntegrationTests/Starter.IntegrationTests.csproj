@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -12,14 +12,30 @@
 
   <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" Version="4.5.0" />
-    <PackageReference Include="coverlet.collector" Version="6.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.23.2.88755">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="xunit" Version="2.5.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+	  <PackageReference Include="Bogus" Version="34.0.2" />
+	  <PackageReference Include="FluentAssertions" Version="6.12.0" />
+	  <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="8.0.0" />
+	  <PackageReference Include="NSubstitute" Version="5.1.0" />
+	  <PackageReference Include="Verify.Xunit" Version="22.5.0" />
+	  <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="Testcontainers" Version="3.8.0" />
+	  <PackageReference Include="Testcontainers.PostgreSql" Version="3.8.0" />
+	  <PackageReference Include="xunit" Version="2.6.1" />
+	  <PackageReference Include="xunit.analyzers" Version="1.5.0" />
+	  <PackageReference Include="xunit.categories" Version="2.0.8" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+	  <PackageReference Include="coverlet.collector" Version="6.0.0">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+	  </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Starter\Starter.csproj" />
   </ItemGroup>
 
   <ItemGroup>

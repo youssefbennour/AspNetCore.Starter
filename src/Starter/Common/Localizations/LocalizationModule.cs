@@ -16,7 +16,8 @@ namespace Starter.Common.Localizations {
                     {
                         new CultureInfo("en"),
                         new CultureInfo("fr"),
-                        new CultureInfo("ar")
+                        new CultureInfo("ar"),
+                        new CultureInfo("es")
                     };
 
                     opts.DefaultRequestCulture = new RequestCulture(supportedCultures[0]);
