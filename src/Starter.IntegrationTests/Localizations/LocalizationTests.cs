@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 
 namespace Starter.IntegrationTests.Localizations
 {
@@ -38,6 +35,7 @@ namespace Starter.IntegrationTests.Localizations
         internal async Task Given_no_concrete_accept_language_header_Then_response_should_be_translated_to_default_culture()
         {
             //Arrange
+            const string defaultCultureResponse = "Hello";
 
             //act
             var localizationResponse = await applicationHttpClient.GetAsync("/localization-tests");
@@ -46,7 +44,7 @@ namespace Starter.IntegrationTests.Localizations
             //Assert
             Assert.Equal(HttpStatusCode.OK, localizationResponse.StatusCode);
             Assert.NotNull(localizedString);
-            Assert.Equal("Hello", localizedString.Value);
+            Assert.Equal(defaultCultureResponse, localizedString.Value);
         }
     }
 }
