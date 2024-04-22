@@ -10,13 +10,11 @@ namespace Starter.Common.ErrorHandling;
 internal static class ErrorHandlingExtensions {
 
     internal static ProblemDetails ToProblemDetails(this Exception exception) {
-        ProblemDetails problemDetails = new() {
-            Status = exception.GetHttpStatusCode(),
-            Title = exception.Message,
-        };
+        ProblemDetails problemDetails = new();
+        problemDetails.Extensions["message"] = exception.Message;
 
         if(exception is BusinessRuleValidationException businessRuleValidationException) {
-            problemDetails.Extensions.Add("Errors", businessRuleValidationException.GetFieldValidationErrors());
+            problemDetails.Extensions["errors"] = businessRuleValidationException.GetFieldValidationErrors();
         }
 
         return problemDetails;

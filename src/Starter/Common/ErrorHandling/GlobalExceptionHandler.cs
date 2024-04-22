@@ -1,10 +1,10 @@
 namespace Starter.Common.ErrorHandling;
 
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
-internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler {
+internal sealed class GlobalExceptionHandler(
+    ILogger<GlobalExceptionHandler> logger) : IExceptionHandler {
     private const string ErrorOccurredMessage = "An error occurred.";
 
     private static readonly Action<ILogger, string, Exception> LogException =
@@ -17,11 +17,16 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         CancellationToken cancellationToken) {
         LogException(logger, ErrorOccurredMessage, exception);
 
-        ProblemDetails problemDetails = exception.ToProblemDetails();
+        var problemDetails = exception.ToProblemDetails();
+        httpContext.Response.StatusCode = exception.GetHttpStatusCode();
 
-        httpContext.Response.StatusCode = problemDetails.Status!.Value;
+        var serializerOptions = new JsonSerializerOptions() {
+            WriteIndented = true,
+            IncludeFields = true,
+        };
+
         await httpContext.Response
-            .WriteAsJsonAsync(problemDetails, typeof(ProblemDetails), ,cancellationToken);
+            .WriteAsJsonAsync(problemDetails, serializerOptions, cancellationToken);
 
         return true;
     }
