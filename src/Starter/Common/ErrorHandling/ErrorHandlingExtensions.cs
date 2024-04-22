@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using Starter.Common.BusinessRuleEngine;
 using Starter.Common.ErrorHandling.ErrorModels;
+using Starter.Common.ErrorHandling.Exceptions;
 using Starter.Common.ErrorHandling.Exceptions.Abstractions;
 using Starter.Common.Validation.Requests.Exceptions;
 using System.Collections;
@@ -9,19 +9,41 @@ namespace Starter.Common.ErrorHandling;
 
 internal static class ErrorHandlingExtensions {
 
-    internal static ProblemDetails ToProblemDetails(this Exception exception) {
-        ProblemDetails problemDetails = new();
-        problemDetails.Extensions["message"] = exception.Message;
+    private const string ServerError = "Server Error";
+
+    internal static IApplicationBuilder UseErrorHandling(this IApplicationBuilder applicationBuilder) {
+        applicationBuilder.UseExceptionHandler(o => { });
+        return applicationBuilder;
+    }
+
+    internal static IServiceCollection AddExceptionHandling(this IServiceCollection services) {
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
+        return services;
+    }
+
+    internal static AppProblemDetails ToProblemDetails(this Exception exception) {
+        AppProblemDetails problemDetails = new();
 
         if(exception is BusinessRuleValidationException businessRuleValidationException) {
-            problemDetails.Extensions["errors"] = businessRuleValidationException.GetFieldValidationErrors();
+            problemDetails.Errors = businessRuleValidationException.GetFieldValidationErrors();
         }
+        problemDetails.Message = exception.GetErrorMessage();
 
         return problemDetails;
     }
 
+    private static string GetErrorMessage(this Exception exception) {
+        if(exception is InternalServerException
+            || exception is not AppException) {
+            return ServerError;
+        }
+
+        return exception.Message;
+    }
+
     internal static List<FieldValidationError> GetFieldValidationErrors(this AppException appException) {
-        List<FieldValidationError> fieldValidationErrors = new();
+        List<FieldValidationError> fieldValidationErrors = [];
 
         foreach(DictionaryEntry error in appException.Data) {
             if(error.Key.ToString() is not string field
@@ -48,16 +70,5 @@ internal static class ErrorHandlingExtensions {
             UnauthorizedException => StatusCodes.Status401Unauthorized,
             _ => StatusCodes.Status500InternalServerError,
         };
-    }
-
-    internal static IApplicationBuilder UseErrorHandling(this IApplicationBuilder applicationBuilder) {
-        applicationBuilder.UseExceptionHandler(o => { });
-        return applicationBuilder;
-    }
-
-    internal static IServiceCollection AddExceptionHandling(this IServiceCollection services) {
-        services.AddExceptionHandler<GlobalExceptionHandler>();
-        services.AddProblemDetails();
-        return services;
     }
 }
