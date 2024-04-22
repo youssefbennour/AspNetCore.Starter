@@ -35,10 +35,17 @@ app.UseErrorHandling();
 app.MapControllers();
 
 app.MapLocalizationSampleEndpoint();
-app.MapGet("/", () => "Hello world");
+app.MapGet("/", () =>
+{
+    var exception = new BusinessRuleValidationException("Some title");
+    exception.Data["Id"] = "Id cannot be null";
+    exception.Data["Id"] = "Id must be exactly 12 characters";
+    exception.Data["Email"] = "Email is not correct";
+
+    throw exception;
+});
 
 app.Run();
-
 
 namespace Starter {
     [UsedImplicitly]

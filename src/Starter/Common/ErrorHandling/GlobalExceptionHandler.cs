@@ -2,6 +2,7 @@ namespace Starter.Common.ErrorHandling;
 
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler {
     private const string ErrorOccurredMessage = "An error occurred.";
@@ -20,7 +21,7 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
 
         httpContext.Response.StatusCode = problemDetails.Status!.Value;
         await httpContext.Response
-            .WriteAsJsonAsync(problemDetails, cancellationToken);
+            .WriteAsJsonAsync(problemDetails, typeof(ProblemDetails), ,cancellationToken);
 
         return true;
     }

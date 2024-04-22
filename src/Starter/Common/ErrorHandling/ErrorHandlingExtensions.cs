@@ -54,7 +54,6 @@ internal static class ErrorHandlingExtensions {
 
     internal static IApplicationBuilder UseErrorHandling(this IApplicationBuilder applicationBuilder) {
         applicationBuilder.UseExceptionHandler(o => { });
-
         return applicationBuilder;
     }
 
