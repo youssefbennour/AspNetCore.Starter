@@ -1,16 +1,25 @@
-﻿namespace Starter.Common.ErrorHandling.Exceptions.Abstractions;
+﻿using System.Collections;
 
-internal abstract class AppException : InvalidOperationException
-{
-    private protected AppException(string message) : base(message)
-    {
-        ErrorMessages = [message];
+namespace Starter.Common.ErrorHandling.Exceptions.Abstractions;
+
+internal abstract class AppException : InvalidOperationException {
+    protected private AppException(string message) : base(message) {
+
+    }
+    internal void UpsertToException(string key, string value) {
+        this.Data[key] = value;
     }
 
-    private protected AppException(IEnumerable<string> errorMessages) : base(errorMessages.FirstOrDefault())
-    {
-        ErrorMessages = errorMessages;
+    internal void ThrowIfContainsErrors() {
+        if(this.Data.Count > 0) {
+            throw this;
+        }
     }
-
-    private protected IEnumerable<string> ErrorMessages { get; }
+    internal void AddData(IDictionary dictionary) {
+        if(dictionary != null) {
+            foreach(DictionaryEntry item in dictionary) {
+                this.Data.Add(item.Key, item.Value);
+            }
+        }
+    }
 }
