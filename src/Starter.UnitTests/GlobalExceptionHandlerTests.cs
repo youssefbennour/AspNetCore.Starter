@@ -12,7 +12,7 @@ public sealed class GlobalExceptionHandlerTests {
     private readonly ILogger<GlobalExceptionHandler> _logger = Substitute.For<ILogger<GlobalExceptionHandler>>();
 
     [Fact]
-    internal async Task Given_business_rule_validation_exception_Then_returns_conflict() {
+    internal async Task Given_business_rule_validation_exception_Then_returns_Unprocessable_Content() {
         // Arrange
         const string exceptionMessage = "Business rule not met";
         var exceptionHandler =
