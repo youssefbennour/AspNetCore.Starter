@@ -23,6 +23,9 @@ internal sealed class GlobalExceptionHandler(
         var serializerOptions = new JsonSerializerOptions() {
             WriteIndented = true,
             IncludeFields = true,
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+
         };
 
         await httpContext.Response
