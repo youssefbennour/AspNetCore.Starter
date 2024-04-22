@@ -29,6 +29,30 @@ public sealed class GlobalExceptionHandlerTests {
     }
 
     [Fact]
+    internal async Task Given_business_rule_validation_exception_Then_should_contain_field_errors() {
+        // Arrange
+        string field = "Id";
+        string message = "Id should not be null";
+
+        const string exceptionMessage = "Business rule not met";
+        var businessRuleValidationException = new BusinessRuleValidationException(exceptionMessage);
+        businessRuleValidationException.UpsertToException(field, message);
+
+        var exceptionHandler =
+            new GlobalExceptionHandler(_logger);
+
+        // Act
+        await exceptionHandler.TryHandleAsync(_context, businessRuleValidationException, default);
+
+        // Assert
+        var responseMessage = await GetExceptionResponseMessage();
+        responseMessage.Errors.Should().NotBeNullOrEmpty();
+        responseMessage.Errors!.Count.Should().Be(1);
+        responseMessage.Errors![0].Field.Should().Be(field);
+        responseMessage.Errors![0].Message.Should().Be(message);
+    }
+
+    [Fact]
     internal async Task Given_other_than_business_rule_validation_exception_Then_returns_internal_server_error() {
         // Arrange
         const string exceptionMessage = "Server Error";
