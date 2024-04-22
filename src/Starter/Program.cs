@@ -1,7 +1,6 @@
 using Starter.Common.ApiConfiguration;
 using Starter.Common.Clock;
 using Starter.Common.ErrorHandling;
-using Starter.Common.ErrorHandling.Exceptions;
 using Starter.Common.Events.EventBus;
 using Starter.Common.Localizations;
 using Starter.Common.Validation.Requests;
@@ -34,12 +33,7 @@ app.MapControllers();
 
 app.MapLocalizationSampleEndpoint();
 app.MapGet("/", () => {
-    var exception = new InternalServerException("Some title");
-    exception.Data["Id"] = "Id cannot be null";
-    exception.Data["Id"] = "Id must be exactly 12 characters";
-    exception.Data["Email"] = "Email is not correct";
-
-    throw exception;
+    return "Hello world";
 });
 
 app.Run();
