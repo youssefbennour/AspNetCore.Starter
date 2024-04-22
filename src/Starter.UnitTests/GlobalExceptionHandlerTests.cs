@@ -2,7 +2,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Starter.Common.BusinessRuleEngine;
 using Starter.Common.ErrorHandling;
-using Starter.Common.ErrorHandling.ErrorModels;
 using System.Net;
 
 namespace Starter.UnitTests;
@@ -54,11 +53,11 @@ public sealed class GlobalExceptionHandlerTests {
             }
         };
 
-    private async Task<ValidationError> GetExceptionResponseMessage() {
+    private async Task<AppProblemDetails> GetExceptionResponseMessage() {
         _context.Response.Body.Seek(0, SeekOrigin.Begin);
         using var streamReader = new StreamReader(_context.Response.Body);
         var responseBody = await streamReader.ReadToEndAsync();
-        var validationError = JsonConvert.DeserializeObject<ValidationError>(responseBody);
-        return validationError!;
+        var problemDetails = JsonConvert.DeserializeObject<AppProblemDetails>(responseBody);
+        return problemDetails!;
     }
 }
