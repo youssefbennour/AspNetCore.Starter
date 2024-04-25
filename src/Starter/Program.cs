@@ -1,4 +1,5 @@
 using Starter.Common.ApiConfiguration;
+using Starter.Common.ApiConfiguration.OpenApiConfiguration;
 using Starter.Common.Clock;
 using Starter.Common.ErrorHandling;
 using Starter.Common.Events.EventBus;
@@ -22,7 +23,6 @@ var app = builder.Build();
 
 if(app.Environment.IsDevelopment()) {
     app.UseSwagger();
-    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
