@@ -12,7 +12,7 @@ internal static class ErrorHandlingExtensions {
     private const string ServerError = "Server Error";
 
     internal static IApplicationBuilder UseErrorHandling(this IApplicationBuilder applicationBuilder) {
-        applicationBuilder.UseExceptionHandler(o => { });
+        applicationBuilder.UseExceptionHandler(_ => { });
         return applicationBuilder;
     }
 
@@ -33,21 +33,17 @@ internal static class ErrorHandlingExtensions {
         return problemDetails;
     }
 
-    private static string GetErrorMessage(this Exception exception) {
-        if(exception is InternalServerException
-            || exception is not AppException) {
-            return ServerError;
-        }
-
-        return exception.Message;
+    private static string GetErrorMessage(this Exception exception)
+    {
+        return exception is InternalServerException or not AppException ? ServerError : exception.Message;
     }
 
-    internal static List<FieldValidationError> GetFieldValidationErrors(this AppException appException) {
+    private static List<FieldValidationError> GetFieldValidationErrors(this AppException appException) {
         List<FieldValidationError> fieldValidationErrors = [];
 
         foreach(DictionaryEntry error in appException.Data) {
-            if(error.Key.ToString() is not string field
-               || error.Value?.ToString() is not string errorMessage) {
+            if(error.Key.ToString() is not { } field
+               || error.Value?.ToString() is not { } errorMessage) {
                 continue;
             }
             fieldValidationErrors.Add(new FieldValidationError(field, errorMessage));

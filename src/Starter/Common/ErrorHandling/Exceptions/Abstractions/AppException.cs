@@ -3,7 +3,7 @@
 namespace Starter.Common.ErrorHandling.Exceptions.Abstractions;
 
 internal abstract class AppException : InvalidOperationException {
-    protected private AppException(string message) : base(message) {
+    private protected AppException(string message) : base(message) {
 
     }
     internal void UpsertToException(string key, string value) {
@@ -15,11 +15,11 @@ internal abstract class AppException : InvalidOperationException {
             throw this;
         }
     }
-    internal void AddData(IDictionary dictionary) {
-        if(dictionary != null) {
-            foreach(DictionaryEntry item in dictionary) {
-                this.Data.Add(item.Key, item.Value);
-            }
+    internal void AddData(IDictionary? dictionary)
+    {
+        if (dictionary == null) return;
+        foreach(DictionaryEntry item in dictionary) {
+            this.Data.Add(item.Key, item.Value);
         }
     }
 }
