@@ -9,9 +9,8 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      postgres:
-        condition: service_healthy
-
+      - otel-collector
+      - postgres
   postgres:
     image: postgres:14.3
     container_name: postgres
@@ -19,8 +18,67 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
+    volumes:
+      - starter-sqldata:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.95.0
+    command: ["--config=/etc/otel-collector-config.yml"]
+    volumes:
+      - ./config/otel-collector-config.yml:/etc/otel-collector-config.yml
+    ports:
+      - "8888:8888" 
+      - "8889:8889" 
+      - "13133:13133"
+      - "4317:4317"
+    networks:
+      - starter-network
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    restart: unless-stopped
+    networks:
+      - starter-network
+  
+  grafana:
+    image: grafana/grafana-oss:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+    networks:
+      - starter-network
+  
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:v1.5.0
+    command: "--path.rootfs=/host"
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    networks:
+      - starter-network
+volumes:
+  starter-sqldata:
+  prometheus-data:
+  grafana-data:
+    driver: local
+
+networks:
+  starter-network:
+    driver: bridge
+
