@@ -5,7 +5,6 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY src/Directory.Build.props ./
 COPY ["src/Starter/Starter.csproj", "Starter/"]
 RUN dotnet restore "Starter/Starter.csproj"
 COPY /src .
@@ -18,4 +17,4 @@ RUN dotnet publish "Starter.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AspNetCore.Starter.Starter.dll"]
+ENTRYPOINT ["dotnet", "Starter.dll"]
