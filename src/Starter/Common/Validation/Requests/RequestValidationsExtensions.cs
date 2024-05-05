@@ -1,4 +1,4 @@
-namespace Starter.Common.Validation.Requests;
+namespace Microsoft.Extensions.DependencyInjection;
 using FluentValidation;
 internal static class RequestValidationsExtensions
 {

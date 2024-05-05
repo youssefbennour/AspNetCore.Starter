@@ -1,4 +1,4 @@
-﻿namespace Starter.Common.Clock;
+﻿namespace Microsoft.Extensions.DependencyInjection;
 
 internal static class ClockModule
 {

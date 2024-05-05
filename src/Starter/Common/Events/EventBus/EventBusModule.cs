@@ -1,7 +1,6 @@
-namespace Starter.Common.Events.EventBus;
+namespace Microsoft.Extensions.DependencyInjection;
 
 using System.Reflection;
-using InMemory;
 
 internal static class EventBusModule
 {

@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using Starter.Common.Localizations;
 using System.Globalization;
 
-namespace Starter.Common.Localizations {
+namespace Microsoft.Extensions.DependencyInjection
+{
     internal static class LocalizationModule {
 
         internal static IServiceCollection AddRequestBasedLocalization(this IServiceCollection services)

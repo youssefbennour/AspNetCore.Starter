@@ -1,5 +1,5 @@
 ﻿using Asp.Versioning;
-namespace Starter.Common.ApiConfiguration
+namespace Microsoft.Extensions.DependencyInjection
 {
     internal static class ApiVersioningModule
     {

@@ -1,10 +1,4 @@
-using Starter.Common.ApiConfiguration;
-using Starter.Common.ApiConfiguration.OpenApiConfiguration;
-using Starter.Common.Clock;
 using Starter.Common.ErrorHandling;
-using Starter.Common.Events.EventBus;
-using Starter.Common.Localizations;
-using Starter.Common.Validation.Requests;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +12,7 @@ builder.Services.AddClock();
 builder.Services.AddRequestBasedLocalization();
 builder.Services.AddCustomApiVersioning();
 builder.Services.AddOpenApiConfiguration();
-
+builder.Services.AddTelemetry();
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment()) {
@@ -33,6 +27,9 @@ app.MapControllers();
 
 app.MapLocalizationSampleEndpoint();
 app.MapGet("/", () => {
+    for(int i = 0; i < 10_000_000; i++){
+        
+    }
     return "Hello world";
 });
 
