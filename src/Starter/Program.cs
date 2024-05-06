@@ -1,5 +1,4 @@
 using Starter.Common.ErrorHandling;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -12,24 +11,26 @@ builder.Services.AddClock();
 builder.Services.AddRequestBasedLocalization();
 builder.Services.AddCustomApiVersioning();
 builder.Services.AddOpenApiConfiguration();
-builder.Services.AddTelemetry();
+builder.AddTelemetry();
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment()) {
     app.UseSwagger();
 }
 
-app.UseHttpsRedirection();
 app.UseRequestBasedLocalization();
 app.UseAuthorization();
 app.UseErrorHandling();
 app.MapControllers();
-
+app.UseHttpLogging();
+app.UseTelemetry();
 app.MapLocalizationSampleEndpoint();
-app.MapGet("/", () => {
-    for(int i = 0; i < 10_000_000; i++){
-        
-    }
+
+app.MapGet("/", async (ILogger<Program> logger) => {
+    var number = Random.Shared.Next(200, 700);
+    logger.LogInformation($"You will be waiting : {number} s");
+    await Task.Delay(number);
+
     return "Hello world";
 });
 

@@ -1,13 +1,18 @@
 version: '3'
-
 services:
-  web:
+  starter-service:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8080
+      - ServiceName=Compta-Service
+      - OTEL_EXPORTER_JAEGER_AGENT_HOST=jaeger
+      - OTEL_EXPORTER_JAEGER_AGENT_PORT=6831
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - ASPNETCORE_HTTP_PORTS=80
     build: .
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:80"
+    networks:
+        - starter-network
     depends_on:
       - otel-collector
       - postgres
@@ -15,9 +20,11 @@ services:
     image: postgres:14.3
     container_name: postgres
     ports:
-      - 5432:5432
+      - 127.9.9.1:5432:5432
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
+    networks:
+        - starter-network
     volumes:
       - starter-sqldata:/var/lib/postgresql/data
     healthcheck:
@@ -26,41 +33,69 @@ services:
       timeout: 5s
       retries: 5
 
-  otel-collector:
-    image: otel/opentelemetry-collector:0.95.0
-    command: ["--config=/etc/otel-collector-config.yml"]
+  jaeger:
+    image: jaegertracing/all-in-one:1.52
+    command: --query.ui-config=/etc/jaeger/jaeger-ui.json --collector.otlp.enabled=true --prometheus.server-url=http://prometheus:9090 --prometheus.query.support-spanmetrics-connector=true
+    environment:
+      - METRICS_STORAGE_TYPE=prometheus
+      - PROMETHEUS_QUERY_NORMALIZE_CALLS=true
+      - PROMETHEUS_QUERY_NORMALIZE_DURATION=true
     volumes:
-      - ./config/otel-collector-config.yml:/etc/otel-collector-config.yml
+      - ./Configs/jaeger-ui.json:/etc/jaeger/jaeger-ui.json
     ports:
-      - "8888:8888" 
-      - "8889:8889" 
-      - "13133:13133"
-      - "4317:4317"
+      - "127.0.0.1:16686:16686"
     networks:
       - starter-network
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
+  
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.91.0
+    command: --config /etc/otelcol/otel-collector-config.yml
     volumes:
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus-data:/prometheus
-    restart: unless-stopped
+      - ./Configs/otel-collector-config.yml:/etc/otelcol/otel-collector-config.yml
+    ports:
+      - "127.0.0.1:4317:4317"
+      - "127.0.0.1:8888:8888"
+      - "127.0.0.1:8889:8889"
+    networks:
+      - starter-network
+    depends_on:
+      - jaeger
+ 
+  prometheus:
+    image: prom/prometheus:v2.48.1
+    volumes:
+      - ./Configs/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "127.0.0.1:9090:9090"
+    networks:
+      - starter-network
+  
+  loki:
+    image: grafana/loki:2.9.3
+    command: -config.file=/mnt/config/loki-config.yml
+    volumes:
+      - ./Configs/loki.yml:/mnt/config/loki-config.yml
+    ports:
+      - "127.0.0.1:3100:3100"
     networks:
       - starter-network
   
   grafana:
-    image: grafana/grafana-oss:latest
-    ports:
-      - "3000:3000"
+    image: grafana/grafana:10.2.3
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
     volumes:
-      - grafana-data:/var/lib/grafana
-    restart: unless-stopped
+      - ./Configs/grafana.ini:/etc/grafana/grafana.ini
+      - ./Configs/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./Configs/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+      - ./Configs/dotnet-otel-dashboard.json:/etc/grafana/provisioning/dashboards/dotnet-otel-dashboard.json
+      - ./Configs/logs-dashboard.json:/etc/grafana/provisioning/dashboards/logs-dashboard.json
+    ports:
+      - "127.0.0.1:3000:3000"
     networks:
       - starter-network
-  
   node_exporter:
     image: quay.io/prometheus/node-exporter:v1.5.0
     command: "--path.rootfs=/host"
@@ -72,13 +107,25 @@ services:
       - /:/rootfs:ro
     networks:
       - starter-network
+  spammer:
+    image: alpine/curl:latest
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        sleep 5
+        while true; do
+          curl -s "http://starter-service/" || true
+          sleep 0.25
+        done
+    networks:
+      - starter-network
+    depends_on:
+      - starter-service
 volumes:
   starter-sqldata:
-  prometheus-data:
-  grafana-data:
-    driver: local
+      driver: local
 
 networks:
   starter-network:
-    driver: bridge
 
