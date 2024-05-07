@@ -18,5 +18,5 @@ scrape_configs:
   - job_name: services
     static_configs:
       - targets:
-          - starter-service:80
+          - starter-service:8080
 

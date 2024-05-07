@@ -21,10 +21,12 @@
       }
     ]
   },
-  "description": "Shows ASP.NET metrics from OpenTelemetry NuGet",
+  "description": "Shows .NET and ASP.NET metrics pushed to OTEL Collector and scraped by Prometheus from OTEL Collector",
   "editable": true,
   "fiscalYearStartMonth": 0,
+  "gnetId": 19896,
   "graphTooltip": 0,
+  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -160,7 +162,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "irate(process_cpu_time_seconds_total{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "irate(process_cpu_time_seconds_total{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "legendFormat": "__auto",
           "range": true,
           "refId": "CPU Usage"
@@ -272,7 +274,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_memory_usage_bytes{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "max_over_time(process_memory_usage_bytes{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "legendFormat": "Memory Usage",
           "range": true,
           "refId": "Memory Usage"
@@ -341,7 +343,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.2",
+      "pluginVersion": "10.2.3",
       "targets": [
         {
           "datasource": {
@@ -349,7 +351,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_threads{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "max_over_time(process_threads{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "legendFormat": "Threads",
           "range": true,
           "refId": "Threads"
@@ -467,7 +469,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_gc_committed_memory_size_bytes{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "max_over_time(process_runtime_dotnet_gc_committed_memory_size_bytes{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Committed Memory Size",
           "range": true,
@@ -479,7 +481,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_gc_objects_size_bytes{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "max_over_time(process_runtime_dotnet_gc_objects_size_bytes{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "legendFormat": "Objects Size",
           "range": true,
           "refId": "Objects Size"
@@ -491,7 +493,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(process_runtime_dotnet_gc_allocations_size_bytes_total{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "irate(process_runtime_dotnet_gc_allocations_size_bytes_total{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "hide": false,
           "instant": false,
           "legendFormat": "Allocations Size",
@@ -662,7 +664,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_gc_heap_size_bytes{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "max_over_time(process_runtime_dotnet_gc_heap_size_bytes{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "legendFormat": "__auto",
           "range": true,
           "refId": "Heap Size"
@@ -842,7 +844,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_gc_heap_fragmentation_size_bytes{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "max_over_time(process_runtime_dotnet_gc_heap_fragmentation_size_bytes{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "legendFormat": "__auto",
           "range": true,
           "refId": "Heap Fragmentation"
@@ -1006,7 +1008,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "idelta(process_runtime_dotnet_gc_collections_count_total{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(process_runtime_dotnet_gc_collections_count_total{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "hide": false,
           "instant": false,
           "legendFormat": "__auto",
@@ -1117,7 +1119,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "increase(process_runtime_dotnet_exceptions_count_total{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "increase(process_runtime_dotnet_exceptions_count_total{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "legendFormat": "Exceptions",
           "range": true,
           "refId": "Exceptions"
@@ -1175,7 +1177,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.2",
+      "pluginVersion": "10.2.3",
       "targets": [
         {
           "datasource": {
@@ -1183,7 +1185,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_thread_pool_threads_count{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "max_over_time(process_runtime_dotnet_thread_pool_threads_count{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "legendFormat": "ThreadPool Threads",
           "range": true,
           "refId": "ThreadPool Threads"
@@ -1241,7 +1243,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.2.2",
+      "pluginVersion": "10.2.3",
       "targets": [
         {
           "datasource": {
@@ -1249,7 +1251,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "max_over_time(process_runtime_dotnet_thread_pool_queue_length{job=\"$job\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "max_over_time(process_runtime_dotnet_thread_pool_queue_length{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])",
           "legendFormat": "ThreadPool Threads Queue Length",
           "range": true,
           "refId": "ThreadPool Threads Queue Length"
@@ -1320,8 +1322,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1359,7 +1360,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.50, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.50, sum(rate(http_server_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])) by (le))",
           "legendFormat": "p50",
           "range": true,
           "refId": "p50"
@@ -1370,7 +1371,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.75, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.75, sum(rate(http_server_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p75",
           "range": true,
@@ -1382,7 +1383,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.90, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.90, sum(rate(http_server_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p90",
           "range": true,
@@ -1394,7 +1395,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p95",
           "range": true,
@@ -1406,7 +1407,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.98, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.98, sum(rate(http_server_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p98",
           "range": true,
@@ -1418,7 +1419,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.99, sum(rate(http_server_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p99",
           "range": true,
@@ -1430,7 +1431,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.999, sum(rate(http_server_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.999, sum(rate(http_server_duration_milliseconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p99.9",
           "range": true,
@@ -1488,8 +1489,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1573,7 +1573,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", http_response_status_code!~\"2..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_request_duration_seconds_count{exported_job=\"$job\", exported_instance=\"$instance\", http_response_status_code!~\"2..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_server_request_duration_seconds_count{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval]))",
           "legendFormat": "All",
           "range": true,
           "refId": "All"
@@ -1584,7 +1584,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", http_response_status_code=~\"4..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_request_duration_seconds_count{exported_job=\"$job\", exported_instance=\"$instance\", http_response_status_code=~\"4..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_server_request_duration_seconds_count{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "legendFormat": "4XX",
           "range": true,
@@ -1596,7 +1596,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", http_response_status_code=~\"5..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_server_request_duration_seconds_count{job=\"$job\", instance=\"$instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_request_duration_seconds_count{exported_job=\"$job\", exported_instance=\"$instance\", http_response_status_code=~\"5..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_server_request_duration_seconds_count{exported_job=\"$job\", exported_instance=\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "legendFormat": "5XX",
           "range": true,
@@ -1616,9 +1616,9 @@
       },
       "id": 21,
       "panels": [],
-      "repeat": "http_client_request_server_address",
+      "repeat": "http_client_peer_name",
       "repeatDirection": "h",
-      "title": "HTTP Client ($http_client_request_server_address)",
+      "title": "HTTP Client ($http_client_peer_name)",
       "type": "row"
     },
     {
@@ -1670,8 +1670,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1709,7 +1708,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.50, sum(rate(http_client_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.50, sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\"}[$__rate_interval])) by (le))",
           "legendFormat": "p50",
           "range": true,
           "refId": "p50"
@@ -1720,7 +1719,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.75, sum(rate(http_client_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.75, sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p75",
           "range": true,
@@ -1732,7 +1731,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.90, sum(rate(http_client_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.90, sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p90",
           "range": true,
@@ -1744,7 +1743,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(http_client_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.95, sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p95",
           "range": true,
@@ -1756,7 +1755,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.98, sum(rate(http_client_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.98, sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p98",
           "range": true,
@@ -1768,7 +1767,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, sum(rate(http_client_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.99, sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p99",
           "range": true,
@@ -1780,7 +1779,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.999, sum(rate(http_client_request_duration_seconds_bucket{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval])) by (le))",
+          "expr": "histogram_quantile(0.999, sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\"}[$__rate_interval])) by (le))",
           "hide": false,
           "legendFormat": "p99.9",
           "range": true,
@@ -1838,8 +1837,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1890,21 +1888,6 @@
                 }
               }
             ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Connection Error"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "light-red",
-                  "mode": "fixed"
-                }
-              }
-            ]
           }
         ]
       },
@@ -1938,7 +1921,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\", error_type=~\".+\"}[$__rate_interval]) or vector(0)) / sum(rate(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\", http_response_status_code!~\"2..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\"}[$__rate_interval]))",
           "legendFormat": "All",
           "range": true,
           "refId": "All"
@@ -1949,7 +1932,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\", http_response_status_code=~\"4..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\", http_response_status_code=~\"4..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\"}[$__rate_interval]))",
           "hide": false,
           "legendFormat": "4XX",
           "range": true,
@@ -1961,23 +1944,11 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\", http_response_status_code=~\"5..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\", http_response_status_code=~\"5..\"}[$__rate_interval]) or vector(0)) / sum(rate(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\", server_address=\"$http_client_peer_name\"}[$__rate_interval]))",
           "hide": false,
           "legendFormat": "5XX",
           "range": true,
           "refId": "5XX"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\", error_type=~\"[a-z].+\"}[$__rate_interval]) or vector(0)) / sum(rate(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\", server_address=\"$http_client_request_server_address\"}[$__rate_interval]))",
-          "hide": false,
-          "legendFormat": "Connection Error",
-          "range": true,
-          "refId": "Connection Error"
         }
       ],
       "title": "Errors Rate",
@@ -1985,7 +1956,7 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 38,
+  "schemaVersion": 39,
   "tags": [
     "dotnet",
     "opentelemetry",
@@ -2000,15 +1971,16 @@
     "list": [
       {
         "current": {
+          "isNone": true,
           "selected": false,
-          "text": "services",
-          "value": "services"
+          "text": "None",
+          "value": ""
         },
         "datasource": {
           "type": "prometheus",
           "uid": "PBFA97CFB590B2093"
         },
-        "definition": "label_values(process_runtime_dotnet_gc_collections_count_total,job)",
+        "definition": "label_values(process_runtime_dotnet_gc_collections_count_total,exported_job)",
         "hide": 0,
         "includeAll": false,
         "label": "Job",
@@ -2016,7 +1988,8 @@
         "name": "job",
         "options": [],
         "query": {
-          "query": "label_values(process_runtime_dotnet_gc_collections_count_total,job)",
+          "qryType": 1,
+          "query": "label_values(process_runtime_dotnet_gc_collections_count_total,exported_job)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
@@ -2027,15 +2000,16 @@
       },
       {
         "current": {
+          "isNone": true,
           "selected": false,
-          "text": "proxy-service:80",
-          "value": "proxy-service:80"
+          "text": "None",
+          "value": ""
         },
         "datasource": {
           "type": "prometheus",
           "uid": "PBFA97CFB590B2093"
         },
-        "definition": "label_values(process_runtime_dotnet_gc_collections_count_total{job=~\"$job\"},instance)",
+        "definition": "label_values(process_runtime_dotnet_gc_collections_count_total{exported_job=~\"$job\"},exported_instance)",
         "hide": 0,
         "includeAll": false,
         "label": "Instance",
@@ -2043,7 +2017,8 @@
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(process_runtime_dotnet_gc_collections_count_total{job=~\"$job\"},instance)",
+          "qryType": 1,
+          "query": "label_values(process_runtime_dotnet_gc_collections_count_total{exported_job=~\"$job\"},exported_instance)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
@@ -2062,16 +2037,16 @@
           "type": "prometheus",
           "uid": "PBFA97CFB590B2093"
         },
-        "definition": "label_values(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\"},server_address)",
+        "definition": "label_values(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\"},server_address)",
         "hide": 2,
         "includeAll": true,
-        "label": "HTTP Client Request Server Address",
+        "label": "HTTP Client Pear Name",
         "multi": false,
-        "name": "http_client_request_server_address",
+        "name": "http_client_peer_name",
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\"},server_address)",
+          "query": "label_values(http_client_request_duration_seconds_bucket{exported_job=\"$job\", exported_instance=\"$instance\"},server_address)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
@@ -2083,13 +2058,13 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "ASP.NET OTEL Metrics",
-  "uid": "KdDACDp4z",
+  "title": "ASP.NET OTEL Metrics from OTEL Collector",
+  "uid": "ASP_NET_OTLP_COL_SHARED",
   "version": 1,
   "weekStart": ""
 }

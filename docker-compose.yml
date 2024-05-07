@@ -7,10 +7,10 @@ services:
       - OTEL_EXPORTER_JAEGER_AGENT_PORT=6831
       - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
-      - ASPNETCORE_HTTP_PORTS=80
+      - ASPNETCORE_HTTP_PORTS=8080
     build: .
     ports:
-      - "127.0.0.1:8080:80"
+      - 8080:8080
     networks:
         - starter-network
     depends_on:
@@ -20,7 +20,7 @@ services:
     image: postgres:14.3
     container_name: postgres
     ports:
-      - 127.9.9.1:5432:5432
+      - 5432:5432
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
     networks:
@@ -43,7 +43,7 @@ services:
     volumes:
       - ./Configs/jaeger-ui.json:/etc/jaeger/jaeger-ui.json
     ports:
-      - "127.0.0.1:16686:16686"
+      - 16686:16686
     networks:
       - starter-network
   
@@ -53,9 +53,9 @@ services:
     volumes:
       - ./Configs/otel-collector-config.yml:/etc/otelcol/otel-collector-config.yml
     ports:
-      - "127.0.0.1:4317:4317"
-      - "127.0.0.1:8888:8888"
-      - "127.0.0.1:8889:8889"
+      - 4317:4317
+      - 8888:8888
+      - 8889:8889
     networks:
       - starter-network
     depends_on:
@@ -66,7 +66,7 @@ services:
     volumes:
       - ./Configs/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
-      - "127.0.0.1:9090:9090"
+      - 9090:9090
     networks:
       - starter-network
   
@@ -76,7 +76,7 @@ services:
     volumes:
       - ./Configs/loki.yml:/mnt/config/loki-config.yml
     ports:
-      - "127.0.0.1:3100:3100"
+      - 3100:3100
     networks:
       - starter-network
   
@@ -91,9 +91,11 @@ services:
       - ./Configs/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
       - ./Configs/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
       - ./Configs/dotnet-otel-dashboard.json:/etc/grafana/provisioning/dashboards/dotnet-otel-dashboard.json
+      - ./Configs/aspnet-core-endpoint-dahsboard.json:/etc/grafana/provisioning/dashboards/aspnet-core-endpoint-dahsboard.json
+      - ./Configs/node-exporter-dashboard.json:/etc/grafana/provisioning/dashboards/node-exporter-dashboard.json
       - ./Configs/logs-dashboard.json:/etc/grafana/provisioning/dashboards/logs-dashboard.json
     ports:
-      - "127.0.0.1:3000:3000"
+      - 3000:3000
     networks:
       - starter-network
   node_exporter:
@@ -107,21 +109,6 @@ services:
       - /:/rootfs:ro
     networks:
       - starter-network
-  spammer:
-    image: alpine/curl:latest
-    entrypoint:
-      - /bin/sh
-      - -c
-      - |
-        sleep 5
-        while true; do
-          curl -s "http://starter-service/" || true
-          sleep 0.25
-        done
-    networks:
-      - starter-network
-    depends_on:
-      - starter-service
 volumes:
   starter-sqldata:
       driver: local
