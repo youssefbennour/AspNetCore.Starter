@@ -18,6 +18,7 @@ if(app.Environment.IsDevelopment()) {
     app.UseSwagger();
 }
 
+app.UseHttpsRedirection();
 app.UseRequestBasedLocalization();
 app.UseAuthorization();
 app.UseErrorHandling();
@@ -26,13 +27,7 @@ app.UseHttpLogging();
 app.UseTelemetry();
 app.MapLocalizationSampleEndpoint();
 
-app.MapGet("/", async (ILogger<Program> logger) => {
-    var number = Random.Shared.Next(200, 700);
-    logger.LogInformation($"You will be waiting : {number} s");
-    await Task.Delay(number);
-
-    return "Hello world";
-});
+app.MapGet("/", async (ILogger<Program> logger) => "Hello world");
 
 app.Run();
 
