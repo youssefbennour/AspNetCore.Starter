@@ -1,21 +1,23 @@
 version: '3'
 services:
   starter-service:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    networks:
+        - starter-network
     environment:
-      - ServiceName=Compta-Service
+      - ServiceName=backend-service
       - OTEL_EXPORTER_JAEGER_AGENT_HOST=jaeger
       - OTEL_EXPORTER_JAEGER_AGENT_PORT=6831
       - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
       - ASPNETCORE_HTTP_PORTS=8080
-    build: .
-    ports:
-      - 8080:8080
-    networks:
-        - starter-network
     depends_on:
       - otel-collector
       - postgres
+
   postgres:
     image: postgres:14.3
     container_name: postgres
@@ -33,20 +35,6 @@ services:
       timeout: 5s
       retries: 5
 
-  jaeger:
-    image: jaegertracing/all-in-one:1.52
-    command: --query.ui-config=/etc/jaeger/jaeger-ui.json --collector.otlp.enabled=true --prometheus.server-url=http://prometheus:9090 --prometheus.query.support-spanmetrics-connector=true
-    environment:
-      - METRICS_STORAGE_TYPE=prometheus
-      - PROMETHEUS_QUERY_NORMALIZE_CALLS=true
-      - PROMETHEUS_QUERY_NORMALIZE_DURATION=true
-    volumes:
-      - ./Configs/jaeger-ui.json:/etc/jaeger/jaeger-ui.json
-    ports:
-      - 16686:16686
-    networks:
-      - starter-network
-  
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.91.0
     command: --config /etc/otelcol/otel-collector-config.yml
@@ -60,11 +48,26 @@ services:
       - starter-network
     depends_on:
       - jaeger
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.52
+    command: --query.ui-config=/etc/jaeger/jaeger-ui.json --collector.otlp.enabled=true --prometheus.server-url=http://prometheus:9090 --prometheus.query.support-spanmetrics-connector=true
+    environment:
+      - METRICS_STORAGE_TYPE=prometheus
+      - PROMETHEUS_QUERY_NORMALIZE_CALLS=true
+      - PROMETHEUS_QUERY_NORMALIZE_DURATION=true
+    volumes:
+      - ./Configs/jaeger-ui.json:/etc/jaeger/jaeger-ui.json
+    ports:
+      - 16686:16686
+    networks:
+      - starter-network
  
   prometheus:
     image: prom/prometheus:v2.48.1
     volumes:
       - ./Configs/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
     ports:
       - 9090:9090
     networks:
@@ -75,6 +78,7 @@ services:
     command: -config.file=/mnt/config/loki-config.yml
     volumes:
       - ./Configs/loki.yml:/mnt/config/loki-config.yml
+      - loki-data:/loki
     ports:
       - 3100:3100
     networks:
@@ -82,22 +86,20 @@ services:
   
   grafana:
     image: grafana/grafana:10.2.3
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
     volumes:
       - ./Configs/grafana.ini:/etc/grafana/grafana.ini
       - ./Configs/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
       - ./Configs/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
       - ./Configs/dotnet-otel-dashboard.json:/etc/grafana/provisioning/dashboards/dotnet-otel-dashboard.json
-      - ./Configs/aspnet-core-endpoint-dahsboard.json:/etc/grafana/provisioning/dashboards/aspnet-core-endpoint-dahsboard.json
+      - ./Configs/aspnet-core-dahsboard.json:/etc/grafana/provisioning/dashboards/aspnet-core-dahsboard.json
       - ./Configs/node-exporter-dashboard.json:/etc/grafana/provisioning/dashboards/node-exporter-dashboard.json
       - ./Configs/logs-dashboard.json:/etc/grafana/provisioning/dashboards/logs-dashboard.json
+      - grafana-data:/var/lib/grafana
     ports:
       - 3000:3000
     networks:
       - starter-network
+
   node_exporter:
     image: quay.io/prometheus/node-exporter:v1.5.0
     command: "--path.rootfs=/host"
@@ -111,6 +113,9 @@ services:
       - starter-network
 volumes:
   starter-sqldata:
+  grafana-data:
+  prometheus-data:
+  loki-data:
       driver: local
 
 networks:
