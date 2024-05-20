@@ -11,7 +11,6 @@ builder.Services.AddClock();
 builder.Services.AddRequestBasedLocalization();
 builder.Services.AddCustomApiVersioning();
 builder.Services.AddOpenApiConfiguration();
-builder.Services.AddHealthChecks();
 builder.AddTelemetry();
 
 var app = builder.Build();
@@ -28,7 +27,6 @@ app.MapControllers();
 app.UseHttpLogging();
 app.UseTelemetry();
 app.MapLocalizationSampleEndpoint();
-app.MapHealthChecks("healthz");
     
 app.MapGet("/", async (ILogger<Program> logger) =>
 {
