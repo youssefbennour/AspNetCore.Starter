@@ -111,10 +111,23 @@ services:
       - /:/rootfs:ro
     networks:
       - starter-network
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    volumes:
+      - uptime-kuma-data:/app/data
+    ports:
+      - 3001:3001
+    networks:
+      - starter-network
+    restart: always
+
 volumes:
   starter-sqldata:
   grafana-data:
   prometheus-data:
+  uptime-kuma-data:
   loki-data:
       driver: local
 
