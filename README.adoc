@@ -7,7 +7,7 @@
 
 === How to get .NET SDK?
 
-To run the Fitnet application, you will need to have the recent .NET SDK installed on your computer.
+To run the application, you will need to have the recent .NET SDK installed on your computer.
 
 Click link:https://dotnet.microsoft.com/en-us/download[here] 
 
