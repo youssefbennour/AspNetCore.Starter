@@ -9,9 +9,7 @@
 
 To run the application, you will need to have the recent .NET SDK installed on your computer.
 
-Click link:https://dotnet.microsoft.com/en-us/download[here] 
-
-to download it from the official Microsoft website.
+Click link:https://dotnet.microsoft.com/en-us/download[here] to download it from the official Microsoft website.
 
 === Run locally
 
