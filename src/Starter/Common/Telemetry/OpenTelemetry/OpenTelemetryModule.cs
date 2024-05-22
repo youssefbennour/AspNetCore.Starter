@@ -5,6 +5,7 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Starter.Common.Telemetry.OpenTelemetry.Processors;
 
 namespace Starter.Common.Telemetry.OpenTelemetry {
     internal static class OpenTelemetryModule {
@@ -27,17 +28,18 @@ namespace Starter.Common.Telemetry.OpenTelemetry {
                 options.IncludeScopes = true;
                 options.SetResourceBuilder(ResourceBuilder
                     .CreateDefault()
-                    .AddService(serviceName));
-                    
-                options.AddOtlpExporter();
+                    .AddService(serviceName))
+                    .AddOtlpExporter();
             });
             
             builder.Services.AddHttpLogging(o => o.LoggingFields = HttpLoggingFields.All);
             builder.Services.Configure<AspNetCoreTraceInstrumentationOptions>(options =>
             {
                 // Filter out instrumentation of the Prometheus scraping endpoint.
-                options.Filter = ctx => ctx.Request.Path != "/metrics";
+                options.Filter = ctx => 
+                    ctx.Request.Path != "/metrics" || ctx.Request.Path != "/health";
             });
+
 
             return builder;
         }
@@ -52,6 +54,7 @@ namespace Starter.Common.Telemetry.OpenTelemetry {
                 b.AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddEntityFrameworkCoreInstrumentation()
+                    .AddProcessor<AutomatedEndpointsProcessor>()
                     .AddOtlpExporter();
             });
 
@@ -65,12 +68,12 @@ namespace Starter.Common.Telemetry.OpenTelemetry {
                         .CreateDefault()
                         .AddService(serviceName));
                     
-                     b.AddAspNetCoreInstrumentation()
-                     .AddHttpClientInstrumentation()
-                     .AddRuntimeInstrumentation()
-                     .AddProcessInstrumentation()
-                     .AddPrometheusExporter(o =>
-                         o.DisableTotalNameSuffixForCounters = true);
+                    b.AddAspNetCoreInstrumentation()
+                        .AddHttpClientInstrumentation()
+                        .AddRuntimeInstrumentation()
+                        .AddProcessInstrumentation()
+                        .AddPrometheusExporter(o =>
+                            o.DisableTotalNameSuffixForCounters = true);
                 }
                 );
 
