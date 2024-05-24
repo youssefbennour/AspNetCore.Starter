@@ -12,9 +12,9 @@ Users worldwide should be able to easily interact with our applications, for thi
 
 We have thought of 2 options:
 
-1 - Server-side localization
+- Server-side localization
 
-2 - Client-side localization.
+- Client-side localization.
 
 ## Decision
 
