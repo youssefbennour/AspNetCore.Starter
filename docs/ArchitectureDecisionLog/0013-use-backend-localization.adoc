@@ -8,13 +8,13 @@ Accepted
 
 ## Context
 
-Users from different nationalitites should be able to interact with our system, for this purpose implementing multilingual support is crucial.
+Users worldwide should be able to easily interact with our applications, for this purpose a localization mechanism has to be implemented
 
 We have thought of 2 options:
 
-1 - implement localization in the back-end.
+1 - Server-side localization
 
-2 - implement localization in the front-end.
+2 - Client-side localization.
 
 ## Decision
 
@@ -22,8 +22,6 @@ After considering our current situation, and since we currently have a shortage 
 
 ## Consequences
 
-- Users from differente nationalities and differenet mother tongues, will be able to easily interact with our APIs, SPAs...
+- Users worldwide will be able to easily interact with our APIs, SPAs...
 
-- Since our API reponses and error messages by default originate from the back-end, back-end developers, are the most knowledgeable of what the back-end is responding with, thus we win the time front-end developers would have spent navigating through hundreds of responses and error messages.
-
-- We should expect some latency in our API respons times, since localization/translation is happening in the back-end.
+- We should expect some latency in our API respons times.
