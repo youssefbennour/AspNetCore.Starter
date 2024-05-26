@@ -11,6 +11,7 @@ builder.Services.AddClock();
 builder.Services.AddRequestBasedLocalization();
 builder.Services.AddCustomApiVersioning();
 builder.Services.AddOpenApiConfiguration();
+builder.AddAuthModule();
 builder.AddTelemetry();
 
 var app = builder.Build();
@@ -20,6 +21,7 @@ if(app.Environment.IsDevelopment()) {
 }
 
 app.UseHttpsRedirection();
+app.UseAuthModule();
 app.UseRequestBasedLocalization();
 app.UseAuthorization();
 app.UseErrorHandling();
@@ -31,7 +33,7 @@ app.MapLocalizationSampleEndpoint();
 app.MapGet("/", async (ILogger<Program> logger) =>
 {
     return "Hello world";
-});
+}).RequireAuthorization();
 
 app.Run();
 

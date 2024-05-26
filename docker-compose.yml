@@ -17,6 +17,7 @@ services:
     depends_on:
       - otel-collector
       - postgres
+      - keycloak
 
   postgres:
     image: postgres:14.3
@@ -34,6 +35,20 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    ports: 
+      - 7001:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    networks:
+      - starter-network
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+    command:
+      - "start-dev"
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.91.0
@@ -129,6 +144,7 @@ volumes:
   prometheus-data:
   uptime-kuma-data:
   loki-data:
+  keycloak-data:
       driver: local
 
 networks:
