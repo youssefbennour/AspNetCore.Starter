@@ -1,4 +1,9 @@
 using Starter.Common.ErrorHandling;
+using Starter.Contracts;
+using Starter.Offers;
+using Starter.Passes;
+using Starter.Reports;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -11,15 +16,26 @@ builder.Services.AddClock();
 builder.Services.AddRequestBasedLocalization();
 builder.Services.AddCustomApiVersioning();
 builder.Services.AddOpenApiConfiguration();
+builder.AddAuthModule();
 builder.AddTelemetry();
+
+builder.Services.AddPasses(builder.Configuration);
+builder.Services.AddContracts(builder.Configuration);
+builder.Services.AddOffers(builder.Configuration);
+builder.Services.AddReports();
 
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment()) {
     app.UseSwagger();
 }
+app.UsePasses();
+app.UseContracts();
+app.UseReports();
+app.UseOffers();
 
 app.UseHttpsRedirection();
+app.UseAuthModule();
 app.UseRequestBasedLocalization();
 app.UseAuthorization();
 app.UseErrorHandling();
@@ -28,10 +44,11 @@ app.UseHttpLogging();
 app.UseTelemetry();
 app.MapLocalizationSampleEndpoint();
     
-app.MapGet("/", async (ILogger<Program> logger) =>
-{
-    return "Hello world";
-});
+app.MapPasses();
+app.MapContracts();
+app.MapReports();
+
+app.MapGet("/", (ILogger<Program> logger) => "Hello world");
 
 app.Run();
 

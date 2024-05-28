@@ -23,34 +23,49 @@ internal static class ErrorHandlingExtensions {
     }
 
     internal static AppProblemDetails ToProblemDetails(this Exception exception) {
-        AppProblemDetails problemDetails = new();
+        AppProblemDetails problemDetails = new(message: exception.GetErrorMessage());
 
         if(exception is BusinessRuleValidationException businessRuleValidationException) {
             problemDetails.Errors = businessRuleValidationException.GetFieldValidationErrors();
         }
-        problemDetails.Message = exception.GetErrorMessage();
 
         return problemDetails;
     }
-
+    
+    internal static AppProblemDetails ToProblemDetails(this IDictionary<string, string[]> errors)
+    {
+        return new AppProblemDetails(errors.GetFieldValidationErrors());
+    }
     private static string GetErrorMessage(this Exception exception)
     {
         return exception is InternalServerException or not AppException ? ServerError : exception.Message;
     }
 
-    private static List<FieldValidationError> GetFieldValidationErrors(this AppException appException) {
+    private static List<FieldValidationError> GetFieldValidationErrors(this AppException appException)
+    {
         List<FieldValidationError> fieldValidationErrors = [];
 
-        foreach(DictionaryEntry error in appException.Data) {
-            if(error.Key.ToString() is not { } field
-               || error.Value?.ToString() is not { } errorMessage) {
+        foreach (DictionaryEntry error in appException.Data)
+        {
+            if (error.Key.ToString() is not { } field
+                || error.Value?.ToString() is not { } errorMessage)
+            {
                 continue;
             }
+
             fieldValidationErrors.Add(new FieldValidationError(field, errorMessage));
         }
 
         return fieldValidationErrors;
     }
+
+    private static List<FieldValidationError> GetFieldValidationErrors(this IDictionary<string, string[]> errors) {
+        
+        return errors.SelectMany(m => 
+                m.Value.Select(v => new FieldValidationError(m.Key, v)))
+            .ToList();
+    }
+    
     internal static int GetHttpStatusCode(this Exception exception) {
 
         if(exception is not AppException appException) {

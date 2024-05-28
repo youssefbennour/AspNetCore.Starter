@@ -4,5 +4,5 @@ namespace Starter.Common.Validation.Requests.Exceptions;
 
 
 internal sealed class AlreadyExistsException : AppException {
-    internal AlreadyExistsException(string message) : base(message) { }
+    internal AlreadyExistsException() : base(string.Empty) { }
 }

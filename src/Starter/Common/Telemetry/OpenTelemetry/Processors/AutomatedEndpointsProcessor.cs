@@ -5,12 +5,8 @@ namespace Starter.Common.Telemetry.OpenTelemetry.Processors;
 
 public class AutomatedEndpointsProcessor : BaseProcessor<Activity>
 {
-
-    private readonly ILogger<AutomatedEndpointsProcessor> logger;
-    
-    public AutomatedEndpointsProcessor(ILoggerFactory loggerFactory)
+    public AutomatedEndpointsProcessor()
     {
-       logger = loggerFactory.CreateLogger<AutomatedEndpointsProcessor>(); 
     }
     
     public override void OnEnd(Activity activity)

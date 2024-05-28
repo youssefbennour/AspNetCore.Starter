@@ -1,5 +1,8 @@
 using FluentAssertions;
 using Starter.Common.BusinessRuleEngine;
+using Starter.Common.BusinessRulesEngine;
+using Starter.Common.ErrorHandling.Exceptions;
+
 namespace Starter.UnitTests.BusinessRulesEngine;
 
 public sealed class BusinessRuleValidatorTests
@@ -25,6 +28,6 @@ public sealed class BusinessRuleValidatorTests
         var act = () => BusinessRuleValidator.Validate(new FakeBusinessRule(1));
 
         // Assert
-        act.Should().Throw<BusinessRuleValidationException>().WithMessage("Fake business rule was not met");
+        act.Should().Throw<BusinessRuleValidationException>().WithMessage("One or more errors have occured");
     }
 }

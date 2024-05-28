@@ -1,3 +1,5 @@
+using Starter.Common.ErrorHandling;
+
 namespace Starter.Common.Validation.Requests;
 
 using System.Net;
@@ -20,9 +22,8 @@ internal sealed class RequestValidationApiFilter<TRequestToValidate> : IEndpoint
         {
             return await next.Invoke(context);
         }
-
+        
         var errors = validationResult.ToDictionary();
-        return Results.ValidationProblem(errors,
-            statusCode: (int)HttpStatusCode.BadRequest);
+        return Results.UnprocessableEntity(errors.ToProblemDetails());
     }
 }

@@ -3,5 +3,5 @@
 namespace Starter.Common.Validation.Requests.Exceptions;
 
 internal class UnauthorizedException : AppException {
-    internal UnauthorizedException(string message) : base(message) { }
+    internal UnauthorizedException() : base(string.Empty) { }
 }

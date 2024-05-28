@@ -1,9 +1,9 @@
-﻿using Ardalis.GuardClauses;
-using Microsoft.AspNetCore.Localization;
+﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Starter.Common.Localizations;
 using System.Globalization;
+using Starter.Common.ErrorHandling.Exceptions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -34,10 +34,10 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         internal static IApplicationBuilder UseRequestBasedLocalization(this IApplicationBuilder applicationBuilder) {
-            IOptions<RequestLocalizationOptions>? options =
-                applicationBuilder.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            IOptions<RequestLocalizationOptions> options =
+                applicationBuilder.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>()
+                ?? throw new InternalServerException();
 
-            Guard.Against.Null(options);
             applicationBuilder.UseRequestLocalization(options.Value);
             return applicationBuilder;
         }
