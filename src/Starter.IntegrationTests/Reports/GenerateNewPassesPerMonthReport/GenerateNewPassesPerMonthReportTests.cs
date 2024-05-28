@@ -1,13 +1,14 @@
-namespace EvolutionaryArchitecture.Fitnet.IntegrationTests.Reports.GenerateNewPassesPerMonthReport;
+using System.Net.Http.Json;
+using Starter.Contracts.SignContract.Events;
+using Starter.IntegrationTests.Common.TestEngine.Configuration;
+using Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;
+using Starter.IntegrationTests.Passes.RegisterPass;
+using Starter.IntegrationTests.Reports.GenerateNewPassesPerMonthReport.TestData;
+using Starter.Reports;
+using Starter.IntegrationTests.Common.TestEngine.Time;
+using Starter.Reports.GenerateNewPassesRegistrationsPerMonthReport.Dtos;
 
-using Common.TestEngine.Configuration;
-using Common.TestEngine.IntegrationEvents.Handlers;
-using Common.TestEngine.Time;
-using Fitnet.Contracts.SignContract.Events;
-using Fitnet.Reports;
-using Fitnet.Reports.GenerateNewPassesRegistrationsPerMonthReport.Dtos;
-using Passes.RegisterPass;
-using TestData;
+namespace Starter.IntegrationTests.Reports.GenerateNewPassesPerMonthReport;
 
 [UsesVerify]
 public sealed class GenerateNewPassesPerMonthReportTests : IClassFixture<WebApplicationFactory<Program>>, IClassFixture<DatabaseContainer>

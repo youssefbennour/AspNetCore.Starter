@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.Offers;
+using Starter.Offers.Data.Database;
 
-using Data.Database;
+namespace Starter.Offers;
 
 internal static class OffersModule
 {

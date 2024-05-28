@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.IntegrationTests.Offers.Prepare;
+using Starter.Passes.MarkPassAsExpired.Events;
 
-using EvolutionaryArchitecture.Fitnet.Passes.MarkPassAsExpired.Events;
+namespace Starter.IntegrationTests.Offers.Prepare;
 
 internal sealed class PassExpiredEventFaker : Faker<PassExpiredEvent>
 {

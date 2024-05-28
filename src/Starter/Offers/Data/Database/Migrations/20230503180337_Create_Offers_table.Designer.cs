@@ -5,12 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using Starter.Offers.Data.Database;
 
 #nullable disable
 
 namespace SuperSimpleArchitecture.Fitnet.Migrations.OffersPersistenceMigrations;
-
-using EvolutionaryArchitecture.Fitnet.Offers.Data.Database;
 
 [DbContext(typeof(OffersPersistence))]
 [Migration("20230503180333_Create_Offer_Table")]

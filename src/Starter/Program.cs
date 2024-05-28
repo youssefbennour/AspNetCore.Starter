@@ -1,4 +1,9 @@
 using Starter.Common.ErrorHandling;
+using Starter.Contracts;
+using Starter.Offers;
+using Starter.Passes;
+using Starter.Reports;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();

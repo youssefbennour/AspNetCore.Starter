@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.Reports.DataAccess;
-
 using System.Data;
+
+namespace Starter.Reports.DataAccess;
 
 internal interface IDatabaseConnectionFactory : IDisposable
 {

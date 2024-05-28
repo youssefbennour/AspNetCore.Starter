@@ -1,7 +1,7 @@
-namespace EvolutionaryArchitecture.Fitnet.Offers.Data.Database;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Starter.Offers.Data.Database;
 
 internal sealed class OfferEntityConfiguration : IEntityTypeConfiguration<Offer>
 {

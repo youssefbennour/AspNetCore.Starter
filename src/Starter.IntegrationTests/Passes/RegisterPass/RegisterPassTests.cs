@@ -1,10 +1,10 @@
-namespace EvolutionaryArchitecture.Fitnet.IntegrationTests.Passes.RegisterPass;
+using Starter.Common.Events.EventBus;
+using Starter.Contracts.SignContract.Events;
+using Starter.IntegrationTests.Common.TestEngine.Configuration;
+using Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;
+using Starter.Passes.RegisterPass.Events;
 
-using Common.TestEngine.Configuration;
-using Common.TestEngine.IntegrationEvents.Handlers;
-using Fitnet.Contracts.SignContract.Events;
-using Fitnet.Passes.RegisterPass.Events;
-using EvolutionaryArchitecture.Fitnet.Common.Events.EventBus;
+namespace Starter.IntegrationTests.Passes.RegisterPass;
 
 public sealed class RegisterPassTests : IClassFixture<WebApplicationFactory<Program>>,
     IClassFixture<DatabaseContainer>

@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-namespace EvolutionaryArchitecture.Fitnet.Migrations;
+namespace Starter.Fitnet.Migrations;
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Starter.Common.BusinessRuleEngine;
 using Starter.Common.ErrorHandling;
 using System.Net;
+using Starter.Common.ErrorHandling.Exceptions;
 
 namespace Starter.UnitTests;
 

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using EvolutionaryArchitecture.Fitnet.Passes.Data.Database;
+using Starter.Passes.Data.Database;
 
 #nullable disable
 
-namespace EvolutionaryArchitecture.Fitnet.Migrations;
+namespace Starter.Fitnet.Migrations;
 
 [DbContext(typeof(PassesPersistence))]
 [ExcludeFromCodeCoverage]

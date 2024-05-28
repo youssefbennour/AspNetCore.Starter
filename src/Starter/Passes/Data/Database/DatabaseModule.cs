@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.Passes.Data.Database;
-
 using Microsoft.EntityFrameworkCore;
+
+namespace Starter.Passes.Data.Database;
 
 internal static class DatabaseModule
 {

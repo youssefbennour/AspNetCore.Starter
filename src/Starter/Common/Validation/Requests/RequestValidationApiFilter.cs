@@ -1,3 +1,5 @@
+using Starter.Common.ErrorHandling;
+
 namespace Starter.Common.Validation.Requests;
 
 using System.Net;

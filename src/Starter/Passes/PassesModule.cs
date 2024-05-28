@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.Passes;
+using Starter.Passes.Data.Database;
 
-using Data.Database;
+namespace Starter.Passes;
 
 internal static class PassesModule
 {

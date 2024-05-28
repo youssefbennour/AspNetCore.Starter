@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.Contracts.SignContract.Events;
+using Starter.Common.Events;
 
-using EvolutionaryArchitecture.Fitnet.Common.Events;
+namespace Starter.Contracts.SignContract.Events;
 
 internal record ContractSignedEvent(
     Guid Id,

@@ -1,4 +1,4 @@
-namespace EvolutionaryArchitecture.Fitnet.Passes;
+namespace Starter.Passes;
 
 internal static class PassesApiPaths
 {

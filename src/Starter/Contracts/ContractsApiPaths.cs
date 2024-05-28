@@ -1,4 +1,4 @@
-namespace EvolutionaryArchitecture.Fitnet.Contracts;
+namespace Starter.Contracts;
 
 internal static class ContractsApiPaths
 {

@@ -1,8 +1,10 @@
-namespace EvolutionaryArchitecture.Fitnet.Contracts.Data;
+using Starter.Common.BusinessRuleEngine;
+using Starter.Common.BusinessRulesEngine;
+using Starter.Common.ErrorHandling.Exceptions;
+using Starter.Contracts.PrepareContract.BusinessRules;
+using Starter.Contracts.SignContract.BusinessRules;
 
-using Common.BusinessRulesEngine;
-using PrepareContract.BusinessRules;
-using SignContract.BusinessRules;
+namespace Starter.Contracts.Data;
 
 internal sealed class Contract
 {

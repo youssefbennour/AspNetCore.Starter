@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.Contracts.Data.Database;
-
 using Microsoft.EntityFrameworkCore;
+
+namespace Starter.Contracts.Data.Database;
 
 internal static class AutomaticMigrationsExtensions
 {

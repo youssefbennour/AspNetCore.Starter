@@ -1,10 +1,10 @@
-namespace EvolutionaryArchitecture.Fitnet.IntegrationTests.Contracts.PrepareContract;
+using System.Net.Http.Json;
+using Starter.Common.ErrorHandling;
+using Starter.Contracts;
+using Starter.Contracts.PrepareContract;
+using Starter.IntegrationTests.Common.TestEngine.Configuration;
 
-using EvolutionaryArchitecture.Fitnet.Contracts;
-using EvolutionaryArchitecture.Fitnet.Contracts.PrepareContract;
-using Common.TestEngine;
-using Common.TestEngine.Configuration;
-using Microsoft.AspNetCore.Mvc;
+namespace Starter.IntegrationTests.Contracts.PrepareContract;
 
 public sealed class PrepareContractTests(
     WebApplicationFactory<Program> applicationInMemoryFactory,

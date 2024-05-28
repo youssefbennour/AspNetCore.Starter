@@ -1,9 +1,9 @@
-﻿using Ardalis.GuardClauses;
-using Microsoft.AspNetCore.Localization;
+﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Starter.Common.Localizations;
 using System.Globalization;
+using Starter.Common.ErrorHandling.Exceptions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

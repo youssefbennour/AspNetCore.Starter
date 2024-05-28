@@ -1,7 +1,7 @@
-﻿namespace EvolutionaryArchitecture.Fitnet.IntegrationTests.Common.TestEngine.Time;
-
-using Microsoft.AspNetCore.TestHost;
+﻿using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+
+namespace Starter.IntegrationTests.Common.TestEngine.Time;
 
 internal static class TimeExtensions
 {

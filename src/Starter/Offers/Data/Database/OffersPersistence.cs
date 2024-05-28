@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.Offers.Data.Database;
-
 using Microsoft.EntityFrameworkCore;
+
+namespace Starter.Offers.Data.Database;
 
 internal sealed class OffersPersistence(DbContextOptions<OffersPersistence> options) : DbContext(options)
 {

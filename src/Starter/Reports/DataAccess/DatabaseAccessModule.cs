@@ -1,4 +1,4 @@
-namespace EvolutionaryArchitecture.Fitnet.Reports.DataAccess;
+namespace Starter.Reports.DataAccess;
 
 internal static class DatabaseAccessModule
 {

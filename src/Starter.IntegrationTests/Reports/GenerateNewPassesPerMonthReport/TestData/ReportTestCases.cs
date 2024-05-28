@@ -1,4 +1,4 @@
-namespace EvolutionaryArchitecture.Fitnet.IntegrationTests.Reports.GenerateNewPassesPerMonthReport.TestData;
+namespace Starter.IntegrationTests.Reports.GenerateNewPassesPerMonthReport.TestData;
 
 internal sealed class ReportTestCases : IEnumerable<object[]>
 {

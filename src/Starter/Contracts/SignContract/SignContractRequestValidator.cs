@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.Contracts.SignContract;
-
 using FluentValidation;
+
+namespace Starter.Contracts.SignContract;
 
 internal sealed class SignContractRequestValidator : AbstractValidator<SignContractRequest>
 {

@@ -1,13 +1,15 @@
-namespace EvolutionaryArchitecture.Fitnet.IntegrationTests.Contracts.SignContract;
-
-using EvolutionaryArchitecture.Fitnet.Contracts;
-using EvolutionaryArchitecture.Fitnet.Contracts.PrepareContract;
-using EvolutionaryArchitecture.Fitnet.Contracts.SignContract;
-using PrepareContract;
-using Common.TestEngine.Configuration;
-using Fitnet.Contracts.SignContract.Events;
-using EvolutionaryArchitecture.Fitnet.Common.Events.EventBus;
+using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc;
+using Starter.Common.ErrorHandling;
+using Starter.Common.Events.EventBus;
+using Starter.Contracts;
+using Starter.Contracts.PrepareContract;
+using Starter.Contracts.SignContract;
+using Starter.Contracts.SignContract.Events;
+using Starter.IntegrationTests.Common.TestEngine.Configuration;
+using Starter.IntegrationTests.Contracts.PrepareContract;
+
+namespace Starter.IntegrationTests.Contracts.SignContract;
 
 public sealed class SignContractTests : IClassFixture<WebApplicationFactory<Program>>, IClassFixture<DatabaseContainer>
 {

@@ -1,4 +1,4 @@
-namespace EvolutionaryArchitecture.Fitnet.IntegrationTests.Common.TestEngine.Time;
+namespace Starter.IntegrationTests.Common.TestEngine.Time;
 
 [UsedImplicitly]
 internal sealed class FakeTimeProvider(DateTimeOffset? now = null) : TimeProvider

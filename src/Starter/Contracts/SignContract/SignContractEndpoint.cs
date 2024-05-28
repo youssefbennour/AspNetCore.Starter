@@ -1,9 +1,11 @@
-namespace EvolutionaryArchitecture.Fitnet.Contracts.SignContract;
+using EvolutionaryArchitecture.Fitnet.Contracts.Data.Database;
+using Starter.Common.Events.EventBus;
+using Starter.Common.Validation.Requests;
+using Starter.Contracts.Data.Database;
+using Starter.Contracts.Excpetions;
+using Starter.Contracts.SignContract.Events;
 
-using Data.Database;
-using Events;
-using EvolutionaryArchitecture.Fitnet.Common.Events.EventBus;
-using Common.Validation.Requests;
+namespace Starter.Contracts.SignContract;
 
 internal static class SignContractEndpoint
 {

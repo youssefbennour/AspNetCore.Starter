@@ -1,7 +1,7 @@
-namespace EvolutionaryArchitecture.Fitnet.Reports.GenerateNewPassesRegistrationsPerMonthReport;
+using Starter.Reports.GenerateNewPassesRegistrationsPerMonthReport.DataRetriever;
+using Starter.Reports.GenerateNewPassesRegistrationsPerMonthReport.Dtos;
 
-using DataRetriever;
-using Dtos;
+namespace Starter.Reports.GenerateNewPassesRegistrationsPerMonthReport;
 
 internal static class GenerateNewPassesPerMonthReportEndpoint
 {

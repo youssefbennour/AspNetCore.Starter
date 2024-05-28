@@ -2,6 +2,8 @@
 
 #nullable disable
 
+using Starter.Contracts.Data.Database;
+
 namespace EvolutionaryArchitecture.Fitnet.Contracts.Data.Database.Migrations
 {
     using System;

@@ -1,4 +1,4 @@
-namespace EvolutionaryArchitecture.Fitnet.Reports;
+namespace Starter.Reports;
 
 internal static class ReportsApiPaths
 {

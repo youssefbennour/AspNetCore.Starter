@@ -1,7 +1,7 @@
-namespace EvolutionaryArchitecture.Fitnet.Passes.Data.Database;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Starter.Passes.Data.Database;
 
 internal sealed class PassEntityConfiguration : IEntityTypeConfiguration<Pass>
 {

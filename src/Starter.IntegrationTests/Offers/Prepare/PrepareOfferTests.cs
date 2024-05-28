@@ -1,11 +1,10 @@
-namespace EvolutionaryArchitecture.Fitnet.IntegrationTests.Offers.Prepare;
+using Starter.Common.Events.EventBus;
+using Starter.IntegrationTests.Common.TestEngine.Configuration;
+using Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;
+using Starter.Offers.Prepare;
+using Starter.Passes.MarkPassAsExpired.Events;
 
-using Common.TestEngine.Configuration;
-using Common.TestEngine.IntegrationEvents.Handlers;
-using Fitnet.Offers.Prepare;
-using Fitnet.Passes.MarkPassAsExpired.Events;
-using EvolutionaryArchitecture.Fitnet.Common.Events.EventBus;
-
+namespace Starter.IntegrationTests.Offers.Prepare;
 
 public sealed class PrepareOfferTests : IClassFixture<WebApplicationFactory<Program>>,
     IClassFixture<DatabaseContainer>

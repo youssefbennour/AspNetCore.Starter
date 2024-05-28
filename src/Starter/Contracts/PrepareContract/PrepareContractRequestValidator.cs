@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.Contracts.PrepareContract;
-
 using FluentValidation;
+
+namespace Starter.Contracts.PrepareContract;
 
 internal sealed class PrepareContractRequestValidator : AbstractValidator<PrepareContractRequest>
 {

@@ -1,6 +1,6 @@
-namespace EvolutionaryArchitecture.Fitnet.Contracts;
+using Starter.Contracts.Data.Database;
 
-using Data.Database;
+namespace Starter.Contracts;
 
 internal static class ContractsModule
 {
