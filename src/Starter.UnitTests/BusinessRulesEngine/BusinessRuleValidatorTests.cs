@@ -28,6 +28,6 @@ public sealed class BusinessRuleValidatorTests
         var act = () => BusinessRuleValidator.Validate(new FakeBusinessRule(1));
 
         // Assert
-        act.Should().Throw<BusinessRuleValidationException>().WithMessage("Fake business rule was not met");
+        act.Should().Throw<BusinessRuleValidationException>().WithMessage("One or more errors have occured");
     }
 }

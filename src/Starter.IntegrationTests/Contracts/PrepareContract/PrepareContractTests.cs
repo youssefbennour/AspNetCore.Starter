@@ -29,7 +29,7 @@ public sealed class PrepareContractTests(
     }
 
     [Fact]
-    internal async Task Given_contract_preparation_request_with_invalid_age_Then_should_return_conflict_status_code()
+    internal async Task Given_contract_preparation_request_with_invalid_age_Then_should_return_unprocessable_entity_status_code()
     {
         // Arrange
         var requestParameters = PrepareContractRequestParameters.GetWithInvalidAge();
@@ -42,15 +42,16 @@ public sealed class PrepareContractTests(
             await _applicationHttpClient.PostAsJsonAsync(ContractsApiPaths.Prepare, prepareContractRequest);
 
         // Assert
-        prepareContractResponse.Should().HaveStatusCode(HttpStatusCode.Conflict);
+        prepareContractResponse.Should().HaveStatusCode(HttpStatusCode.UnprocessableEntity);
 
-        var responseMessage = await prepareContractResponse.Content.ReadFromJsonAsync<ProblemDetails>();
-        responseMessage?.Status.Should().Be((int)HttpStatusCode.Conflict);
-        responseMessage?.Title.Should().Be("Contract can not be prepared for a person who is not adult");
+        var responseMessage = await prepareContractResponse.Content.ReadFromJsonAsync<AppProblemDetails>();
+        responseMessage?.Errors?.Count.Should().Be(1);
+        var error = responseMessage?.Errors?.First();
+        error?.Message.Should().Be("Contract can not be prepared for a person who is not adult");
     }
 
     [Fact]
-    internal async Task Given_contract_preparation_request_with_invalid_height_Then_should_return_conflict_status_code()
+    internal async Task Given_contract_preparation_request_with_invalid_height_Then_should_return_unprocessable_entity_status_code()
     {
         // Arrange
         var requestParameters = PrepareContractRequestParameters.GetWithInvalidHeight();
@@ -63,29 +64,31 @@ public sealed class PrepareContractTests(
             await _applicationHttpClient.PostAsJsonAsync(ContractsApiPaths.Prepare, prepareContractRequest);
 
         // Assert
-        prepareContractResponse.Should().HaveStatusCode(HttpStatusCode.Conflict);
+        prepareContractResponse.Should().HaveStatusCode(HttpStatusCode.UnprocessableEntity);
 
-        var responseMessage = await prepareContractResponse.Content.ReadFromJsonAsync<ProblemDetails>();
-        responseMessage?.Status.Should().Be((int)HttpStatusCode.Conflict);
-        responseMessage?.Title.Should().Be("Customer height must fit maximum limit for gym instruments");
+        var responseMessage = await prepareContractResponse.Content.ReadFromJsonAsync<AppProblemDetails>();
+        responseMessage?.Errors?.Count.Should().Be(1);
+        var error = responseMessage?.Errors?.First();
+        error?.Message.Should().Be("Customer height must fit maximum limit for gym instruments");
     }
 
     [Fact]
-    internal async Task Given_contract_preparation_request_When_contract_for_customer_was_prepared_earlier_and_was_not_signed_yet_Then_should_return_conflict_status_code()
+    internal async Task Given_contract_preparation_request_When_contract_for_customer_was_prepared_earlier_and_was_not_signed_yet_Then_should_return_unprocessable_entity_status_code()
     {
         // Arrange
         var requestParameters = PrepareContractRequestParameters.GetValid();
         var customerId = Guid.NewGuid();
         await PrepareCorrectContract(requestParameters, customerId);
-
+        
         //Act
         var prepareContractResponse = await PrepareCorrectContract(requestParameters, customerId);
 
         // Assert
-        prepareContractResponse.Should().HaveStatusCode(HttpStatusCode.Conflict);
-        var responseMessage = await prepareContractResponse.Content.ReadFromJsonAsync<ProblemDetails>();
-        responseMessage?.Status.Should().Be((int)HttpStatusCode.Conflict);
-        responseMessage?.Title.Should().Be("Previous contract must be signed by the customer");
+        prepareContractResponse.Should().HaveStatusCode(HttpStatusCode.UnprocessableEntity);
+        var responseMessage = await prepareContractResponse.Content.ReadFromJsonAsync<AppProblemDetails>();
+        responseMessage?.Errors?.Count.Should().Be(1);
+        var error = responseMessage?.Errors?.First();
+        error?.Message.Should().Be("Previous contract must be signed by the customer");
     }
 
     private async Task<HttpResponseMessage> PrepareCorrectContract(PrepareContractRequestParameters requestParameters, Guid? customerId = null)

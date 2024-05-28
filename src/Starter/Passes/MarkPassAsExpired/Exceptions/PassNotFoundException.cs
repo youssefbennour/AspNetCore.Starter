@@ -1,6 +1,7 @@
+
+using Starter.Common.ErrorHandling.Exceptions;
+using Starter.Common.Validation.Requests.Exceptions;
+
 namespace Starter.Passes.MarkPassAsExpired.Exceptions;
 
-public class PassNotFoundException
-{
-    
-}
+internal class PassNotFoundException : NotFoundException;

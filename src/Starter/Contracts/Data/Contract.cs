@@ -35,9 +35,11 @@ internal sealed class Contract
 
     internal static Contract Prepare(Guid customerId, int customerAge, int customerHeight, DateTimeOffset preparedAt, bool? isPreviousContractSigned = null)
     {
-        BusinessRuleValidator.Validate(new ContractCanBePreparedOnlyForAdultRule(customerAge));
-        BusinessRuleValidator.Validate(new CustomerMustBeSmallerThanMaximumHeightLimitRule(customerHeight));
-        BusinessRuleValidator.Validate(new PreviousContractHasToBeSignedRule(isPreviousContractSigned));
+        BusinessRuleValidationException validationException = new();
+        BusinessRuleValidator.Validate(new ContractCanBePreparedOnlyForAdultRule(customerAge),validationException);
+        BusinessRuleValidator.Validate(new CustomerMustBeSmallerThanMaximumHeightLimitRule(customerHeight), validationException);
+        BusinessRuleValidator.Validate(new PreviousContractHasToBeSignedRule(isPreviousContractSigned), validationException);
+        validationException.ThrowIfContainsErrors();
 
         return new(Guid.NewGuid(),
             customerId,

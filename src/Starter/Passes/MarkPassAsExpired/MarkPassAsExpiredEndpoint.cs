@@ -19,7 +19,7 @@ internal static class MarkPassAsExpiredEndpoint
                 var pass = await persistence.Passes.FindAsync([id], cancellationToken: cancellationToken);
                 if (pass is null)
                 {
-                    return Results.NotFound();
+                    throw new PassNotFoundException();
                 }
 
                 var nowDate = timeProvider.GetUtcNow();
@@ -29,7 +29,7 @@ internal static class MarkPassAsExpiredEndpoint
                     PassExpiredEvent.Create(pass.Id, pass.CustomerId, timeProvider.GetUtcNow()),
                     cancellationToken);
 
-                return Results.NoContent();
+                return Results.Ok();
             })
         .WithOpenApi(operation => new(operation)
         {
@@ -37,7 +37,7 @@ internal static class MarkPassAsExpiredEndpoint
             Description =
                 "This endpoint is used to mark expired pass. Based on that it is possible to offer new contract to customer.",
         })
-        .Produces(StatusCodes.Status204NoContent)
+        .Produces(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status500InternalServerError);
 }

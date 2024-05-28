@@ -1,7 +1,7 @@
 ﻿using Starter.Common.ErrorHandling.Exceptions.Abstractions;
 
-namespace Starter.Common.Validation.Requests.Exceptions;
+namespace Starter.Common.ErrorHandling.Exceptions;
 
 internal class NotFoundException : AppException {
-    internal NotFoundException(string message) : base(message) { }
+    internal NotFoundException() : base(string.Empty) { }
 }

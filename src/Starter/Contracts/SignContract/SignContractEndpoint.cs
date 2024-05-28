@@ -21,7 +21,7 @@ internal static class SignContractEndpoint
 
                 if (contract is null)
                 {
-                    return Results.NotFound();
+                    throw new ContractNotFoundException();
                 }
 
                 var dateNow = timeProvider.GetUtcNow();
@@ -36,7 +36,7 @@ internal static class SignContractEndpoint
                     timeProvider.GetUtcNow());
                 await bus.PublishAsync(@event, cancellationToken);
 
-                return Results.NoContent();
+                return Results.Ok();
             })
         .ValidateRequest<SignContractRequest>()
         .WithOpenApi(operation => new(operation)
@@ -44,8 +44,8 @@ internal static class SignContractEndpoint
             Summary = "Signs prepared contract",
             Description = "This endpoint is used to sign prepared contract by customer."
         })
-        .Produces(StatusCodes.Status204NoContent)
+        .Produces(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
-        .Produces(StatusCodes.Status409Conflict)
+        .Produces(StatusCodes.Status422UnprocessableEntity)
         .Produces(StatusCodes.Status500InternalServerError);
 }

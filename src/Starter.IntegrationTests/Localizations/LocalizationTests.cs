@@ -1,13 +1,16 @@
 ﻿using System.Net.Http.Json;
+using Starter.IntegrationTests.Common.TestEngine.Configuration;
 
 namespace Starter.IntegrationTests.Localizations
 {
     public sealed class LocalizationTests(
-        WebApplicationFactory<Program> applicationInMemoryFactory)
-        : IClassFixture<WebApplicationFactory<Program>>
+        WebApplicationFactory<Program> applicationInMemoryFactory,
+        DatabaseContainer databaseContainer)
+        : IClassFixture<WebApplicationFactory<Program>>, IClassFixture<DatabaseContainer>
     {
 
         private readonly HttpClient applicationHttpClient = applicationInMemoryFactory
+            .WithContainerDatabaseConfigured(databaseContainer.ConnectionString!)
             .CreateClient();
 
         [Theory]

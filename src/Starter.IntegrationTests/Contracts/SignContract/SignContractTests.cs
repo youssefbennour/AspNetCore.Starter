@@ -36,7 +36,7 @@ public sealed class SignContractTests : IClassFixture<WebApplicationFactory<Prog
             await _applicationHttpClient.PatchAsJsonAsync(requestParameters.Url, signContractRequest);
 
         // Assert
-        signContractResponse.Should().HaveStatusCode(HttpStatusCode.NoContent);
+        signContractResponse.Should().HaveStatusCode(HttpStatusCode.OK);
     }
 
     [Fact]
@@ -74,7 +74,7 @@ public sealed class SignContractTests : IClassFixture<WebApplicationFactory<Prog
 
     [Fact]
     internal async Task
-        Given_contract_signature_request_with_invalid_signed_date_Then_should_return_conflict_status_code()
+        Given_contract_signature_request_with_invalid_signed_date_Then_should_return_unprocessable_entity_status_code()
     {
         // Arrange
         var preparedContractId = await PrepareContract();
@@ -87,12 +87,12 @@ public sealed class SignContractTests : IClassFixture<WebApplicationFactory<Prog
             await _applicationHttpClient.PatchAsJsonAsync(requestParameters.Url, signContractRequest);
 
         // Assert
-        signContractResponse.Should().HaveStatusCode(HttpStatusCode.Conflict);
+        signContractResponse.Should().HaveStatusCode(HttpStatusCode.UnprocessableEntity);
 
-        var responseMessage = await signContractResponse.Content.ReadFromJsonAsync<ProblemDetails>();
-        responseMessage?.Status.Should().Be((int)HttpStatusCode.Conflict);
-        responseMessage?.Title.Should()
-            .Be("Contract can not be signed because more than 30 days have passed from the contract preparation");
+        var responseMessage = await signContractResponse.Content.ReadFromJsonAsync<AppProblemDetails>();
+        responseMessage?.Errors?.Count.Should().Be(1);
+        var error = responseMessage?.Errors?.First();
+        error?.Message.Should().Be("Contract can not be signed because more than 30 days have passed from the contract preparation");
     }
 
     private async Task<Guid> PrepareContract()

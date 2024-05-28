@@ -55,7 +55,7 @@ public sealed class MarkPassAsExpiredTests : IClassFixture<WebApplicationFactory
         var markAsExpiredResponse = await _applicationHttpClient.PatchAsJsonAsync(url, EmptyContent);
 
         // Assert
-        markAsExpiredResponse.Should().HaveStatusCode(HttpStatusCode.NoContent);
+        markAsExpiredResponse.Should().HaveStatusCode(HttpStatusCode.OK);
     }
 
     [Fact]

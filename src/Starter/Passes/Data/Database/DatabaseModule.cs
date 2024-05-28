@@ -9,6 +9,7 @@ internal static class DatabaseModule
     internal static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString(ConnectionStringName);
+        Console.WriteLine($"ConnectionString: {connectionString}");
         services.AddDbContext<PassesPersistence>(options => options.UseNpgsql(connectionString));
 
         return services;

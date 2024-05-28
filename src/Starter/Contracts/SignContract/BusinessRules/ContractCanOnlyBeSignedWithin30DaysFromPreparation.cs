@@ -1,25 +1,27 @@
-namespace EvolutionaryArchitecture.Fitnet.Contracts.SignContract.BusinessRules;
+using Starter.Common.BusinessRuleEngine;
 
-using Common.BusinessRulesEngine;
+namespace Starter.Contracts.SignContract.BusinessRules;
 
 internal sealed class ContractCanOnlyBeSignedWithin30DaysFromPreparation : IBusinessRule
 {
-    private readonly DateTimeOffset _preparedAt;
-    private readonly DateTimeOffset _signedAt;
+    private readonly DateTimeOffset preparedAt;
+    private readonly DateTimeOffset signedAt;
 
     internal ContractCanOnlyBeSignedWithin30DaysFromPreparation(DateTimeOffset preparedAt,
         DateTimeOffset signedAt)
     {
-        _preparedAt = preparedAt;
-        _signedAt = signedAt;
+        this.preparedAt = preparedAt;
+        this.signedAt = signedAt;
     }
 
     public bool IsMet()
     {
-        var timeDifference = _signedAt.Date - _preparedAt.Date;
+        var timeDifference = signedAt.Date - preparedAt.Date;
 
         return timeDifference <= TimeSpan.FromDays(30);
     }
+
+    public string ErrorKey => nameof(signedAt);
 
     public string Error =>
         "Contract can not be signed because more than 30 days have passed from the contract preparation";

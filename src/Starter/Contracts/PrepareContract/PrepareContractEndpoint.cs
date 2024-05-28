@@ -1,15 +1,16 @@
-namespace EvolutionaryArchitecture.Fitnet.Contracts.PrepareContract;
-
-using Common.Validation.Requests;
-using Data;
-using Data.Database;
+using EvolutionaryArchitecture.Fitnet.Contracts.Data.Database;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Starter.Common.Validation.Requests;
+using Starter.Contracts.Data;
+using Starter.Contracts.Data.Database;
+
+namespace Starter.Contracts.PrepareContract;
 
 internal static class PrepareContractEndpoint
 {
     internal static void MapPrepareContract(this IEndpointRouteBuilder app) => app.MapPost(ContractsApiPaths.Prepare,
-            async (PrepareContractRequest request, IValidator<PrepareContractRequest> validator,
+            async (PrepareContractRequest request,
                 ContractsPersistence persistence,
                 CancellationToken cancellationToken) =>
             {
