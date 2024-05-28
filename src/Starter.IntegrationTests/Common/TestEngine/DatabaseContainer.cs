@@ -8,7 +8,7 @@ public sealed class DatabaseContainer : IAsyncLifetime
 {
     private const string Username = "admin";
     private const string Password = "$3cureP@ssw0rd";
-    private const string Database = "fitnet";
+    private const string Database = "starter";
     private PostgreSqlContainer? _container;
     internal string? ConnectionString;
 
