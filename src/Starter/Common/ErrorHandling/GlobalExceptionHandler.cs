@@ -25,7 +25,6 @@ internal sealed class GlobalExceptionHandler(
             IncludeFields = true,
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-
         };
 
         await httpContext.Response

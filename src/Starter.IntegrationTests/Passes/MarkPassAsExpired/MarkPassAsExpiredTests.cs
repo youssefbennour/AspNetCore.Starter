@@ -1,5 +1,7 @@
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.WebUtilities;
 using Starter.Common.Events.EventBus;
+using Starter.Common.Responses.Models;
 using Starter.Contracts.SignContract.Events;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;
 using Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;
@@ -92,9 +94,17 @@ public sealed class MarkPassAsExpiredTests : IClassFixture<WebApplicationFactory
 
     private async Task<PassDto?> CreatedPass(Guid customerId)
     {
-        var getAllPassesResponse = await _applicationHttpClient.GetAsync(PassesApiPaths.GetAll);
-        var response = await getAllPassesResponse.Content.ReadFromJsonAsync<GetAllPassesResponse>();
-        var createdPass = response!.Passes.FirstOrDefault(pass => pass.CustomerId == customerId);
+        var query = new Dictionary<string, string?>
+        {
+            ["page"] = "1",
+            ["per_page"] = "20"
+        }; 
+        
+        var getAllPassesResponse = await _applicationHttpClient.GetAsync(
+            QueryHelpers.AddQueryString(PassesApiPaths.GetAll, query));
+        
+        var response = await getAllPassesResponse.Content.ReadFromJsonAsync<PaginatedList<PassDto>>();
+        var createdPass = response!.Data.FirstOrDefault(pass => pass.CustomerId == customerId);
         return createdPass;
     }
 

@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+using Starter.Common.Requests.Models;
 using Starter.Passes.Data.Database;
 
 namespace Starter.Passes.GetAllPasses;
@@ -6,15 +6,20 @@ namespace Starter.Passes.GetAllPasses;
 internal static class GetAllPassesEndpoint
 {
     internal static void MapGetAllPasses(this IEndpointRouteBuilder app) =>
-        app.MapGet(PassesApiPaths.GetAll, async (PassesPersistence persistence, CancellationToken cancellationToken) =>
+        app.MapGet(
+                PassesApiPaths.GetAll, 
+                async (
+                    [FromServices]PassesPersistence persistence, 
+                    CancellationToken cancellationToken,
+                    [AsParameters]QueryParameters queryParameters) =>
             {
-                var passes = await persistence.Passes
+                var passes= await persistence.Passes
                     .AsNoTracking()
                     .Select(passes => PassDto.From(passes))
-                    .ToListAsync(cancellationToken);
-                var response = GetAllPassesResponse.Create(passes);
+                    .ToPaginatedListAsync(queryParameters, cancellationToken);
 
-                return Results.Ok(response);
+
+                return Results.Ok(passes);
             })
             .WithOpenApi(operation => new(operation)
             {
@@ -22,6 +27,6 @@ internal static class GetAllPassesEndpoint
                 Description =
                     "This endpoint is used to retrieve all existing passes.",
             })
-            .Produces<GetAllPassesResponse>()
+            .Produces<PaginatedList<PassDto>>()
             .Produces(StatusCodes.Status500InternalServerError);
 }

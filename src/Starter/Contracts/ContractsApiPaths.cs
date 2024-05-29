@@ -6,4 +6,5 @@ internal static class ContractsApiPaths
 
     internal const string Prepare = ContractsRootApi;
     internal const string Sign = $"{ContractsRootApi}/{{id}}";
+    internal const string GetAll = ContractsRootApi;
 }

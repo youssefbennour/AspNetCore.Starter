@@ -1,3 +1,4 @@
+using Starter.Contracts.GetAllContracts;
 using Starter.Contracts.PrepareContract;
 using Starter.Contracts.SignContract;
 
@@ -9,5 +10,6 @@ internal static class ContractsEndpoints
     {
         app.MapPrepareContract();
         app.MapSignContract();
+        app.MapGetAllContracts();
     }
 }
