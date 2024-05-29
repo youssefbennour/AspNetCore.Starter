@@ -2,6 +2,7 @@ namespace Starter.Passes;
 
 internal static class PassesApiPaths
 {
-    internal const string GetAll = $"{ApiPaths.Root}/passes";
-    internal const string MarkPassAsExpired = $"{ApiPaths.Root}/passes/{{id}}";
+    private const string PassesRootPath = $"{ApiPaths.Root}/passes";
+    internal const string GetAll = PassesRootPath;
+    internal const string MarkPassAsExpired = $"{PassesRootPath}/{{id}}";
 }

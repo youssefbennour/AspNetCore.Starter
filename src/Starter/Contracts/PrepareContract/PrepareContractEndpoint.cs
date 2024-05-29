@@ -1,5 +1,6 @@
 using EvolutionaryArchitecture.Fitnet.Contracts.Data.Database;
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Starter.Common.Validation.Requests;
 using Starter.Contracts.Data;
@@ -10,7 +11,7 @@ namespace Starter.Contracts.PrepareContract;
 internal static class PrepareContractEndpoint
 {
     internal static void MapPrepareContract(this IEndpointRouteBuilder app) => app.MapPost(ContractsApiPaths.Prepare,
-            async (PrepareContractRequest request,
+            async ([FromBody] PrepareContractRequest request,
                 ContractsPersistence persistence,
                 CancellationToken cancellationToken) =>
             {
@@ -38,5 +39,5 @@ internal static class PrepareContractEndpoint
         CancellationToken cancellationToken = default) =>
         await persistence.Contracts
             .OrderByDescending(contract => contract.PreparedAt)
-            .SingleOrDefaultAsync(contract => contract.CustomerId == customerId, cancellationToken);
+            .FirstOrDefaultAsync(contract => contract.CustomerId == customerId, cancellationToken);
 }
