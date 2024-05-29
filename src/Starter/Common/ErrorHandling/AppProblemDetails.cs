@@ -3,7 +3,7 @@ using Starter.Common.ErrorHandling.ErrorModels;
 using System.Text.Json.Serialization;
 
 namespace Starter.Common.ErrorHandling {
-    public class AppProblemDetails : ProblemDetails
+    public class AppProblemDetails
     {
         private const string DefaultMessage = "Une ou plusieurs erreurs se sont produites";
         public string Message { get; set; }

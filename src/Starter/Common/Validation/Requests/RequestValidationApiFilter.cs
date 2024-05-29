@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Starter.Common.ErrorHandling;
 
 namespace Starter.Common.Validation.Requests;
@@ -23,7 +24,19 @@ internal sealed class RequestValidationApiFilter<TRequestToValidate> : IEndpoint
             return await next.Invoke(context);
         }
         
-        var errors = validationResult.ToDictionary();
-        return Results.UnprocessableEntity(errors.ToProblemDetails());
+        var problemDetails = validationResult.ToDictionary()
+            .ToProblemDetails();
+
+        var serializerOptions = new JsonSerializerOptions() {
+            WriteIndented = true,
+            IncludeFields = true,
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+        
+        return Results.Json(
+            data: problemDetails,
+            options: serializerOptions,
+            statusCode: StatusCodes.Status422UnprocessableEntity);
     }
 }
