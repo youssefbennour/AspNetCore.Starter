@@ -1,19 +1,17 @@
-using System.Collections.Immutable;
-using Keycloak.AuthServices.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.JsonWebTokens;
-
+using Starter.Common.Auth.Keycloak;
 namespace Microsoft.Extensions.DependencyInjection;
 
 internal static class AuthModule
 {
    internal static IServiceCollection AddAuthModule(this WebApplicationBuilder builder)
    {
+      builder.AddKeycloak();
       return builder.Services;
    }
 
-   internal static IApplicationBuilder UseAuthModule(this IApplicationBuilder app)
+   internal static IApplicationBuilder UseAuthModule(this WebApplication app)
    {
+      app.UseKeycloak();
       return app;
    }
 }

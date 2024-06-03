@@ -46,11 +46,5 @@ namespace Starter.Common.Responses.Models {
         [JsonPropertyName("prev_page")]
         public int? PreviousPage => 
             PageNumber <= 1 ? null : PageNumber - 1;
-        
-        /// <summary>
-        /// Defines the base route.
-        /// </summary>
-        [JsonPropertyName("path")]
-        public string? Path { get; set; }
     }
 }
