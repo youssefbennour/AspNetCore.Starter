@@ -27,7 +27,7 @@ internal sealed class RequestValidationApiFilter<TRequestToValidate> : IEndpoint
         var problemDetails = validationResult.ToDictionary()
             .ToProblemDetails();
 
-        var serializerOptions = new JsonSerializerOptions() {
+        var serializerOptions = new JsonSerializerOptions {
             WriteIndented = true,
             IncludeFields = true,
             PropertyNameCaseInsensitive = true,

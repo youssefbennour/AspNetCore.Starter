@@ -1,3 +1,4 @@
+
 namespace Microsoft.Extensions.DependencyInjection.HealthChecks;
 
 internal static class HealthCheckModule
