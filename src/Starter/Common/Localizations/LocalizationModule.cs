@@ -48,9 +48,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="app">injected instance of <see cref="IEndpointRouteBuilder"/></param>
         internal static void MapLocalizationSampleEndpoint(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/localization-tests", (IStringLocalizer<ILocalizationSample> localizer) => {
+            app.MapGet("api/localization-tests", (IStringLocalizer<ILocalizationSample> localizer) => {
                 return localizer["Hello"];
-            });
+            }).RequireAuthorization(options => options.RequireAuthenticatedUser());
         }
     }
 }

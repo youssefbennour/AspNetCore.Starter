@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
+using Starter.Common.Auth;
 using Starter.Common.ErrorHandling;
 using Starter.Contracts;
 using Starter.Offers;
@@ -50,10 +51,7 @@ app.MapPasses();
 app.MapContracts();
 app.MapReports();
 
-app.MapGet("/", (ILogger<Program> logger) => "Hello world");
-
-app.MapGet("/authorized", () => "Yay you're authorized")
-    .RequireAuthorization();
+app.MapGet("/api/", (ILogger<Program> logger) => "Hello world");
 
 app.Run();
 
