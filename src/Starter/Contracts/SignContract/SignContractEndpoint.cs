@@ -1,9 +1,8 @@
-using EvolutionaryArchitecture.Fitnet.Contracts.Data.Database;
 using Starter.Common.Events.EventBus;
 using Starter.Common.Validation.Requests;
 using Starter.Contracts.Data.Database;
-using Starter.Contracts.Excpetions;
 using Starter.Contracts.SignContract.Events;
+using NotFoundException = Starter.Common.ErrorHandling.Exceptions.NotFoundException;
 
 namespace Starter.Contracts.SignContract;
 
@@ -21,7 +20,7 @@ internal static class SignContractEndpoint
 
                 if (contract is null)
                 {
-                    throw new ContractNotFoundException();
+                    throw new NotFoundException();
                 }
 
                 var dateNow = timeProvider.GetUtcNow();

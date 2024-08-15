@@ -2,7 +2,7 @@
 
 namespace Starter.Common.ErrorHandling.Exceptions.Abstractions;
 
-internal abstract class AppException : InvalidOperationException {
+public abstract class AppException : InvalidOperationException {
     private protected AppException(string message) : base(message) {
 
     }

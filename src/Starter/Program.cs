@@ -1,3 +1,6 @@
+using System.Net;
+using System.Net.Sockets;
+using Starter.Common.Auth;
 using Starter.Common.ErrorHandling;
 using Starter.Contracts;
 using Starter.Offers;
@@ -6,7 +9,9 @@ using Starter.Reports;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson();
+
 builder.Services.AddExceptionHandling();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -34,10 +39,8 @@ app.UseContracts();
 app.UseReports();
 app.UseOffers();
 
-app.UseHttpsRedirection();
 app.UseAuthModule();
 app.UseRequestBasedLocalization();
-app.UseAuthorization();
 app.UseErrorHandling();
 app.MapControllers();
 app.UseHttpLogging();
@@ -48,7 +51,7 @@ app.MapPasses();
 app.MapContracts();
 app.MapReports();
 
-app.MapGet("/", (ILogger<Program> logger) => "Hello world");
+app.MapGet("/api/", (ILogger<Program> logger) => "Hello world");
 
 app.Run();
 
