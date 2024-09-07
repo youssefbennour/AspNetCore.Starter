@@ -51,8 +51,6 @@ app.MapPasses();
 app.MapContracts();
 app.MapReports();
 
-app.MapGet("/api/", (ILogger<Program> logger) => "Hello world");
-
 app.Run();
 
 namespace Starter {

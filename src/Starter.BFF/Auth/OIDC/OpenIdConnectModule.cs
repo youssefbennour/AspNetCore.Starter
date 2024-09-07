@@ -1,8 +1,5 @@
-using System.Net;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Server.HttpSys;
-using Starter.Common.Auth.JwtBearer;
 
 namespace Starter.BFF.Auth.OIDC;
 
@@ -22,7 +19,7 @@ internal static class OpenIdConnectModule
       })
       .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
       {
-         options.Cookie.Name = openIdConnectOptions.CookieName ?? "__BFF";
+         options.Cookie.Name = openIdConnectOptions.CookieName;
          options.ExpireTimeSpan = TimeSpan.FromHours(8);
          options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
          options.Cookie.SameSite = SameSiteMode.Lax;
@@ -39,6 +36,7 @@ internal static class OpenIdConnectModule
          options.MapInboundClaims = openIdConnectOptions.MapInboundClaims;
          options.SaveTokens = openIdConnectOptions.SaveTokens;
          options.RequireHttpsMetadata = false;
+
          var scopes = openIdConnectOptions.Scope
             .Split(" ")
             .ToList(); 

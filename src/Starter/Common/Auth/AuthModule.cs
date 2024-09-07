@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Starter.Common.Auth.JwtBearer;
 
 namespace Starter.Common.Auth;
