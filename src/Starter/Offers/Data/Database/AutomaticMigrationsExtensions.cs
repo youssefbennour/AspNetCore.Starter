@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace Starter.Offers.Data.Database;
 
 internal static class AutomaticMigrationsExtensions

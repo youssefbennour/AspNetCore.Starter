@@ -1,5 +1,3 @@
-using Starter.Common.BusinessRuleEngine;
-
 namespace Starter.Contracts.SignContract.BusinessRules;
 
 internal sealed class ContractCanOnlyBeSignedWithin30DaysFromPreparation : IBusinessRule

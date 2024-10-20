@@ -1,7 +1,3 @@
-using System.Net;
-using System.Net.Sockets;
-using Starter.Common.Auth;
-using Starter.Common.ErrorHandling;
 using Starter.Contracts;
 using Starter.Offers;
 using Starter.Passes;

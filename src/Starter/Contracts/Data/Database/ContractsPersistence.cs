@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace Starter.Contracts.Data.Database;
 
 internal sealed class ContractsPersistence(DbContextOptions<ContractsPersistence> options) : DbContext(options)

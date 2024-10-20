@@ -1,5 +1,3 @@
-using Starter.Common.Events;
-
 namespace Starter.IntegrationTests.Common.Events.EventBus.InMemory;
 
 

@@ -1,5 +1,3 @@
-using Starter.Common.Events;
-
 namespace Starter.Offers.Prepare;
 
 

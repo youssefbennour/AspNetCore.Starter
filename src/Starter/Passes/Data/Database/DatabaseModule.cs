@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace Starter.Passes.Data.Database;
 
 internal static class DatabaseModule

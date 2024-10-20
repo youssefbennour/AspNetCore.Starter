@@ -1,7 +1,5 @@
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Mvc;
 using Starter.Common.ErrorHandling;
-using Starter.Common.Events.EventBus;
 using Starter.Contracts;
 using Starter.Contracts.PrepareContract;
 using Starter.Contracts.SignContract;

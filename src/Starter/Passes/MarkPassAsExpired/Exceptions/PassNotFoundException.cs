@@ -1,6 +1,4 @@
-
-using Starter.Common.ErrorHandling.Exceptions;
-using Starter.Common.Validation.Requests.Exceptions;
+using Amazon.SimpleNotificationService.Model;
 
 namespace Starter.Passes.MarkPassAsExpired.Exceptions;
 

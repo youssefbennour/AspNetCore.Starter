@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace Starter.Offers.Data.Database;
 
 internal sealed class OffersPersistence(DbContextOptions<OffersPersistence> options) : DbContext(options)

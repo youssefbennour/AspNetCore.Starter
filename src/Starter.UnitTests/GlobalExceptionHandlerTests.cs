@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
-using Starter.Common.ErrorHandling;
 using System.Net;
 using Newtonsoft.Json;
+using Starter.Common.ErrorHandling;
 using Starter.Common.ErrorHandling.Exceptions;
 
 namespace Starter.UnitTests;

@@ -1,5 +1,3 @@
-using Starter.Common.BusinessRuleEngine;
-
 namespace Starter.UnitTests.BusinessRulesEngine;
 
 internal sealed class FakeBusinessRule : IBusinessRule    

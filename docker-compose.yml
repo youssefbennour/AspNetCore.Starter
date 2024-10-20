@@ -1,7 +1,24 @@
 version: '3.9'
 services:
+  starter-bff:
+    build: 
+      context: .
+      dockerfile: ./src/Starter.BFF/Dockerfile
+    restart: unless-stopped
+    ports:
+      - 8081:8080
+    networks:
+        - starter-network
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8080
+      - KEYCLOAK_SERVER_URL=http://keycloak:8080
+    depends_on:
+      - keycloak
+
   starter-service:
-    build: .
+    build: 
+      context: .
+      dockerfile: ./src/Starter/Dockerfile
     restart: unless-stopped
     ports:
       - 8080:8080
@@ -14,6 +31,7 @@ services:
       - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
       - ASPNETCORE_HTTP_PORTS=8080
+      - KEYCLOAK_SERVER_URL=http://keycloak:8080
     depends_on:
       - otel-collector
       - postgres
@@ -150,4 +168,3 @@ volumes:
 networks:
   starter-network:
     driver: bridge
-

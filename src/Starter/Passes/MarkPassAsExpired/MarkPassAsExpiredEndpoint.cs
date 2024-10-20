@@ -1,4 +1,3 @@
-using Starter.Common.Events.EventBus;
 using Starter.Passes.Data.Database;
 using Starter.Passes.MarkPassAsExpired.Events;
 using Starter.Passes.MarkPassAsExpired.Exceptions;

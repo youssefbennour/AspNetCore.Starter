@@ -1,5 +1,3 @@
-using Starter.Common.BusinessRuleEngine;
-
 namespace Starter.Contracts.PrepareContract.BusinessRules;
 
 internal sealed class CustomerMustBeSmallerThanMaximumHeightLimitRule : IBusinessRule

@@ -1,8 +1,3 @@
-using EvolutionaryArchitecture.Fitnet.Contracts.Data.Database;
-using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Starter.Common.Validation.Requests;
 using Starter.Contracts.Data;
 using Starter.Contracts.Data.Database;
 

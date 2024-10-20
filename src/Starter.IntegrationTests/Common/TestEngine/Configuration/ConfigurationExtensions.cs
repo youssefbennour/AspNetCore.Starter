@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
-using Starter.Common.Events.EventBus;
-using Starter.Common.Events.EventBus.InMemory;
 
 internal static class ConfigurationExtensions
 {

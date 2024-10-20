@@ -47,5 +47,11 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="EvolutionaryArchitecture.Fitnet.IntegrationTests" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Common\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Starter.Common\Starter.Common.csproj" />
+	</ItemGroup>
 
 </Project>

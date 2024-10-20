@@ -3,7 +3,6 @@ namespace Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Starter.Common.Events;
 
 internal sealed class IntegrationEventHandlerScope<TIntegrationEvent> : IDisposable
 where TIntegrationEvent : IIntegrationEvent

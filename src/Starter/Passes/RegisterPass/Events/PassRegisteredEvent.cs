@@ -1,5 +1,3 @@
-using Starter.Common.Events;
-
 namespace Starter.Passes.RegisterPass.Events;
 
 internal record PassRegisteredEvent(Guid Id, Guid PassId, DateTimeOffset OccurredDateTime) : IIntegrationEvent

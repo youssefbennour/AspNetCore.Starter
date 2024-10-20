@@ -1,5 +1,4 @@
-using Starter.Common.Events.EventBus;
-using Starter.Common.Validation.Requests;
+using Amazon.SimpleNotificationService.Model;
 using Starter.Contracts.Data.Database;
 using Starter.Contracts.SignContract.Events;
 using NotFoundException = Starter.Common.ErrorHandling.Exceptions.NotFoundException;
