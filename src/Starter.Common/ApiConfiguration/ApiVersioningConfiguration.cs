@@ -1,22 +1,21 @@
-﻿using Asp.Versioning;
+﻿
+using Asp.Versioning;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace Softylines.Contably.Common.ApiConfiguration
 {
-    internal static class ApiVersioningModule
+    public static class ApiVersioningConfiguration
     {
-        internal static IServiceCollection AddCustomApiVersioning(this IServiceCollection services)
+        public static IServiceCollection AddApiVersioningConfiguration(this IServiceCollection services)
         {
-
-            services.AddApiVersioning(options => {
+            services.AddApiVersioning(options =>
+            {
                 options.DefaultApiVersion = new ApiVersion(1);
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ApiVersionReader = ApiVersionReader.Combine(
                     new UrlSegmentApiVersionReader(),
                     new HeaderApiVersionReader("X-Api-Version"));
-            }).AddApiExplorer(options => {
-                options.GroupNameFormat = "'v'V";
-                options.SubstituteApiVersionInUrl = true;
             });
 
             return services;

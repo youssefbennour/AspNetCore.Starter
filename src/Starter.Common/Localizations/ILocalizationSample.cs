@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Localization;
-
-namespace Starter.Common.Localizations
+﻿namespace Softylines.Contably.Common.Localizations
 {
     /// <summary>
     /// This interface is created for the purpose, of making the <see cref="IStringLocalizer"/> aware of the location to serach in.<br></br>
@@ -8,5 +6,5 @@ namespace Starter.Common.Localizations
     /// Additonaly, this current interface is used only for localization integration tests.<br></br>
     /// DISCLAIMER: remove it on your own responsibility.
     /// </summary>
-    internal interface ILocalizationSample{}
+    public interface ILocalizationSample{}
 }

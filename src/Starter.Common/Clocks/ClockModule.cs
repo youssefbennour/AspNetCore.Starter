@@ -1,4 +1,6 @@
-﻿namespace Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Softylines.Contably.Common.Clocks;
 
 public static class ClockModule
 {

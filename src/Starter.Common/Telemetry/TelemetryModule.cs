@@ -1,17 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection.HealthChecks;
-using Starter.Common.Telemetry.OpenTelemetry;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Softylines.Contably.Common.Telemetry.HealthChecks;
+using Softylines.Contably.Common.Telemetry.OpenTelemetry;
 
-namespace Microsoft.Extensions.DependencyInjection {
-    internal static class TelemetryModule {
-        internal static IServiceCollection AddTelemetry(this WebApplicationBuilder builder) {
+namespace Softylines.Contably.Common.Telemetry {
+    public static class TelemetryModule {
+        public static IServiceCollection AddTelemetry(this WebApplicationBuilder builder) {
+            builder.Host.UseDefaultServiceProvider(options => 
+                options.ValidateOnBuild = true);
             builder.AddOpenTelemetryModule();
             builder.Services.AddHealthChecks();
 
             return builder.Services;
         }
 
-        internal static IApplicationBuilder UseTelemetry(this WebApplication app) {
+        public static IApplicationBuilder UseTelemetry(this WebApplication app) {
             app.UseOpenTelemetry();
             app.UseHealthCheckModule();
             

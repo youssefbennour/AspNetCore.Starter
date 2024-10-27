@@ -1,3 +1,12 @@
+using System.Reflection;
+using Starter.Common.ApiConfiguration;
+using Starter.Common.Auth;
+using Starter.Common.Clocks;
+using Starter.Common.ErrorHandling;
+using Starter.Common.Events.Publisher;
+using Starter.Common.EventualConsistency.Outbox;
+using Starter.Common.Localizations;
+using Starter.Common.Telemetry;
 using Starter.Contracts;
 using Starter.Offers;
 using Starter.Passes;
@@ -5,44 +14,42 @@ using Starter.Reports;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers()
-    .AddNewtonsoftJson();
+builder.AddExceptionHandling()
+    .AddAuthModule()
+    .AddTelemetry();
 
-builder.Services.AddExceptionHandling();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddEventBus();
-builder.Services.AddRequestsValidations();
-builder.Services.AddClock();
-builder.Services.AddRequestBasedLocalization();
-builder.Services.AddCustomApiVersioning();
-builder.Services.AddOpenApiConfiguration();
-builder.AddAuthModule();
-builder.AddTelemetry();
+builder.Services
+    .AddApiConfiguration<Program>()
+    .AddClock()
+    .AddRequestBasedLocalization()
+    .AddOutboxModule(Assembly.GetExecutingAssembly())
+    .AddPublisher(Assembly.GetExecutingAssembly());
 
-builder.Services.AddPasses(builder.Configuration);
-builder.Services.AddContracts(builder.Configuration);
-builder.Services.AddOffers(builder.Configuration);
-builder.Services.AddReports();
+builder.Services
+    .AddPasses(builder.Configuration)
+    .AddContracts(builder.Configuration)
+    .AddOffers(builder.Configuration)
+    .AddReports();
 
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment()) {
     app.UseSwagger();
 }
+
+app.UseApiConfiguration();
+app.UseExceptionHandling();
+app.UseAuthModule();
+app.UseRequestBasedLocalization();
+app.MapControllers();
+app.UseHttpLogging();
+app.UseTelemetry();
+
 app.UsePasses();
 app.UseContracts();
 app.UseReports();
 app.UseOffers();
 
-app.UseAuthModule();
-app.UseRequestBasedLocalization();
-app.UseErrorHandling();
-app.MapControllers();
-app.UseHttpLogging();
-app.UseTelemetry();
-app.MapLocalizationSampleEndpoint();
-    
 app.MapPasses();
 app.MapContracts();
 app.MapReports();

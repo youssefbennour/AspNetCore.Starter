@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Starter.Common.Requests.Models;
-using Starter.Common.Responses.Models;
+using Softylines.Contably.Common.Requests.Models;
 
-namespace Microsoft.Linq.Queryable;
+namespace Softylines.Contably.Common.DataAccess.Orms.EfCore;
 
 public static class PaginationExtensions
 {
@@ -38,6 +37,17 @@ public static class PaginationExtensions
         return new PaginatedList<T>(items, pageNumber, pageSize, count);
     }
     
+    public static PaginatedList<T> ToPaginatedList<T>(
+        this IEnumerable<T> data, 
+        QueryParameters queryParameters) 
+        where T : class
+    {
+        var dataList = data.ToList();
+        var items = dataList.Paginate(queryParameters);
+
+        return new PaginatedList<T>(items, queryParameters, dataList.Count);
+    }
+    
     public static IQueryable<T> Paginate<T>(this IQueryable<T> query, QueryParameters? requestParameters)
         where T : class => 
         query.Paginate(
@@ -47,4 +57,16 @@ public static class PaginationExtensions
     public static IQueryable<T> Paginate<T>(this IQueryable<T> query, int pageNumber, int pageSize)
         where T : class => query.Skip((pageNumber - 1) * pageSize)
         .Take(pageSize);
+    
+    public static List<T> Paginate<T>(this List<T> query, QueryParameters? requestParameters)
+        where T : class => 
+        query.Paginate(
+            pageNumber:requestParameters?.PageNumber ?? DefaultPageNumber,
+            pageSize: requestParameters?.PageSize ?? DefaultPageSize);
+        
+    public static List<T> Paginate<T>(this List<T> query, int pageNumber, int pageSize)
+        where T : class => query.Skip((pageNumber - 1) * pageSize)
+        .Take(pageSize)
+        .ToList();
+    
 }

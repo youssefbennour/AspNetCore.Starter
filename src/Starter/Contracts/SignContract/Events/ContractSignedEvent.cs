@@ -1,3 +1,5 @@
+using Starter.Common.Events;
+
 namespace Starter.Contracts.SignContract.Events;
 
 internal record ContractSignedEvent(

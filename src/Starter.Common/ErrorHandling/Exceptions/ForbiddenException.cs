@@ -1,7 +1,5 @@
-﻿using Starter.Common.ErrorHandling.Exceptions.Abstractions;
+﻿using Softylines.Contably.Common.ErrorHandling.Exceptions.Abstractions;
 
-namespace Starter.Common.Validation.Requests.Exceptions;
+namespace Softylines.Contably.Common.ErrorHandling.Exceptions;
 
-internal class ForbiddenException : AppException {
-    internal ForbiddenException() : base(string.Empty) { }
-}
+public class ForbiddenException(string message) : AppException<ForbiddenException>(message);

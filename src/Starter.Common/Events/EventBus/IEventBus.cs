@@ -1,6 +1,6 @@
-namespace Starter.Common.Events.EventBus;
+namespace Softylines.Contably.Common.Events.EventBus;
 
-internal interface IEventBus
+public interface IEventBus
 {
     Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default)
         where TEvent : IIntegrationEvent;

@@ -1,8 +1,8 @@
+namespace Softylines.Contably.Common.Events;
+
 using MediatR;
 
-namespace Starter.Common.Events;
-
-internal interface IIntegrationEvent : INotification
+public interface IIntegrationEvent : INotification
 {
     Guid Id { get; }
     DateTimeOffset OccurredDateTime { get; }

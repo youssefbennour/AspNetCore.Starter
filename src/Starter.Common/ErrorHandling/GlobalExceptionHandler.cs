@@ -1,38 +1,42 @@
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-
-namespace Starter.Common.ErrorHandling;
-
 using System.Text.Json;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Softylines.Contably.Common.ErrorHandling.Exceptions.Abstractions;
 
-internal sealed class GlobalExceptionHandler(
-    ILogger<GlobalExceptionHandler> logger) : IExceptionHandler {
-    private const string ErrorOccurredMessage = "An error occurred.";
+namespace Softylines.Contably.Common.ErrorHandling;
 
-    private static readonly Action<ILogger, string, Exception> LogException =
-        LoggerMessage.Define<string>(LogLevel.Error, eventId:
-            new EventId(0, "ERROR"), formatString: "{Message}");
-
+public sealed class GlobalExceptionHandler(
+    IWebHostEnvironment environment
+    ) : IExceptionHandler 
+{
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
         CancellationToken cancellationToken) {
-        LogException(logger, ErrorOccurredMessage, exception);
 
+        if (exception is not  IAppException && environment.IsDevelopment())
+        {
+            await httpContext.Response
+                .WriteAsJsonAsync(exception, SerializerOptions, cancellationToken);
+            return true;
+        }
+        
         var problemDetails = exception.ToProblemDetails();
         httpContext.Response.StatusCode = exception.GetHttpStatusCode();
 
-        var serializerOptions = new JsonSerializerOptions() {
-            WriteIndented = true,
-            IncludeFields = true,
-            PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        };
-
         await httpContext.Response
-            .WriteAsJsonAsync(problemDetails, serializerOptions, cancellationToken);
+            .WriteAsJsonAsync(problemDetails, SerializerOptions, cancellationToken);
 
         return true;
     }
+    
+    private static readonly JsonSerializerOptions SerializerOptions = new() {
+        WriteIndented = true,
+        IncludeFields = true,
+        PropertyNameCaseInsensitive = true,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
 }

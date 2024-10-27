@@ -1,12 +1,11 @@
-
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection.HealthChecks;
+namespace Softylines.Contably.Common.Telemetry.HealthChecks;
 
-internal static class HealthCheckModule
+public static class HealthCheckModule
 {
-    internal static IServiceCollection AddHealthCheckModule(this IServiceCollection services)
+    public static IServiceCollection AddHealthCheckModule(this IServiceCollection services)
     {
         services.AddRequestTimeouts(
             configure: static timeouts =>
@@ -22,7 +21,7 @@ internal static class HealthCheckModule
         return services;
     }
 
-    internal static IEndpointConventionBuilder UseHealthCheckModule(this IEndpointRouteBuilder endpointRouteBuilder)
+    public static IEndpointConventionBuilder UseHealthCheckModule(this IEndpointRouteBuilder endpointRouteBuilder)
     {
         return endpointRouteBuilder.MapHealthChecks("/health")
             .CacheOutput("HealthChecks")

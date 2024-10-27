@@ -1,7 +1,5 @@
-﻿using Starter.Common.ErrorHandling.Exceptions.Abstractions;
+﻿using Softylines.Contably.Common.ErrorHandling.Exceptions.Abstractions;
 
-namespace Starter.Common.Validation.Requests.Exceptions;
+namespace Softylines.Contably.Common.ErrorHandling.Exceptions;
 
-internal class UnauthorizedException : AppException {
-    internal UnauthorizedException() : base(string.Empty) { }
-}
+public class UnauthorizedException(string message) : AppException<UnauthorizedException>(message);

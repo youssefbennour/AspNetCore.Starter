@@ -1,12 +1,19 @@
-using MediatR;
+using Softylines.Contably.Common.Events.Publisher;
 
-namespace Starter.Common.Events.EventBus.InMemory;
+namespace Softylines.Contably.Common.Events.EventBus.InMemory;
 
-using Starter.Common.Events;
-using Starter.Common.Events.EventBus;
-
-internal sealed class InMemoryEventBus(IMediator mediator) : IEventBus
+public class InMemoryEventBus(IPublisher eventPublisher) : IEventBus
 {
-    public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default) where TEvent : IIntegrationEvent =>
-        await mediator.Publish(@event, cancellationToken);
+    
+    public async Task PublishManyAsync<TEvent>(List<TEvent> events, CancellationToken cancellationToken = default)
+        where TEvent : IIntegrationEvent
+    {
+        foreach (var @event in events)
+        {
+            await PublishAsync(@event, cancellationToken);
+        }
+    }
+        
+    public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default) 
+        where TEvent : IIntegrationEvent => await eventPublisher.PublishAsync(@event, cancellationToken);
 }

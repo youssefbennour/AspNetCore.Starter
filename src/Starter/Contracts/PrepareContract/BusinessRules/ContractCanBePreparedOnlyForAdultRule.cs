@@ -1,3 +1,5 @@
+using Starter.Common.BusinessRulesEngine;
+
 namespace Starter.Contracts.PrepareContract.BusinessRules;
 
 internal sealed class ContractCanBePreparedOnlyForAdultRule : IBusinessRule

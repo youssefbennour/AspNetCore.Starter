@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using OpenTelemetry;
 
-namespace Starter.Common.Telemetry.OpenTelemetry.Processors;
+namespace Softylines.Contably.Common.Telemetry.OpenTelemetry.Processors;
 
 public class AutomatedEndpointsProcessor : BaseProcessor<Activity>
 {

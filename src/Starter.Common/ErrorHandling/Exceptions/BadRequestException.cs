@@ -1,7 +1,5 @@
-﻿using Starter.Common.ErrorHandling.Exceptions.Abstractions;
+﻿using Softylines.Contably.Common.ErrorHandling.Exceptions.Abstractions;
 
-namespace Starter.Common.ErrorHandling.Exceptions;
+namespace Softylines.Contably.Common.ErrorHandling.Exceptions;
 
-internal class BadRequestException : AppException {
-    internal BadRequestException(string message) : base(message) { }
-}
+public class BadRequestException(string message) : AppException<BadRequestException>(message);

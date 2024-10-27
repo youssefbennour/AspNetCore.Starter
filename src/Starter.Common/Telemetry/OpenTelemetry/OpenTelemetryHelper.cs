@@ -1,10 +1,10 @@
 using System.Diagnostics;
 
-namespace Starter.Common.Telemetry.OpenTelemetry;
+namespace Softylines.Contably.Common.Telemetry.OpenTelemetry;
 
-internal static class OpenTelemetryHelper
+public static class OpenTelemetryHelper
 {
-    internal static string GetRelativeUrlPath(this Activity activity){
+    public static string GetRelativeUrlPath(this Activity activity){
         string? urlPath = activity.TagObjects
             .FirstOrDefault(m => m.Key == "url.path")
             .Value?.ToString();

@@ -1,22 +1,22 @@
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Starter.Common.Auth.JwtBearer;
+using Softylines.Contably.Common.Auth.Keycloak;
 
-namespace Starter.Common.Auth;
+namespace Softylines.Contably.Common.Auth;
 
-internal static class AuthModule
+public static class AuthModule
 {
-   internal static IServiceCollection AddAuthModule(this WebApplicationBuilder builder)
+   public static IServiceCollection AddAuthModule(this WebApplicationBuilder builder)
    {
-      builder.AddJwtAuthentication();
-      builder.Services.AddAuthorization();
+      builder.AddKeycloak();
+      builder.WebHost.UseKestrel(options => 
+         options.AddServerHeader = false);
       return builder.Services;
    }
 
-   internal static IApplicationBuilder UseAuthModule(this WebApplication app)
+   public static IApplicationBuilder UseAuthModule(this WebApplication app)
    {
-      app.UseJwtAuth();
-      app.UseAuthorization();
+      app.UseKeycloak();
       return app;
    }
 }

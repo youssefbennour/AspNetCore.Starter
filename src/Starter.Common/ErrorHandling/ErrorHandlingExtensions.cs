@@ -1,30 +1,33 @@
-using Starter.Common.ErrorHandling.ErrorModels;
-using Starter.Common.ErrorHandling.Exceptions;
-using Starter.Common.ErrorHandling.Exceptions.Abstractions;
-using Starter.Common.Validation.Requests.Exceptions;
 using System.Collections;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using NetTopologySuite.Utilities;
+using Softylines.Contably.Common.ErrorHandling.ErrorModels;
+using Softylines.Contably.Common.ErrorHandling.Exceptions.Abstractions;
 
-namespace Starter.Common.ErrorHandling;
+namespace Softylines.Contably.Common.ErrorHandling;
 
-internal static class ErrorHandlingExtensions {
-
+public static class ErrorHandlingExtensions 
+{
     private const string ServerError = "Server Error";
 
-    internal static IApplicationBuilder UseErrorHandling(this IApplicationBuilder applicationBuilder) {
+    public static IApplicationBuilder UseExceptionHandling(this IApplicationBuilder applicationBuilder) {
         applicationBuilder.UseExceptionHandler(_ => { });
         return applicationBuilder;
     }
 
-    internal static IServiceCollection AddExceptionHandling(this IServiceCollection services) {
-        services.AddExceptionHandler<GlobalExceptionHandler>();
-        services.AddProblemDetails();
-        return services;
+    public static IServiceCollection AddExceptionHandling(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddSingleton<IExceptionHandler>(new GlobalExceptionHandler(builder.Environment));
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails();
+        return builder.Services;
     }
 
-    internal static AppProblemDetails ToProblemDetails(this Exception exception) {
+    public static AppProblemDetails ToProblemDetails(this Exception exception) {
         AppProblemDetails problemDetails = new(message: exception.GetErrorMessage());
 
         if(exception is BusinessRuleValidationException businessRuleValidationException) {
@@ -34,20 +37,41 @@ internal static class ErrorHandlingExtensions {
         return problemDetails;
     }
     
-    internal static AppProblemDetails ToProblemDetails(this IDictionary<string, string[]> errors)
+    public static AppProblemDetails ToProblemDetails(this IDictionary<string, string[]> errors)
     {
         return new AppProblemDetails(errors.GetFieldValidationErrors());
     }
     private static string GetErrorMessage(this Exception exception)
     {
-        return exception is InternalServerException or not AppException ? ServerError : exception.Message;
+        return exception is InternalServerException or not IAppException ? ServerError : exception.Message;
     }
 
-    private static List<FieldValidationError> GetFieldValidationErrors(this AppException appException)
+
+    public static BusinessRuleValidationException ToBusinessRuleValidationException(
+        this IDictionary<string, string[]> errorsPerField)
+    {
+        var exception = new BusinessRuleValidationException();
+        if (errorsPerField.IsNullOrEmpty())
+        {
+            return exception;
+        }
+
+        foreach (var fieldErrors in errorsPerField)
+        {
+            foreach (var error in fieldErrors.Value)
+            {
+                exception.UpsertToException( fieldErrors.Key,  error);
+            }
+        }
+
+        return exception;
+    }
+    
+    private static List<FieldValidationError> GetFieldValidationErrors(this Exception exception)
     {
         List<FieldValidationError> fieldValidationErrors = [];
 
-        foreach (DictionaryEntry error in appException.Data)
+        foreach (DictionaryEntry error in exception.Data)
         {
             if (error.Key.ToString() is not { } field
                 || error.Value?.ToString() is not { } errorMessage)
@@ -68,9 +92,9 @@ internal static class ErrorHandlingExtensions {
             .ToList();
     }
     
-    internal static int GetHttpStatusCode(this Exception exception) {
+    public static int GetHttpStatusCode(this Exception exception) {
 
-        if(exception is not AppException appException) {
+        if(exception is not IAppException appException) {
             return StatusCodes.Status500InternalServerError;
         }
 

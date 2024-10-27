@@ -1,25 +1,35 @@
 ﻿using System.Collections;
 
-namespace Starter.Common.ErrorHandling.Exceptions.Abstractions;
+namespace Softylines.Contably.Common.ErrorHandling.Exceptions.Abstractions;
 
-public abstract class AppException : InvalidOperationException {
+internal interface IAppException;
+
+public abstract class AppException<TDerived> :
+    Exception, IAppException where TDerived : AppException<TDerived> 
+{
     private protected AppException(string message) : base(message) {
 
     }
-    internal void UpsertToException(string key, string value) {
+    public TDerived UpsertToException(string key, string value) {
         this.Data[key] = value;
+        return (TDerived)this;
     }
 
-    internal void ThrowIfContainsErrors() {
+    public TDerived ThrowIfContainsErrors() {
         if(this.Data.Count > 0) {
             throw this;
         }
+
+        return (TDerived)this;
     }
-    internal void AddData(IDictionary? dictionary)
+    
+    public TDerived AddData(IDictionary? dictionary)
     {
-        if (dictionary == null) return;
+        if (dictionary == null) return (TDerived)this;
         foreach(DictionaryEntry item in dictionary) {
             this.Data.Add(item.Key, item.Value);
         }
+
+        return (TDerived)this;
     }
 }

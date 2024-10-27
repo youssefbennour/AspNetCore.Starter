@@ -1,22 +1,23 @@
-using Starter.Common.BusinessRuleEngine;
-using Starter.Common.ErrorHandling.Exceptions;
-
-namespace Starter.Common.BusinessRulesEngine;
+namespace Softylines.Contably.Common.BusinessRulesEngine;
 
 public static class BusinessRuleValidator {
-    internal static void Validate(IBusinessRule rule, BusinessRuleValidationException? exception = null) {
+    public static void Validate(params IBusinessRule[] rules)
+    {
+        BusinessRuleValidationException exception = new();
+        foreach (var rule in rules)
+        {
+            Validate(rule, exception);
+        }  
+        
+        exception.ThrowIfContainsErrors();
+    }
+    
+    private static void Validate(IBusinessRule rule, BusinessRuleValidationException exception) {
         if(rule.IsMet())
         {
             return;
         }
 
-        if (exception is null)
-        {
-            exception = new BusinessRuleValidationException();
-            exception.UpsertToException(rule.ErrorKey, rule.Error);
-            exception.ThrowIfContainsErrors();
-        }
-        
         exception.UpsertToException(rule.ErrorKey, rule.Error);
     }
 }

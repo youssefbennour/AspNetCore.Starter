@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
-using Microsoft.Linq.Queryable;
-using Starter.Common.Requests.Models;
+using Softylines.Contably.Common.DataAccess.Orms.EfCore;
+using Softylines.Contably.Common.Requests.Models;
 
-namespace Starter.Common.Responses.Models {
+namespace Softylines.Contably.Common.Responses.Models {
     public sealed class PaginatedList<T> where T: class {
         
         /// <summary>

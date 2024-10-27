@@ -1,6 +1,6 @@
-namespace Starter.Common.BusinessRuleEngine;
+namespace Softylines.Contably.Common.BusinessRulesEngine;
 
-internal interface IBusinessRule
+public interface IBusinessRule
 {
     bool IsMet();
     string ErrorKey { get; }

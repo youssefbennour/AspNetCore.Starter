@@ -1,3 +1,5 @@
+using Starter.Common.Events;
+
 namespace Starter.Passes.MarkPassAsExpired.Events;
 
 internal record PassExpiredEvent(Guid Id, Guid PassId, Guid CustomerId, DateTimeOffset OccurredDateTime) : IIntegrationEvent

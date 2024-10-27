@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using Starter.Common.Requests.Models;
+using Softylines.Contably.Common.Requests.Models;
 
-namespace Starter.Common.Responses.Models {
+namespace Softylines.Contably.Common.Responses.Models {
     public sealed class ResponseMetadata<T> where T : class{
         
         /// <summary>
@@ -31,13 +31,13 @@ namespace Starter.Common.Responses.Models {
         public int TotalPages => (int)Math.Ceiling(this.TotalCount / (double)this.PageSize);
 
         [JsonPropertyName("total_count")]
-        public int TotalCount { get; init; }
+        public int TotalCount { get; set; }
         
         [JsonPropertyName("current_page")]
-        public int PageNumber { get; init; }
+        public int PageNumber { get; set; }
         
         [JsonPropertyName("per_page")]
-        public int PageSize { get; init; }
+        public int PageSize { get; set; }
 
         [JsonPropertyName("next_page")]
         public int? NextPage =>

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.HttpLogging;
+﻿using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry;
@@ -8,11 +7,11 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Starter.Common.Telemetry.OpenTelemetry.Processors;
+using Softylines.Contably.Common.Telemetry.OpenTelemetry.Processors;
 
-namespace Starter.Common.Telemetry.OpenTelemetry {
-    internal static class OpenTelemetryModule {
-        internal static IServiceCollection AddOpenTelemetryModule(this WebApplicationBuilder builder)
+namespace Softylines.Contably.Common.Telemetry.OpenTelemetry {
+    public static class OpenTelemetryModule {
+        public static IServiceCollection AddOpenTelemetryModule(this WebApplicationBuilder builder)
         {
             string serviceName = GetServiceName(builder);
             builder.AddOpenTelemetryLogging(serviceName);
@@ -86,7 +85,7 @@ namespace Starter.Common.Telemetry.OpenTelemetry {
         private static string GetServiceName(WebApplicationBuilder builder) => 
             builder.Configuration["ServiceName"] ?? "unknown-service";
 
-        internal static IApplicationBuilder UseOpenTelemetry(this IApplicationBuilder app) {
+        public static IApplicationBuilder UseOpenTelemetry(this IApplicationBuilder app) {
             return app.UseOpenTelemetryPrometheusScrapingEndpoint();
         }
     }

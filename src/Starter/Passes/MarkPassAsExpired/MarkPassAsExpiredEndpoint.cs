@@ -1,6 +1,6 @@
+using Starter.Common.Events.EventBus;
 using Starter.Passes.Data.Database;
 using Starter.Passes.MarkPassAsExpired.Events;
-using Starter.Passes.MarkPassAsExpired.Exceptions;
 
 namespace Starter.Passes.MarkPassAsExpired;
 
@@ -18,7 +18,7 @@ internal static class MarkPassAsExpiredEndpoint
                 var pass = await persistence.Passes.FindAsync([id], cancellationToken: cancellationToken);
                 if (pass is null)
                 {
-                    throw new PassNotFoundException();
+                    throw new NotFoundException();
                 }
 
                 var nowDate = timeProvider.GetUtcNow();

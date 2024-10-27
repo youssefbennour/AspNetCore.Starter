@@ -1,12 +1,13 @@
 using System.Text.Json;
-using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Starter.Common.ErrorHandling;
+using Softylines.Contably.Common.ErrorHandling;
 
-namespace Starter.Common.Validation.Requests;
+namespace Softylines.Contably.Common.Validation.Requests;
 
-internal sealed class RequestValidationApiFilter<TRequestToValidate> : IEndpointFilter where TRequestToValidate : class
+using FluentValidation;
+
+public sealed class RequestValidationApiFilter<TRequestToValidate> : IEndpointFilter where TRequestToValidate : class
 {
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {

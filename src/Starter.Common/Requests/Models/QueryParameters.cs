@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Starter.Common.Requests.Models {
+namespace Softylines.Contably.Common.Requests.Models {
     public class QueryParameters {
         private const int MaxPageSize = 100;
         private const int DefaultPage = 1;
@@ -11,14 +10,14 @@ namespace Starter.Common.Requests.Models {
         [DefaultValue(DefaultPage)]
         public int PageNumber { get; set; } = DefaultPage;
         
-        private int pageSize = DefaultPageSize;
+        private int _pageSize = DefaultPageSize;
 
         [FromQuery(Name = "per_page")]
         [DefaultValue(DefaultPageSize)]
         public int PageSize
         {
-            get => pageSize;
-            set { pageSize = value > MaxPageSize ? MaxPageSize : value; }
+            get => _pageSize;
+            set => _pageSize = value > MaxPageSize ? MaxPageSize : value;
         }
 
         [FromQuery(Name = "search_term")]

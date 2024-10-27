@@ -1,17 +1,15 @@
-﻿using Starter.Common.Localizations;
-using System.Globalization;
-using Microsoft.AspNetCore.Builder;
+﻿using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
-using Starter.Common.ErrorHandling.Exceptions;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace Softylines.Contably.Common.Localizations
 {
-    internal static class LocalizationModule {
+    public static class LocalizationModule {
 
-        internal static IServiceCollection AddRequestBasedLocalization(this IServiceCollection services)
+        public static IServiceCollection AddRequestBasedLocalization(this IServiceCollection services)
         {
             services.AddLocalization()
                 .AddRequestLocalization(opts =>
@@ -35,12 +33,14 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        internal static IApplicationBuilder UseRequestBasedLocalization(this IApplicationBuilder applicationBuilder) {
+        public static IApplicationBuilder UseRequestBasedLocalization(this WebApplication applicationBuilder)
+        {
+            using var scope = applicationBuilder.Services.CreateScope();
             IOptions<RequestLocalizationOptions> options =
-                applicationBuilder.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>()
+                scope.ServiceProvider.GetService<IOptions<RequestLocalizationOptions>>()
                 ?? throw new InternalServerException();
-
             applicationBuilder.UseRequestLocalization(options.Value);
+            
             return applicationBuilder;
         }
 
@@ -48,11 +48,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Maps an endpoint with 'GET' method, for localization testing purposes.
         /// </summary>
         /// <param name="app">injected instance of <see cref="IEndpointRouteBuilder"/></param>
-        internal static void MapLocalizationSampleEndpoint(this IEndpointRouteBuilder app)
+        public static IEndpointConventionBuilder MapLocalizationSampleEndpoint(this IEndpointRouteBuilder app)
         {
-            app.MapGet("api/localization-tests", (IStringLocalizer<ILocalizationSample> localizer) => {
-                return localizer["Hello"];
-            }).RequireAuthorization(options => options.RequireAuthenticatedUser());
+            return app.MapGet("/localization-tests", ([FromServices]IStringLocalizer<ILocalizationSample> localizer) 
+                => localizer["Hello"]);
         }
     }
 }
