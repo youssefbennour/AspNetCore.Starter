@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Softylines.Contably.Common.Events.Publisher.InMemory;
+namespace Starter.Common.Events.Publisher.InMemory;
 
 internal sealed class InMemoryPublisher(IMediator mediator) : IPublisher
 {

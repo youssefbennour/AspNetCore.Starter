@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Softylines.Contably.Common.Telemetry.HealthChecks;
-using Softylines.Contably.Common.Telemetry.OpenTelemetry;
+using Starter.Common.Telemetry.HealthChecks;
+using Starter.Common.Telemetry.OpenTelemetry;
 
-namespace Softylines.Contably.Common.Telemetry {
+namespace Starter.Common.Telemetry {
     public static class TelemetryModule {
         public static IServiceCollection AddTelemetry(this WebApplicationBuilder builder) {
             builder.Host.UseDefaultServiceProvider(options => 

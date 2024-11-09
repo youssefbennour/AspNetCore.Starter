@@ -1,7 +1,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Softylines.Contably.Common.ApiConfiguration.Cors;
+namespace Starter.Common.ApiConfiguration.Cors;
 
 public static class CorsExtensions
 {
@@ -12,12 +12,7 @@ public static class CorsExtensions
          options.AddDefaultPolicy(
             builder =>
             {
-               builder.WithOrigins("https://localhost:3000",
-                      "http://localhost:3000",
-                     "https://devcomptabilite.softylines.com",
-                     "https://devcomptabiliteapi.softylines.com",
-                     "http://devcomptabilite.softylines.com",
-                     "http://devcomptabiliteapi.softylines.com")
+               builder.WithOrigins("https://localhost:3000")
                   .AllowCredentials()
                   .AllowAnyHeader()
                   .AllowAnyMethod();

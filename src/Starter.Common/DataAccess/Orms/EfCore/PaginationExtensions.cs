@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Softylines.Contably.Common.Requests.Models;
+using Starter.Common.Requests.Models;
+using Starter.Common.Responses.Models;
 
-namespace Softylines.Contably.Common.DataAccess.Orms.EfCore;
+namespace Starter.Common.DataAccess.Orms.EfCore;
 
 public static class PaginationExtensions
 {

@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
-using Softylines.Contably.Common.ApiConfiguration.Cors;
-using Softylines.Contably.Common.Validation.Requests;
+using Starter.Common.ApiConfiguration.Cors;
+using Starter.Common.Validation.Requests;
 
-namespace Softylines.Contably.Common.ApiConfiguration;
+namespace Starter.Common.ApiConfiguration;
 
 public static class ApiConfigurationModule
 {

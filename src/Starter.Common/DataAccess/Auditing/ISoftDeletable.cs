@@ -1,4 +1,4 @@
-namespace Softylines.Contably.Common.DataAccess.Auditing;
+namespace Starter.Common.DataAccess.Auditing;
 
 public interface ISoftDeletable
 {

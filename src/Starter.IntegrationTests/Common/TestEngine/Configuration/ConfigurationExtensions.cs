@@ -1,6 +1,8 @@
+using Starter.Common.Events.EventBus;
+using Starter.Common.Events.EventBus.InMemory;
+
 namespace Starter.IntegrationTests.Common.TestEngine.Configuration;
 
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,5 +56,5 @@ internal static class ConfigurationExtensions
         this WebApplicationFactory<T> webApplicationFactory)
         where T : class =>
         webApplicationFactory.WithWebHostBuilder(webHostBuilder => webHostBuilder.ConfigureTestServices(services =>
-            services.AddInMemoryEventBus(Assembly.GetExecutingAssembly())));
+            services.AddSingleton<IEventBus, InMemoryEventBus>()));
 }

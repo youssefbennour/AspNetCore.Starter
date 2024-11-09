@@ -10,8 +10,8 @@ using Starter.Reports.GenerateNewPassesRegistrationsPerMonthReport.Dtos;
 
 namespace Starter.IntegrationTests.Reports.GenerateNewPassesPerMonthReport;
 
-[UsesVerify]
-public sealed class GenerateNewPassesPerMonthReportTests : IClassFixture<WebApplicationFactory<Program>>, IClassFixture<DatabaseContainer>
+public sealed partial class GenerateNewPassesPerMonthReportTests : 
+    IClassFixture<WebApplicationFactory<Program>>, IClassFixture<DatabaseContainer>
 {
     private static readonly FakeTimeProvider FakeTimeProvider = new(ReportTestCases.FakeNowDate);
     private readonly HttpClient _applicationHttpClient;
@@ -41,7 +41,7 @@ public sealed class GenerateNewPassesPerMonthReportTests : IClassFixture<WebAppl
         // Assert
         getReportResult.Should().HaveStatusCode(HttpStatusCode.OK);
         var reportData = await getReportResult.Content.ReadFromJsonAsync<NewPassesRegistrationsPerMonthResponse>();
-        await Verify(reportData);
+        await Verify();
     }
 
     private async Task RegisterPasses(List<PassRegistrationDateRange> reportTestData)

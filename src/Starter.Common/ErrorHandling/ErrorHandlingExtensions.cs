@@ -2,13 +2,12 @@ using System.Collections;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using NetTopologySuite.Utilities;
-using Softylines.Contably.Common.ErrorHandling.ErrorModels;
-using Softylines.Contably.Common.ErrorHandling.Exceptions.Abstractions;
+using Starter.Common.ErrorHandling.ErrorModels;
+using Starter.Common.ErrorHandling.Exceptions;
+using Starter.Common.ErrorHandling.Exceptions.Abstractions;
 
-namespace Softylines.Contably.Common.ErrorHandling;
+namespace Starter.Common.ErrorHandling;
 
 public static class ErrorHandlingExtensions 
 {
@@ -19,12 +18,12 @@ public static class ErrorHandlingExtensions
         return applicationBuilder;
     }
 
-    public static IServiceCollection AddExceptionHandling(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddExceptionHandling(this WebApplicationBuilder builder)
     {
         builder.Services.AddSingleton<IExceptionHandler>(new GlobalExceptionHandler(builder.Environment));
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();
-        return builder.Services;
+        return builder;
     }
 
     public static AppProblemDetails ToProblemDetails(this Exception exception) {

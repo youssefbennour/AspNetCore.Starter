@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Softylines.Contably.Common.EventualConsistency.Outbox;
+using Starter.Common.EventualConsistency.Outbox;
 
-namespace Softylines.Contably.Common.DataAccess.Orms.EfCore.DbContexts;
+namespace Starter.Common.DataAccess.Orms.EfCore.DbContexts;
 
 public class OutboxPersistence : DbContext{
 

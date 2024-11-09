@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Softylines.Contably.Common.ErrorHandling.ErrorModels;
+namespace Starter.Common.ErrorHandling.ErrorModels;
 
 public sealed class FieldValidationError 
 {

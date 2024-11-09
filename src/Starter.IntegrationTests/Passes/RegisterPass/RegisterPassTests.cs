@@ -1,3 +1,4 @@
+using Starter.Common.Events.EventBus;
 using Starter.Contracts.SignContract.Events;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;
 using Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;

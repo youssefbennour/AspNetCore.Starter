@@ -1,5 +1,5 @@
-﻿using Softylines.Contably.Common.ErrorHandling.Exceptions.Abstractions;
+﻿using Starter.Common.ErrorHandling.Exceptions.Abstractions;
 
-namespace Softylines.Contably.Common.ErrorHandling.Exceptions;
+namespace Starter.Common.ErrorHandling.Exceptions;
 
 public class ForbiddenException(string message) : AppException<ForbiddenException>(message);

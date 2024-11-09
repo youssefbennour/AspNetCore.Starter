@@ -1,4 +1,4 @@
-namespace Softylines.Contably.Common.Auth.Keycloak;
+namespace Starter.Common.Auth.Keycloak;
 
 public sealed class AuthenticationOptions
 {

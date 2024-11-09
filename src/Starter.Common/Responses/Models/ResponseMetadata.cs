@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using Softylines.Contably.Common.Requests.Models;
+using Starter.Common.Requests.Models;
 
-namespace Softylines.Contably.Common.Responses.Models {
+namespace Starter.Common.Responses.Models {
     public sealed class ResponseMetadata<T> where T : class{
         
         /// <summary>

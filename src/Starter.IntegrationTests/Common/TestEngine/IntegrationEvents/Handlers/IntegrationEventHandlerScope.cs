@@ -1,3 +1,5 @@
+using Starter.Common.Events;
+
 namespace Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;
 
 using MediatR;

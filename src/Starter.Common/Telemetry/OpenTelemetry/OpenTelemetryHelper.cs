@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Softylines.Contably.Common.Telemetry.OpenTelemetry;
+namespace Starter.Common.Telemetry.OpenTelemetry;
 
 public static class OpenTelemetryHelper
 {

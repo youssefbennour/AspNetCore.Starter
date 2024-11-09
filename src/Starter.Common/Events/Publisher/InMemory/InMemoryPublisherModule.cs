@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Softylines.Contably.Common.Events.Publisher.InMemory;
+namespace Starter.Common.Events.Publisher.InMemory;
 
 internal static class InMemoryPublisherModule
 {

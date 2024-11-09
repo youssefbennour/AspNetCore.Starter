@@ -1,10 +1,8 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Softylines.Contably.Common.ApiConfiguration.Filters;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace Softylines.Contably.Common.ApiConfiguration;
+namespace Starter.Common.ApiConfiguration;
 
 public static class OpenApiConfiguration {
     public static IServiceCollection AddOpenApiConfiguration<T>(this IServiceCollection services)
@@ -13,14 +11,6 @@ public static class OpenApiConfiguration {
         services.AddSwaggerGen(options =>
         {
             options.CustomSchemaIds(type => type.ToString());
-            
-            options.AddSecurityDefinition("Tenant", new OpenApiSecurityScheme
-            {
-                Name = "Tenant",
-                In = ParameterLocation.Header,
-                Description = "Tenant ID required for multi-tenancy",
-                Type = SecuritySchemeType.ApiKey
-            });
             
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
@@ -31,7 +21,6 @@ public static class OpenApiConfiguration {
                 Scheme = "bearer"
             });
             
-            options.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
         });
         
         services.AddSwaggerExamplesFromAssemblyOf<T>();

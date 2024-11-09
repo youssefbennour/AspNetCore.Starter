@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Softylines.Contably.Common.Clocks;
+namespace Starter.Common.Clocks;
 
 public static class ClockModule
 {

@@ -1,3 +1,4 @@
+using Starter.Common.Events.EventBus;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;
 using Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;
 using Starter.Offers.Prepare;

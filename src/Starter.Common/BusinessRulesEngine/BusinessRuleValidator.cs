@@ -1,4 +1,6 @@
-namespace Softylines.Contably.Common.BusinessRulesEngine;
+using Starter.Common.ErrorHandling.Exceptions;
+
+namespace Starter.Common.BusinessRulesEngine;
 
 public static class BusinessRuleValidator {
     public static void Validate(params IBusinessRule[] rules)

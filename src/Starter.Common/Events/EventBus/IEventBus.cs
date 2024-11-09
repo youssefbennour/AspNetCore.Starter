@@ -1,4 +1,4 @@
-namespace Softylines.Contably.Common.Events.EventBus;
+namespace Starter.Common.Events.EventBus;
 
 public interface IEventBus
 {

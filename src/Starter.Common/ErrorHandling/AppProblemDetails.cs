@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using Softylines.Contably.Common.ErrorHandling.ErrorModels;
+using Starter.Common.ErrorHandling.ErrorModels;
 
-namespace Softylines.Contably.Common.ErrorHandling;
+namespace Starter.Common.ErrorHandling;
 
 public class AppProblemDetails
 {

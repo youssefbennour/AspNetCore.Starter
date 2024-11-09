@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Softylines.Contably.Common.Telemetry.HealthChecks;
+namespace Starter.Common.Telemetry.HealthChecks;
 
 public static class HealthCheckModule
 {

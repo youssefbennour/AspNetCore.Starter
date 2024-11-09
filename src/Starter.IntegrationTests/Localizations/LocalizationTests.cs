@@ -29,9 +29,9 @@ namespace Starter.IntegrationTests.Localizations
             var localizedString = await localizationResponse.Content.ReadFromJsonAsync<LocalizedString>();
 
             //Assert
-            Assert.Equal(HttpStatusCode.OK, localizationResponse.StatusCode);
-            Assert.NotNull(localizedString);
-            Assert.Equal(expected, localizedString.Value);
+            localizationResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            localizedString.Should().NotBeNull();
+            localizedString?.Value.Should().Be(expected);
         }
 
         [Fact]
@@ -45,9 +45,9 @@ namespace Starter.IntegrationTests.Localizations
             var localizedString = await localizationResponse.Content.ReadFromJsonAsync<LocalizedString>();
 
             //Assert
-            Assert.Equal(HttpStatusCode.OK, localizationResponse.StatusCode);
-            Assert.NotNull(localizedString);
-            Assert.Equal(defaultCultureResponse, localizedString.Value);
+            localizationResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            localizedString.Should().NotBeNull();
+            localizedString?.Value.Should().Be(defaultCultureResponse);
         }
     }
 }

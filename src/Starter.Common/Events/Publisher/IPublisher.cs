@@ -1,4 +1,4 @@
-namespace Softylines.Contably.Common.Events.Publisher;
+namespace Starter.Common.Events.Publisher;
 
 public interface IPublisher
 {

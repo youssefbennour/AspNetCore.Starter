@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using Starter.Common.ErrorHandling.Exceptions;
 
-namespace Softylines.Contably.Common.Localizations
+namespace Starter.Common.Localizations
 {
     public static class LocalizationModule {
 

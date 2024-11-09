@@ -3,13 +3,14 @@ using Starter.Common.Events.EventBus;
 using Starter.Contracts.SignContract.Events;
 using Starter.Passes.Data;
 using Starter.Passes.Data.Database;
+using Starter.Passes.EventBus;
 using Starter.Passes.RegisterPass.Events;
 
 namespace Starter.Passes.RegisterPass;
 
 internal sealed class ContractSignedEventHandler(
     PassesPersistence persistence,
-    IEventBus eventBus) : IIntegrationEventHandler<ContractSignedEvent>
+    IPassesEventBus eventBus) : IIntegrationEventHandler<ContractSignedEvent>
 {
     public async Task Handle(ContractSignedEvent @event, CancellationToken cancellationToken)
     {

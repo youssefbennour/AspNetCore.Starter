@@ -1,7 +1,7 @@
-using Softylines.Contably.Common.DataAccess.Orms.EfCore.DbContexts;
-using Softylines.Contably.Common.EventualConsistency.Outbox;
+using Starter.Common.DataAccess.Orms.EfCore.DbContexts;
+using Starter.Common.EventualConsistency.Outbox;
 
-namespace Softylines.Contably.Common.Events.EventBus.Persistent;
+namespace Starter.Common.Events.EventBus.Persistent;
 
 public class PersistentEventBus(OutboxPersistence persistence) : IEventBus
 {

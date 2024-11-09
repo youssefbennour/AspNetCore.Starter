@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Softylines.Contably.Common.Auth.Keycloak;
+namespace Starter.Common.Auth.Keycloak;
 
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]

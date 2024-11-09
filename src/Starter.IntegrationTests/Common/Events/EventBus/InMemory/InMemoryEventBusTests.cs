@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Starter.Common.Events.EventBus;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;
 
 namespace Starter.IntegrationTests.Common.Events.EventBus.InMemory;

@@ -1,6 +1,8 @@
+using Starter.Common.DataAccess.Orms.EfCore.DbContexts;
+
 namespace Starter.Offers.Data.Database;
 
-internal sealed class OffersPersistence(DbContextOptions<OffersPersistence> options) : DbContext(options)
+internal sealed class OffersPersistence(DbContextOptions<OffersPersistence> options) : OutboxPersistence(options)
 {
     private const string Schema = "Offers";
 
@@ -8,6 +10,7 @@ internal sealed class OffersPersistence(DbContextOptions<OffersPersistence> opti
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.HasDefaultSchema(Schema);
         modelBuilder.ApplyConfiguration(new OfferEntityConfiguration());
     }

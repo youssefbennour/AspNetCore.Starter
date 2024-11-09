@@ -8,49 +8,74 @@ using Starter.Offers.Data.Database;
 
 #nullable disable
 
-namespace SuperSimpleArchitecture.Fitnet.Migrations.OffersPersistenceMigrations;
-
-using System.Diagnostics.CodeAnalysis;
-
-[DbContext(typeof(OffersPersistence))]
-[ExcludeFromCodeCoverage]
-partial class OffersPersistenceModelSnapshot : ModelSnapshot
+namespace SuperSimpleArchitecture.Fitnet.Migrations.OffersPersistenceMigrations
 {
-    protected override void BuildModel(ModelBuilder modelBuilder)
+    [DbContext(typeof(OffersPersistence))]
+    partial class OffersPersistenceModelSnapshot : ModelSnapshot
     {
-#pragma warning disable 612, 618
-        modelBuilder
-            .HasDefaultSchema("Offers")
-            .HasAnnotation("ProductVersion", "7.0.0")
-            .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-        NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-        modelBuilder.Entity("SuperSimpleArchitecture.Fitnet.Offers.Data.Offer", b =>
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
-            b.Property<Guid>("Id")
-                .ValueGeneratedOnAdd()
-                .HasColumnType("uuid");
+#pragma warning disable 612, 618
+            modelBuilder
+                .HasDefaultSchema("Offers")
+                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            b.Property<Guid>("CustomerId")
-                .HasColumnType("uuid");
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            b.Property<decimal>("Discount")
-                .HasColumnType("numeric");
+            modelBuilder.Entity("Starter.Common.EventualConsistency.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-            b.Property<DateTimeOffset>("OfferedFromDate")
-                .HasColumnType("timestamp with time zone");
+                    b.Property<DateTimeOffset?>("ExecutedOn")
+                        .HasColumnType("timestamp with time zone");
 
-            b.Property<DateTimeOffset>("OfferedFromTo")
-                .HasColumnType("timestamp with time zone");
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("json");
 
-            b.Property<DateTimeOffset>("PreparedAt")
-                .HasColumnType("timestamp with time zone");
+                    b.Property<DateTimeOffset>("SavedOn")
+                        .HasColumnType("timestamp with time zone");
 
-            b.HasKey("Id");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-            b.ToTable("Offers", "Offers");
-        });
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExecutedOn");
+
+                    b.ToTable("OutboxMessage", "Offers");
+                });
+
+            modelBuilder.Entity("Starter.Offers.Data.Offer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTimeOffset>("OfferedFromDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("OfferedFromTo")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("PreparedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Offers", "Offers");
+                });
 #pragma warning restore 612, 618
+        }
     }
 }

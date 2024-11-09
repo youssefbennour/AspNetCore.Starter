@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Softylines.Contably.Common.Requests.Models {
+namespace Starter.Common.Requests.Models {
     public class QueryParameters {
         private const int MaxPageSize = 100;
         private const int DefaultPage = 1;

@@ -1,7 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Softylines.Contably.Common.Validation.Requests;
+namespace Starter.Common.Validation.Requests;
 
 public static class RequestValidationsExtensions
 {

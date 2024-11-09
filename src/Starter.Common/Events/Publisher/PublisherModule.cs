@@ -1,8 +1,8 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Softylines.Contably.Common.Events.Publisher.InMemory;
+using Starter.Common.Events.Publisher.InMemory;
 
-namespace Softylines.Contably.Common.Events.Publisher;
+namespace Starter.Common.Events.Publisher;
 
 public static class PublisherModule 
 {

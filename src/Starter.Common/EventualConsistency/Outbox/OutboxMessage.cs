@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
-using Softylines.Contably.Common.Events;
+using Starter.Common.Events;
 
-namespace Softylines.Contably.Common.EventualConsistency.Outbox;
+namespace Starter.Common.EventualConsistency.Outbox;
 
 public sealed class OutboxMessage
 {

@@ -1,11 +1,10 @@
 using System.Text.Json;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Softylines.Contably.Common.ErrorHandling;
+using Starter.Common.ErrorHandling;
 
-namespace Softylines.Contably.Common.Validation.Requests;
-
-using FluentValidation;
+namespace Starter.Common.Validation.Requests;
 
 public sealed class RequestValidationApiFilter<TRequestToValidate> : IEndpointFilter where TRequestToValidate : class
 {

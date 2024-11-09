@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Softylines.Contably.Common.Validation.Requests;
+namespace Starter.Common.Validation.Requests;
 
 public static class EndpointBuilderExtensions
 {

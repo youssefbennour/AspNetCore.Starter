@@ -1,4 +1,4 @@
-namespace Softylines.Contably.Common.BusinessRulesEngine;
+namespace Starter.Common.BusinessRulesEngine;
 
 public interface IBusinessRule
 {

@@ -1,6 +1,7 @@
 using Starter.Common.Events.EventBus;
 using Starter.Common.Validation.Requests;
 using Starter.Contracts.Data.Database;
+using Starter.Contracts.EventBus;
 using Starter.Contracts.SignContract.Events;
 using NotFoundException = Starter.Common.ErrorHandling.Exceptions.NotFoundException;
 
@@ -11,7 +12,7 @@ internal static class SignContractEndpoint
     internal static void MapSignContract(this IEndpointRouteBuilder app) => app.MapPatch(ContractsApiPaths.Sign,
             async (Guid id, SignContractRequest request,
                 ContractsPersistence persistence,
-                IEventBus bus,
+                IContractsEventBus eventBus,
                 TimeProvider timeProvider,
                 CancellationToken cancellationToken) =>
             {
@@ -33,7 +34,7 @@ internal static class SignContractEndpoint
                     contract.SignedAt!.Value,
                     contract.ExpiringAt!.Value,
                     timeProvider.GetUtcNow());
-                await bus.PublishAsync(@event, cancellationToken);
+                await eventBus.PublishAsync(@event, cancellationToken);
 
                 return Results.Ok();
             })

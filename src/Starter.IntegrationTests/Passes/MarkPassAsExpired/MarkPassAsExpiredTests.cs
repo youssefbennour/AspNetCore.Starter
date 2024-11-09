@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.WebUtilities;
+using Starter.Common.Events.EventBus;
 using Starter.Common.Responses.Models;
 using Starter.Contracts.SignContract.Events;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;

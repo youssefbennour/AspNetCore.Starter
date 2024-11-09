@@ -7,9 +7,9 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Softylines.Contably.Common.Telemetry.OpenTelemetry.Processors;
+using Starter.Common.Telemetry.OpenTelemetry.Processors;
 
-namespace Softylines.Contably.Common.Telemetry.OpenTelemetry {
+namespace Starter.Common.Telemetry.OpenTelemetry {
     public static class OpenTelemetryModule {
         public static IServiceCollection AddOpenTelemetryModule(this WebApplicationBuilder builder)
         {

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Softylines.Contably.Common.ErrorHandling.Exceptions.Abstractions;
+namespace Starter.Common.ErrorHandling.Exceptions.Abstractions;
 
 internal interface IAppException;
 

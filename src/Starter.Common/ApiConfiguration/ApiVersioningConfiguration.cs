@@ -1,8 +1,7 @@
-﻿
-using Asp.Versioning;
+﻿using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Softylines.Contably.Common.ApiConfiguration
+namespace Starter.Common.ApiConfiguration
 {
     public static class ApiVersioningConfiguration
     {

@@ -2,9 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Softylines.Contably.Common.TenantResolution.Requirements;
 
-namespace Softylines.Contably.Common.Auth.Keycloak;
+namespace Starter.Common.Auth.Keycloak;
 
 public static class KeycloakModule
 {
@@ -41,7 +40,6 @@ public static class KeycloakModule
         {
             options.FallbackPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .RequireValidTenant()
                 .Build();
         });
         return builder.Services;

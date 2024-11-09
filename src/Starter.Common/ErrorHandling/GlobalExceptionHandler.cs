@@ -1,12 +1,11 @@
-using Microsoft.AspNetCore.Diagnostics;
 using System.Text.Json;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Softylines.Contably.Common.ErrorHandling.Exceptions.Abstractions;
+using Starter.Common.ErrorHandling.Exceptions.Abstractions;
 
-namespace Softylines.Contably.Common.ErrorHandling;
+namespace Starter.Common.ErrorHandling;
 
 public sealed class GlobalExceptionHandler(
     IWebHostEnvironment environment

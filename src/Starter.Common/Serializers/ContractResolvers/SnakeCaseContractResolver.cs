@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Serialization;
 
-namespace Softylines.Contably.Common.Serializers.ContractResolvers;
+namespace Starter.Common.Serializers.ContractResolvers;
 
 public class SnakeCaseContractResolver : DefaultContractResolver
 {

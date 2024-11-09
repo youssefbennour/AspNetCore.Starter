@@ -1,4 +1,6 @@
-﻿namespace Softylines.Contably.Common.Localizations
+﻿using Microsoft.Extensions.Localization;
+
+namespace Starter.Common.Localizations
 {
     /// <summary>
     /// This interface is created for the purpose, of making the <see cref="IStringLocalizer"/> aware of the location to serach in.<br></br>

@@ -1,6 +1,6 @@
-using Softylines.Contably.Common.Events.Publisher;
+using Starter.Common.Events.Publisher;
 
-namespace Softylines.Contably.Common.Events.EventBus.InMemory;
+namespace Starter.Common.Events.EventBus.InMemory;
 
 public class InMemoryEventBus(IPublisher eventPublisher) : IEventBus
 {
