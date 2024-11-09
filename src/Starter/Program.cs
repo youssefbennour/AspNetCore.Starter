@@ -1,6 +1,6 @@
 using System.Reflection;
 using Starter.Common.ApiConfiguration;
-using Starter.Common.Auth;
+using Starter.Common.Auth.JwtBearer;
 using Starter.Common.Clocks;
 using Starter.Common.ErrorHandling;
 using Starter.Common.Events.Publisher;
@@ -13,7 +13,7 @@ using Starter.Reports;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddExceptionHandling()
-    .AddAuthModule()
+    .AddJwtAuthentication()
     .AddTelemetry();
 
 builder.Services
@@ -36,7 +36,7 @@ if(app.Environment.IsDevelopment()) {
 
 app.UseApiConfiguration();
 app.UseExceptionHandling();
-app.UseAuthModule();
+app.UseJwtAuth();
 app.UseRequestBasedLocalization();
 app.MapControllers();
 app.UseHttpLogging();

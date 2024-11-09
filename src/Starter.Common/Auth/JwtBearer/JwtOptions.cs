@@ -1,3 +1,5 @@
+using Starter.Common.ErrorHandling.Exceptions;
+
 namespace Starter.Common.Auth.JwtBearer;
 
 public sealed class JwtOptions

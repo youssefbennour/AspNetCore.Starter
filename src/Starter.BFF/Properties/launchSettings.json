@@ -16,7 +16,7 @@
       "applicationUrl": "http://localhost:5007",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "KEYCLOAK_SERVER_URL": "http://localhost:7001"
+        "KEYCLOAK_SERVER_URL": "http://localhost:7002"
       }
     },
     "https": {
@@ -26,7 +26,7 @@
       "applicationUrl": "https://localhost:7188;http://localhost:5007",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "KEYCLOAK_SERVER_URL": "http://localhost:7001"
+        "KEYCLOAK_SERVER_URL": "http://localhost:7002"
       }
     },
     "IIS Express": {

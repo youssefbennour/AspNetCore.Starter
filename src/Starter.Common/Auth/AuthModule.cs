@@ -1,21 +1,21 @@
-using Microsoft.AspNetCore.Hosting;
-using Starter.Common.Auth.Keycloak;
+using Microsoft.Extensions.DependencyInjection;
+using Starter.Common.Auth.JwtBearer;
 
 namespace Starter.Common.Auth;
 
-public static class AuthModule
+internal static class AuthModule
 {
-   public static WebApplicationBuilder AddAuthModule(this WebApplicationBuilder builder)
+   internal static IServiceCollection AddAuthModule(this WebApplicationBuilder builder)
    {
-      builder.AddKeycloak();
-      builder.WebHost.UseKestrel(options => 
-         options.AddServerHeader = false);
-      return builder;
+      builder.AddJwtAuthentication();
+      builder.Services.AddAuthorization();
+      return builder.Services;
    }
 
-   public static IApplicationBuilder UseAuthModule(this WebApplication app)
+   internal static IApplicationBuilder UseAuthModule(this WebApplication app)
    {
-      app.UseKeycloak();
+      app.UseJwtAuth();
+      app.UseAuthorization();
       return app;
    }
 }
