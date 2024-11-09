@@ -2,12 +2,13 @@ using Starter.Common.Events;
 using Starter.Common.Events.EventBus;
 using Starter.Offers.Data;
 using Starter.Offers.Data.Database;
+using Starter.Offers.EventBus;
 using Starter.Passes.MarkPassAsExpired.Events;
 
 namespace Starter.Offers.Prepare;
 
 internal sealed class PassExpiredEventHandler(
-    IEventBus eventBus,
+    IOffersEventBus eventBus,
     OffersPersistence persistence,
     TimeProvider timeProvider) : IIntegrationEventHandler<PassExpiredEvent>
 {

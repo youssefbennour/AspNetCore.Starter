@@ -8,41 +8,68 @@ using Starter.Passes.Data.Database;
 
 #nullable disable
 
-namespace Starter.Fitnet.Migrations;
-
-[DbContext(typeof(PassesPersistence))]
-[ExcludeFromCodeCoverage]
-partial class PassesPersistenceModelSnapshot : ModelSnapshot
+namespace Starter.Fitnet.Migrations
 {
-    protected override void BuildModel(ModelBuilder modelBuilder)
+    [DbContext(typeof(PassesPersistence))]
+    partial class PassesPersistenceModelSnapshot : ModelSnapshot
     {
-#pragma warning disable 612, 618
-        modelBuilder
-            .HasDefaultSchema("Passes")
-            .HasAnnotation("ProductVersion", "7.0.4")
-            .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-        NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-        modelBuilder.Entity("EvolutionaryArchitecture.Fitnet.Passes.Data.Pass", b =>
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
-            b.Property<Guid>("Id")
-                .ValueGeneratedOnAdd()
-                .HasColumnType("uuid");
+#pragma warning disable 612, 618
+            modelBuilder
+                .HasDefaultSchema("Passes")
+                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            b.Property<Guid>("CustomerId")
-                .HasColumnType("uuid");
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            b.Property<DateTimeOffset>("From")
-                .HasColumnType("timestamp with time zone");
+            modelBuilder.Entity("Starter.Common.EventualConsistency.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-            b.Property<DateTimeOffset>("To")
-                .HasColumnType("timestamp with time zone");
+                    b.Property<DateTimeOffset?>("ExecutedOn")
+                        .HasColumnType("timestamp with time zone");
 
-            b.HasKey("Id");
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("json");
 
-            b.ToTable("Passes", "Passes");
-        });
+                    b.Property<DateTimeOffset>("SavedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExecutedOn");
+
+                    b.ToTable("OutboxMessage", "Passes");
+                });
+
+            modelBuilder.Entity("Starter.Passes.Data.Pass", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("From")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("To")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Passes", "Passes");
+                });
 #pragma warning restore 612, 618
+        }
     }
 }

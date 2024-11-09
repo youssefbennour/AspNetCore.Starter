@@ -1,4 +1,4 @@
-using Starter.Common.BusinessRuleEngine;
+using Starter.Common.BusinessRulesEngine;
 
 namespace Starter.Contracts.PrepareContract.BusinessRules;
 

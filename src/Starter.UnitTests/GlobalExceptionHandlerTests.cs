@@ -1,22 +1,30 @@
 using Microsoft.Extensions.Logging;
-using Starter.Common.ErrorHandling;
 using System.Net;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Starter.Common.ErrorHandling;
 using Starter.Common.ErrorHandling.Exceptions;
 
 namespace Starter.UnitTests;
 
 
 public sealed class GlobalExceptionHandlerTests {
-    private readonly HttpContext _context = GetHttpContext();
-    private readonly ILogger<GlobalExceptionHandler> _logger = Substitute.For<ILogger<GlobalExceptionHandler>>();
+   private readonly HttpContext _context = GetHttpContext();
+    private readonly IWebHostEnvironment _environment;
+
+    public GlobalExceptionHandlerTests()
+    {
+        _environment = Substitute.For<IWebHostEnvironment>();
+        _environment.EnvironmentName.Returns(nameof(Environments.Production));
+    }
 
     [Fact]
     internal async Task Given_business_rule_validation_exception_Then_returns_Unprocessable_Content() {
         // Arrange
         const string exceptionMessage = "Business rule not met";
         var exceptionHandler =
-            new GlobalExceptionHandler(_logger);
+            new GlobalExceptionHandler(_environment);
 
         // Act
         await exceptionHandler.TryHandleAsync(_context, new BusinessRuleValidationException(exceptionMessage), default);
@@ -39,7 +47,7 @@ public sealed class GlobalExceptionHandlerTests {
         businessRuleValidationException.UpsertToException(field, message);
 
         var exceptionHandler =
-            new GlobalExceptionHandler(_logger);
+            new GlobalExceptionHandler(_environment);
 
         // Act
         await exceptionHandler.TryHandleAsync(_context, businessRuleValidationException, default);
@@ -57,7 +65,7 @@ public sealed class GlobalExceptionHandlerTests {
         // Arrange
         const string exceptionMessage = "Server Error";
         var exceptionHandler =
-            new GlobalExceptionHandler(_logger);
+            new GlobalExceptionHandler(_environment);
 
         // Act
         await exceptionHandler.TryHandleAsync(_context, new InvalidCastException("test"), CancellationToken.None);

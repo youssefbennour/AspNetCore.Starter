@@ -3,18 +3,18 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Duende.BFF" Version="2.2.0" />
       <PackageReference Include="Duende.BFF.Yarp" Version="2.2.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.5" />
-      <PackageReference Include="Yarp.ReverseProxy" Version="2.1.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.10" />
+      <PackageReference Include="Yarp.ReverseProxy" Version="2.2.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Starter\Starter.csproj" />
+      <ProjectReference Include="..\Starter.Common\Starter.Common.csproj" />
     </ItemGroup>
-
 </Project>

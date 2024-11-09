@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+using Starter.Common.DataAccess.Orms.EfCore.DbContexts;
 
 namespace Starter.Offers.Data.Database;
 
@@ -10,6 +10,8 @@ internal static class DatabaseModule
     {
         var connectionString = configuration.GetConnectionString(ConnectionStringName);
         services.AddDbContext<OffersPersistence>(options => options.UseNpgsql(connectionString));
+        services.AddScoped<OutboxPersistence>(provider =>
+            provider.GetRequiredService<OffersPersistence>());
 
         return services;
     }

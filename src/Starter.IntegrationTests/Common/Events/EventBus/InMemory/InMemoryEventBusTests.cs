@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Writers;
 using Starter.Common.Events.EventBus;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;
 
