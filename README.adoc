@@ -34,6 +34,3 @@ or the `IDE test Explorer`.
 
 These tests are written using `xUnit` and require `Docker` to be running as they use `test containers` package to run PostgresSQL in a Docker container during testing. 
 Therefore, make sure to have `Docker` running before executing the integration tests.
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=youssefbennour/AspNetCore.Starter&type=Date)](https://star-history.com/#youssefbennour/AspNetCore.Starter&Date)
