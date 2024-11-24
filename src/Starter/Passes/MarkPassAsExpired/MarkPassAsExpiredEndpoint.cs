@@ -1,4 +1,3 @@
-using Starter.Common.Events.EventBus;
 using Starter.Passes.Data.Database;
 using Starter.Passes.EventBus;
 using Starter.Passes.MarkPassAsExpired.Events;
@@ -24,10 +23,11 @@ internal static class MarkPassAsExpiredEndpoint
 
                 var nowDate = timeProvider.GetUtcNow();
                 pass.MarkAsExpired(nowDate);
-                await persistence.SaveChangesAsync(cancellationToken);
                 await eventBus.PublishAsync(
                     PassExpiredEvent.Create(pass.Id, pass.CustomerId, timeProvider.GetUtcNow()),
                     cancellationToken);
+                await persistence.SaveChangesAsync(cancellationToken);
+
 
                 return Results.Ok();
             })

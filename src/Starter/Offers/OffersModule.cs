@@ -1,5 +1,3 @@
-using System.Reflection;
-using Starter.Common.EventualConsistency.Outbox;
 using Starter.Offers.Data.Database;
 using Starter.Offers.EventBus;
 
@@ -11,7 +9,6 @@ internal static class OffersModule
     {
         services.AddDatabase(configuration);
         services.AddOffersEventBus();
-        services.AddOutboxModule(Assembly.GetExecutingAssembly());
         return services;
     }
 

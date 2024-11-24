@@ -1,5 +1,3 @@
-using System.Reflection;
-using Starter.Common.EventualConsistency.Outbox;
 using Starter.Contracts.Data.Database;
 using Starter.Contracts.EventBus;
 
@@ -11,7 +9,6 @@ internal static class ContractsModule
     {
         services.AddDatabase(configuration);
         services.AddContractsEventBus();
-        services.AddOutboxModule(Assembly.GetExecutingAssembly()); 
         return services;
     }
 

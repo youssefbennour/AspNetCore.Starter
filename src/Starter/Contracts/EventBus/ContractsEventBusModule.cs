@@ -6,8 +6,7 @@ internal static class ContractsEventBusModule
 {
     internal static IServiceCollection AddContractsEventBus(this IServiceCollection services)
     {
-        services.AddScoped<IContractsEventBus, PersistentContractsEventBus>();
-
+        services.AddPersistentContractsEventBus();
         return services;
     }
 }

@@ -6,7 +6,7 @@ internal static class OffersEventBusModule
 {
     internal static IServiceCollection AddOffersEventBus(this IServiceCollection services)
     {
-        services.AddScoped<IOffersEventBus, PersistentOffersEventBus>();
+        services.AddPersistentOffersEventBus();
 
         return services;
     }
