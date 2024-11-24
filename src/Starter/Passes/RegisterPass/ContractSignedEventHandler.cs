@@ -1,5 +1,4 @@
 using Starter.Common.Events;
-using Starter.Common.Events.EventBus;
 using Starter.Contracts.SignContract.Events;
 using Starter.Passes.Data;
 using Starter.Passes.Data.Database;
@@ -16,9 +15,10 @@ internal sealed class ContractSignedEventHandler(
     {
         var pass = Pass.Register(@event.ContractCustomerId, @event.SignedAt, @event.ExpireAt);
         await persistence.Passes.AddAsync(pass, cancellationToken);
-        await persistence.SaveChangesAsync(cancellationToken);
-
+        
         var passRegisteredEvent = PassRegisteredEvent.Create(pass.Id);
         await eventBus.PublishAsync(passRegisteredEvent, cancellationToken);
+        
+        await persistence.SaveChangesAsync(cancellationToken);
     }
 }

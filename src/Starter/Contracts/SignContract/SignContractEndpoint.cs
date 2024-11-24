@@ -1,4 +1,3 @@
-using Starter.Common.Events.EventBus;
 using Starter.Common.Validation.Requests;
 using Starter.Contracts.Data.Database;
 using Starter.Contracts.EventBus;
@@ -26,8 +25,6 @@ internal static class SignContractEndpoint
 
                 var dateNow = timeProvider.GetUtcNow();
                 contract.Sign(request.SignedAt, dateNow);
-                await persistence.SaveChangesAsync(cancellationToken);
-
                 var @event = ContractSignedEvent.Create(
                     contract.Id,
                     contract.CustomerId,
@@ -35,7 +32,8 @@ internal static class SignContractEndpoint
                     contract.ExpiringAt!.Value,
                     timeProvider.GetUtcNow());
                 await eventBus.PublishAsync(@event, cancellationToken);
-
+                await persistence.SaveChangesAsync(cancellationToken);
+                
                 return Results.Ok();
             })
         .ValidateRequest<SignContractRequest>()

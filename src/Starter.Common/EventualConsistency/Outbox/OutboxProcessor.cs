@@ -8,7 +8,7 @@ using Starter.Common.Events.Publisher;
 
 namespace Starter.Common.EventualConsistency.Outbox;
 
-internal sealed class OutboxProcessor(
+public sealed class OutboxProcessor(
     OutboxPersistence persistence, 
     IPublisher eventPublisher,
     ILogger<OutboxProcessor> logger)

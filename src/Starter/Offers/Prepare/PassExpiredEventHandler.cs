@@ -1,5 +1,4 @@
 using Starter.Common.Events;
-using Starter.Common.Events.EventBus;
 using Starter.Offers.Data;
 using Starter.Offers.Data.Database;
 using Starter.Offers.EventBus;
@@ -17,9 +16,10 @@ internal sealed class PassExpiredEventHandler(
         var nowDate = timeProvider.GetUtcNow();
         var offer = Offer.PrepareStandardPassExtension(@event.CustomerId, nowDate);
         persistence.Offers.Add(offer);
-        await persistence.SaveChangesAsync(cancellationToken);
-
+        
         var offerPreparedEvent = OfferPrepareEvent.Create(offer.Id, offer.CustomerId, timeProvider.GetUtcNow());
         await eventBus.PublishAsync(offerPreparedEvent, cancellationToken);
+        
+        await persistence.SaveChangesAsync(cancellationToken);
     }
 }
