@@ -7,7 +7,7 @@ namespace Starter.IntegrationTests.Common.Events.EventBus.InMemory;
 
 public sealed class InMemoryEventBusTests(
     WebApplicationFactory<Program> applicationInMemoryFactory,
-    DatabaseContainer database) : IClassFixture<WebApplicationFactory<Program>>, IClassFixture<DatabaseContainer>
+    DatabaseContainer database) : IntegrationTest(database), IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _applicationInMemory = applicationInMemoryFactory
         .WithContainerDatabaseConfigured(database.ConnectionString!)

@@ -20,7 +20,7 @@ public sealed class JwtOptions
     /// Gets or sets the base URL of the Keycloak server.
     /// </summary>
     public static string ServerUrl => Environment.GetEnvironmentVariable("KEYCLOAK_SERVER_URL") 
-                               ?? throw new InternalServerException();
+                               ?? "http://localhost:7002";
 
     /// <summary>
     /// Gets or sets the relative client path for Keycloak operations.

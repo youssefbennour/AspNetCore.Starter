@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using Starter.Contracts.SignContract.Events;
+using Starter.IntegrationTests.Common;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;
 using Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;
 using Starter.IntegrationTests.Passes.RegisterPass;
@@ -11,14 +12,14 @@ using Starter.Reports.GenerateNewPassesRegistrationsPerMonthReport.Dtos;
 namespace Starter.IntegrationTests.Reports.GenerateNewPassesPerMonthReport;
 
 public sealed partial class GenerateNewPassesPerMonthReportTests : 
-    IClassFixture<WebApplicationFactory<Program>>, IClassFixture<DatabaseContainer>
+    IntegrationTest, IClassFixture<WebApplicationFactory<Program>>
 {
     private static readonly FakeTimeProvider FakeTimeProvider = new(ReportTestCases.FakeNowDate);
     private readonly HttpClient _applicationHttpClient;
     private readonly WebApplicationFactory<Program> _applicationInMemoryFactory;
 
     public GenerateNewPassesPerMonthReportTests(WebApplicationFactory<Program> applicationInMemoryFactory,
-        DatabaseContainer database)
+        DatabaseContainer database) : base(database)
     {
         _applicationInMemoryFactory = applicationInMemoryFactory
             .WithContainerDatabaseConfigured(database.ConnectionString!)
@@ -41,7 +42,7 @@ public sealed partial class GenerateNewPassesPerMonthReportTests :
         // Assert
         getReportResult.Should().HaveStatusCode(HttpStatusCode.OK);
         var reportData = await getReportResult.Content.ReadFromJsonAsync<NewPassesRegistrationsPerMonthResponse>();
-        await Verify();
+        await Verify(reportData);
     }
 
     private async Task RegisterPasses(List<PassRegistrationDateRange> reportTestData)

@@ -1,23 +1,24 @@
 using Starter.Common.Events.EventBus;
 using Starter.Contracts.SignContract.Events;
+using Starter.IntegrationTests.Common;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;
 using Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;
+using Starter.Passes.EventBus;
 using Starter.Passes.RegisterPass.Events;
 
 namespace Starter.IntegrationTests.Passes.RegisterPass;
 
-public sealed class RegisterPassTests : IClassFixture<WebApplicationFactory<Program>>,
-    IClassFixture<DatabaseContainer>
+public sealed class RegisterPassTests : IntegrationTest, IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _applicationInMemory;
-    private readonly IEventBus _fakeEventBus = Substitute.For<IEventBus>();
+    private readonly IPassesEventBus _fakeEventBus = Substitute.For<IPassesEventBus>();
 
     public RegisterPassTests(WebApplicationFactory<Program> applicationInMemoryFactory,
-        DatabaseContainer database)
+        DatabaseContainer database) : base(database)
     {
         _applicationInMemory = applicationInMemoryFactory
                 .WithContainerDatabaseConfigured(database.ConnectionString!)
-                .WithFakeEventBus(_fakeEventBus);
+                .WithFakePassesEventBus(_fakeEventBus);
         _applicationInMemory.CreateClient();
     }
 

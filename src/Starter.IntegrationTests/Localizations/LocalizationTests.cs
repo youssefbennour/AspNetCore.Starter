@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using Starter.IntegrationTests.Common;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;
 
 namespace Starter.IntegrationTests.Localizations
@@ -6,7 +7,7 @@ namespace Starter.IntegrationTests.Localizations
     public sealed class LocalizationTests(
         WebApplicationFactory<Program> applicationInMemoryFactory,
         DatabaseContainer databaseContainer)
-        : IClassFixture<WebApplicationFactory<Program>>, IClassFixture<DatabaseContainer>
+        : IntegrationTest(databaseContainer), IClassFixture<WebApplicationFactory<Program>>
     {
 
         private readonly HttpClient applicationHttpClient = applicationInMemoryFactory

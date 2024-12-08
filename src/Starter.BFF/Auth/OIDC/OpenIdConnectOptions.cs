@@ -6,7 +6,7 @@ internal sealed class OpenIdConnectOptions
 {
     public const string Key = "OpenIdConnectOptions";
     public string ServerUrl => Environment.GetEnvironmentVariable("KEYCLOAK_SERVER_URL") 
-                               ?? throw new InternalServerException();
+                               ?? "http://localhost:7002";
     
     public string CookieName { get; set; } = string.Empty;
     public string ClientId { get; set; } = string.Empty;
