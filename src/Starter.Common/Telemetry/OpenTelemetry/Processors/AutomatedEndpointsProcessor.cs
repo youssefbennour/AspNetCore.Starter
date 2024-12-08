@@ -5,25 +5,22 @@ namespace Starter.Common.Telemetry.OpenTelemetry.Processors;
 
 public class AutomatedEndpointsProcessor : BaseProcessor<Activity>
 {
-    public AutomatedEndpointsProcessor()
-    {
-    }
-    
     public override void OnEnd(Activity activity)
     {
-        if (IsHealthOrMetricsEndpoint(activity))
+        if (!IsActivityToBeRecorded(activity))
         {
-            activity.ActivityTraceFlags &= ~ActivityTraceFlags.Recorded;
+            activity.ActivityTraceFlags &= ActivityTraceFlags.None;
+            activity.IsAllDataRequested = false;
         }
     }
-    private static bool IsHealthOrMetricsEndpoint(Activity activity)
+    private static bool IsActivityToBeRecorded(Activity activity)
     {
-        
-        if (string.IsNullOrEmpty(activity.DisplayName))
+        var rootActivity = activity;
+        while (rootActivity.Parent != null)
         {
-            return false;
+            rootActivity = rootActivity.Parent;
         }
-        return activity.GetRelativeUrlPath().StartsWith("/health") ||
-               activity.GetRelativeUrlPath().StartsWith("/metrics");
+
+        return rootActivity.Kind == ActivityKind.Server;
     }
 }

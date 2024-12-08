@@ -50,7 +50,7 @@ public static class ErrorHandlingExtensions
         this IDictionary<string, string[]> errorsPerField)
     {
         var exception = new BusinessRuleValidationException();
-        if (errorsPerField.IsNullOrEmpty())
+        if (!errorsPerField.Any())
         {
             return exception;
         }

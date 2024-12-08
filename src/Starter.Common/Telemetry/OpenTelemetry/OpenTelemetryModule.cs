@@ -1,17 +1,20 @@
-﻿using Microsoft.AspNetCore.HttpLogging;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 using OpenTelemetry;
 using OpenTelemetry.Instrumentation.AspNetCore;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using StackExchange.Redis;
 using Starter.Common.Telemetry.OpenTelemetry.Processors;
 
 namespace Starter.Common.Telemetry.OpenTelemetry {
     public static class OpenTelemetryModule {
-        public static IServiceCollection AddOpenTelemetryModule(this WebApplicationBuilder builder)
+       public static IServiceCollection AddOpenTelemetryModule(this WebApplicationBuilder builder)
         {
             string serviceName = GetServiceName(builder);
             builder.AddOpenTelemetryLogging(serviceName);
@@ -35,11 +38,11 @@ namespace Starter.Common.Telemetry.OpenTelemetry {
             });
             
             builder.Services.AddHttpLogging(o => o.LoggingFields = HttpLoggingFields.All);
+            
             builder.Services.Configure<AspNetCoreTraceInstrumentationOptions>(options =>
             {
-                // Filter out instrumentation of the Prometheus scraping endpoint.
-                options.Filter = ctx => 
-                    ctx.Request.Path != "/metrics" || ctx.Request.Path != "/health";
+                options.Filter = ctx =>
+                    ctx.Request.Path is not { Value: "/metrics" or "/health" };
             });
 
 
@@ -51,11 +54,16 @@ namespace Starter.Common.Telemetry.OpenTelemetry {
             {
                 b.SetResourceBuilder(ResourceBuilder
                     .CreateDefault()
-                    .AddService(serviceName));
+                    .AddService(serviceName))
+                    .SetSampler(new AlwaysOnSampler());
                 
                 b.AddAspNetCoreInstrumentation()
+                    .AddNpgsql()
                     .AddHttpClientInstrumentation()
-                    .AddEntityFrameworkCoreInstrumentation()
+                    .AddEntityFrameworkCoreInstrumentation(o 
+                        => o.SetDbStatementForText = true)
+                    .AddSource("Microsoft.AspNetCore.Hosting")
+                    .AddSource("Microsoft.AspNetCore.Server.Kestrel")
                     .AddProcessor<AutomatedEndpointsProcessor>()
                     .AddOtlpExporter();
             });
@@ -74,10 +82,11 @@ namespace Starter.Common.Telemetry.OpenTelemetry {
                         .AddHttpClientInstrumentation()
                         .AddRuntimeInstrumentation()
                         .AddProcessInstrumentation()
+                        .AddMeter("Microsoft.AspNetCore.Hosting")
+                        .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
                         .AddPrometheusExporter(o =>
                             o.DisableTotalNameSuffixForCounters = true);
-                }
-                );
+                });
 
             return optlBuilder;
         }
@@ -85,8 +94,24 @@ namespace Starter.Common.Telemetry.OpenTelemetry {
         private static string GetServiceName(WebApplicationBuilder builder) => 
             builder.Configuration["ServiceName"] ?? "unknown-service";
 
-        public static IApplicationBuilder UseOpenTelemetry(this IApplicationBuilder app) {
-            return app.UseOpenTelemetryPrometheusScrapingEndpoint();
+        public static WebApplication UseOpenTelemetry(this WebApplication app)
+        {
+            app.Use(async (context, next) =>
+            {
+                var metricsFeature = context.Features.Get<IHttpMetricsTagsFeature>();
+                if (metricsFeature != null &&
+                    context.Request.Path is {Value: "/metrics" or "/health"})
+                {
+                    metricsFeature.MetricsDisabled = true;
+                }
+
+                await next(context);
+            });
+            app.MapPrometheusScrapingEndpoint()
+                .AllowAnonymous();
+            
+            return app;
         }
+
     }
 }
