@@ -14,6 +14,12 @@ A production-ready starter template for building modular monolith applications u
 * BFF (Backend-For-Frontend) pattern implementation
 * Keycloak integration
 
+=== 🚌 Event-Driven Architecture
+* Transactional Outbox Pattern implementation
+* Reliable event publishing
+* Eventual consistency support
+* Message-driven communication between modules
+
 === 📊 Observability
 * OpenTelemetry integration
 * Grafana dashboards
@@ -28,8 +34,6 @@ A production-ready starter template for building modular monolith applications u
 
 * .NET SDK 9.0
 * Docker
-* PostgreSQL (via Docker)
-* Keycloak (via Docker)
 
 == Getting Started
 
