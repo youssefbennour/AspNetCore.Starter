@@ -1,36 +1,108 @@
-== How to run?
+= .NET Modular Monolith Starter
+:toc: macro
 
-=== Requirements
+A production-ready starter template for building modular monolith applications using .NET 9.0, implementing the Backend-For-Frontend (BFF) pattern with Keycloak authentication.
 
-- .NET SDK
-- Docker
+== Features
 
-=== How to get .NET SDK?
+=== 🏗️ Modular Monolith Architecture
+* Clean separation of concerns
+* Module-based structure
+* Easy to extend and maintain
 
-To run the application, you will need to have the recent .NET SDK installed on your computer.
+=== 🔐 Authentication & Authorization
+* BFF (Backend-For-Frontend) pattern implementation
+* Keycloak integration
 
-Click link:https://dotnet.microsoft.com/en-us/download[here] to download it from the official Microsoft website.
+=== 📊 Observability
+* OpenTelemetry integration
+* Grafana dashboards
+* Jaeger for tracing
+* Prometheus metrics
 
-=== Run locally
+=== 🧪 Testing
+* Unit testing setup with xUnit
+* Integration testing with TestContainers
 
-The starter application requires Docker to run properly.
+== Prerequisites
 
-There are only 3 steps you need to start the application:
+* .NET SDK 9.0
+* Docker
+* PostgreSQL (via Docker)
+* Keycloak (via Docker)
 
-1. Make sure that you are in `/src` directory. 
-2. Run `docker-compose build` to build the image of the application.
-3. Run `docker-compose up` to start the application. In the meantime it will also start Postgres inside container.
+== Getting Started
 
-The application runs on port `:8080`. Please navigate to http://localhost:8080 in your browser or http://localhost:8080/swagger/index.html to explore the API.
+=== 1. Clone the repository
 
-That's it! You should now be able to run the application using either one of the above. :thumbsup:
+=== 2. Navigate to the source directory
+[source,bash]
+----
+cd src
+----
 
-=== How to run Integration Tests?
-To run the integration tests for the project located in the Fitnet.IntegrationTests project, you can use either the command:
+=== 3. Build the Docker images
+[source,bash]
+----
+docker-compose build
+----
 
-`dotnet test`
+=== 4. Start the application
+[source,bash]
+----
+docker-compose up
+----
 
-or the `IDE test Explorer`. 
+The application will be available at:
 
-These tests are written using `xUnit` and require `Docker` to be running as they use `test containers` package to run PostgresSQL in a Docker container during testing. 
-Therefore, make sure to have `Docker` running before executing the integration tests.
+* BFF: http://localhost:8081
+* API: http://localhost:8080
+* Swagger UI: http://localhost:8080/swagger/index.html
+
+== Project Structure
+
+[source]
+----
+src/
+├── Starter/              # Main API application
+├── Starter.BFF/          # Backend-For-Frontend application
+├── Starter.Common/       # Shared libraries and utilities
+├── Starter.UnitTests/    # Unit tests
+└── Starter.IntegrationTests/ # Integration tests
+----
+
+== Authentication Flow
+
+The project uses Keycloak as the identity provider with the BFF pattern:
+
+. Frontend applications communicate with the BFF
+. BFF handles authentication with Keycloak
+. BFF proxies authenticated requests to the main API
+. API validates JWT tokens and handles authorization
+
+== Running Tests
+
+=== Unit Tests
+[source,bash]
+----
+dotnet test src/Starter.UnitTests
+----
+
+=== Integration Tests
+[source,bash]
+----
+dotnet test src/Starter.IntegrationTests
+----
+
+[NOTE]
+====
+Integration tests require Docker to be running as they use TestContainers.
+====
+
+== Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+== License
+
+This project is licensed under the MIT License - see the link:LICENSE[LICENSE] file for details.
