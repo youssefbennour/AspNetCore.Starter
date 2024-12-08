@@ -9,7 +9,7 @@ namespace Starter.Common.Telemetry {
             builder.Host.UseDefaultServiceProvider(options => 
                 options.ValidateOnBuild = true);
             builder.AddOpenTelemetryModule();
-            builder.Services.AddHealthChecks();
+            builder.Services.AddHealthCheckModule();
 
             return builder.Services;
         }
