@@ -16,8 +16,6 @@ A production-ready starter template for building modular monolith applications u
 
 === 🚌 Event-Driven Architecture
 * Transactional Outbox Pattern implementation
-* Reliable event publishing
-* Eventual consistency support
 * Message-driven communication between modules
 
 === 📊 Observability
