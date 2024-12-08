@@ -2,23 +2,27 @@ using System.Net.Http.Json;
 using Starter.Common.ErrorHandling;
 using Starter.Common.Events.EventBus;
 using Starter.Contracts;
+using Starter.Contracts.EventBus;
 using Starter.Contracts.PrepareContract;
 using Starter.Contracts.SignContract;
 using Starter.Contracts.SignContract.Events;
+using Starter.IntegrationTests.Common;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;
 using Starter.IntegrationTests.Contracts.PrepareContract;
+using Starter.Offers.EventBus;
+using Starter.Passes.EventBus;
 
 namespace Starter.IntegrationTests.Contracts.SignContract;
 
-public sealed class SignContractTests : IClassFixture<WebApplicationFactory<Program>>, IClassFixture<DatabaseContainer>
+public sealed class SignContractTests : IntegrationTest, IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _applicationHttpClient;
-    private readonly IEventBus _fakeEventBus = Substitute.For<IEventBus>();
+    private readonly IContractsEventBus _fakeEventBus = Substitute.For<IContractsEventBus>();
 
     public SignContractTests(WebApplicationFactory<Program> applicationInMemoryFactory,
-        DatabaseContainer database) =>
+        DatabaseContainer database) : base(database) =>
         _applicationHttpClient = applicationInMemoryFactory
-            .WithFakeEventBus(_fakeEventBus)
+            .WithFakeContractsEventBus(_fakeEventBus)
             .WithContainerDatabaseConfigured(database.ConnectionString!)
             .CreateClient();
 

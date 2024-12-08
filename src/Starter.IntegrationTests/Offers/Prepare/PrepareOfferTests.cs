@@ -1,22 +1,23 @@
 using Starter.Common.Events.EventBus;
+using Starter.IntegrationTests.Common;
 using Starter.IntegrationTests.Common.TestEngine.Configuration;
 using Starter.IntegrationTests.Common.TestEngine.IntegrationEvents.Handlers;
+using Starter.Offers.EventBus;
 using Starter.Offers.Prepare;
 using Starter.Passes.MarkPassAsExpired.Events;
 
 namespace Starter.IntegrationTests.Offers.Prepare;
 
-public sealed class PrepareOfferTests : IClassFixture<WebApplicationFactory<Program>>,
-    IClassFixture<DatabaseContainer>
+public sealed class PrepareOfferTests : IntegrationTest, IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _applicationInMemory;
-    private readonly IEventBus _fakeEventBus = Substitute.For<IEventBus>();
+    private readonly IOffersEventBus _fakeEventBus = Substitute.For<IOffersEventBus>();
 
     public PrepareOfferTests(WebApplicationFactory<Program> applicationInMemoryFactory,
-        DatabaseContainer database)
+        DatabaseContainer database) :  base(database)
     {
         _applicationInMemory = applicationInMemoryFactory
-            .WithFakeEventBus(_fakeEventBus)
+            .WithFakeOffersEventBus(_fakeEventBus)
             .WithContainerDatabaseConfigured(database.ConnectionString!);
 
         _applicationInMemory.CreateClient();

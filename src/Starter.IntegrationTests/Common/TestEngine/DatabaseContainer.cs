@@ -27,3 +27,7 @@ public sealed class DatabaseContainer : IAsyncLifetime
 
     public async Task DisposeAsync() => await _container!.StopAsync();
 }
+
+[CollectionDefinition(nameof(SharedDatabase))]
+public sealed class SharedDatabase : 
+    ICollectionFixture<DatabaseContainer>;

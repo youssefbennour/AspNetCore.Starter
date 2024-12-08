@@ -1,5 +1,9 @@
 using Starter.Common.Events.EventBus;
 using Starter.Common.Events.EventBus.InMemory;
+using Starter.Contracts.EventBus;
+using Starter.IntegrationTests.Common.Events.EventBus.InMemory;
+using Starter.Offers.EventBus;
+using Starter.Passes.EventBus;
 
 namespace Starter.IntegrationTests.Common.TestEngine.Configuration;
 
@@ -45,16 +49,32 @@ internal static class ConfigurationExtensions
         webApplicationFactory.WithWebHostBuilder(webHostBuilder => webHostBuilder.ConfigureTestServices(services =>
             services.AddSingleton<TimeProvider>(new FakeTimeProvider(fakeDateTimeOffset))));
 
-    internal static WebApplicationFactory<T> WithFakeEventBus<T>(
+    internal static WebApplicationFactory<T> WithFakePassesEventBus<T>(
         this WebApplicationFactory<T> webApplicationFactory,
-        IEventBus eventBusMock)
-        where T : class =>
+        IPassesEventBus eventBusMock)
+        where T : class=>
         webApplicationFactory.WithWebHostBuilder(webHostBuilder => webHostBuilder.ConfigureTestServices(services =>
-            services.AddSingleton(eventBusMock)));
+            services.AddSingleton<IPassesEventBus>(eventBusMock)));
+    internal static WebApplicationFactory<T> WithFakeOffersEventBus<T>(
+        this WebApplicationFactory<T> webApplicationFactory,
+        IOffersEventBus eventBusMock)
+        where T : class=>
+        webApplicationFactory.WithWebHostBuilder(webHostBuilder => webHostBuilder.ConfigureTestServices(services =>
+            services.AddSingleton<IOffersEventBus>(eventBusMock)));
+    internal static WebApplicationFactory<T> WithFakeContractsEventBus<T>(
+        this WebApplicationFactory<T> webApplicationFactory,
+        IContractsEventBus eventBusMock)
+        where T : class=>
+        webApplicationFactory.WithWebHostBuilder(webHostBuilder => webHostBuilder.ConfigureTestServices(services =>
+            services.AddSingleton<IContractsEventBus>(eventBusMock)));
 
     internal static WebApplicationFactory<T> WithFakeConsumers<T>(
         this WebApplicationFactory<T> webApplicationFactory)
         where T : class =>
         webApplicationFactory.WithWebHostBuilder(webHostBuilder => webHostBuilder.ConfigureTestServices(services =>
-            services.AddSingleton<IEventBus, InMemoryEventBus>()));
+        {
+            services.AddSingleton<IEventBus, InMemoryEventBus>();
+            services.AddMediatR(configuration =>
+                configuration.RegisterServicesFromAssembly(typeof(FakeEvent).Assembly));
+        }));
 }
