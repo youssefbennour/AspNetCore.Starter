@@ -62,6 +62,12 @@ docker-compose up
 For local development with Docker Compose, additional setup is required to handle Keycloak authentication properly. Please refer to the link:LOCAL_DEVELOPMENT.adoc[Local Development Guide] for detailed instructions.
 ====
 
+[NOTE]
+====
+Integrating the BFF with a front-end requires special attention,  I recommend reading this detailed article:
+https://wrapt.dev/blog/standalone-duende-bff-for-any-spa
+====
+
 The application will be available at:
 
 * BFF: http://localhost:8081
