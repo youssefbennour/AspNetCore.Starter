@@ -8,6 +8,14 @@ using Starter.Common.Events.Publisher;
 
 namespace Starter.Common.EventualConsistency.Outbox;
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="persistence"></param>
+/// <param name="eventPublisher"></param>
+/// <param name="logger"></param>
+/// <remarks>You're responsible for implementing the retry mechanism that better suits your business for handling failed messages.</remarks>
+/// <remarks>You're also responsible for implementing a mechanism for deleting processed messaged.</remarks>
 public sealed class OutboxProcessor(
     OutboxPersistence persistence, 
     IPublisher eventPublisher,
@@ -17,7 +25,8 @@ public sealed class OutboxProcessor(
     {
         var outboxMessages = await persistence.Set<OutboxMessage>()
             .Where(x => x.ExecutedOn == null)
-            .Take(5)
+            .OrderBy(x => x.SavedOn)
+            .Take(10)
             .ToListAsync(cancellationToken);
 
         foreach (var outboxMessage in outboxMessages)
@@ -59,6 +68,8 @@ public sealed class OutboxProcessor(
         }
         catch (Exception ex)
         {
+            outBoxMessage.MarkAsFailed(ex.Message);
+            await persistence.SaveChangesAsync(CancellationToken.None);
             logger.LogError(ex, "[Outbox] Exception when handling message. Message body: {Message}", outBoxMessage.Message);
         }
     }

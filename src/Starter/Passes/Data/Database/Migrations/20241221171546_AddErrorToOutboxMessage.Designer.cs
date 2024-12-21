@@ -2,22 +2,25 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Starter.Offers.Data.Database;
+using Starter.Passes.Data.Database;
 
 #nullable disable
 
-namespace SuperSimpleArchitecture.Fitnet.Migrations.OffersPersistenceMigrations
+namespace Starter.Passes.Data.Database.Migrations
 {
-    [DbContext(typeof(OffersPersistence))]
-    partial class OffersPersistenceModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PassesPersistence))]
+    [Migration("20241221171546_AddErrorToOutboxMessage")]
+    partial class AddErrorToOutboxMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Offers")
+                .HasDefaultSchema("Passes")
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -50,10 +53,10 @@ namespace SuperSimpleArchitecture.Fitnet.Migrations.OffersPersistenceMigrations
 
                     b.HasIndex("ExecutedOn");
 
-                    b.ToTable("OutboxMessage", "Offers");
+                    b.ToTable("OutboxMessage", "Passes");
                 });
 
-            modelBuilder.Entity("Starter.Offers.Data.Offer", b =>
+            modelBuilder.Entity("Starter.Passes.Data.Pass", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,21 +65,15 @@ namespace SuperSimpleArchitecture.Fitnet.Migrations.OffersPersistenceMigrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTimeOffset>("OfferedFromDate")
+                    b.Property<DateTimeOffset>("From")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTimeOffset>("OfferedFromTo")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTimeOffset>("PreparedAt")
+                    b.Property<DateTimeOffset>("To")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Offers", "Offers");
+                    b.ToTable("Passes", "Passes");
                 });
 #pragma warning restore 612, 618
         }
