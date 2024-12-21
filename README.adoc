@@ -55,6 +55,11 @@ docker-compose build
 docker-compose up
 ----
 
+[IMPORTANT]
+====
+For local development with Docker Compose, additional setup is required to handle Keycloak authentication properly. Please refer to the link:LOCAL_DEVELOPMENT.adoc[Local Development Guide] for detailed instructions.
+====
+
 The application will be available at:
 
 * BFF: http://localhost:8081
