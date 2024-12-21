@@ -1,7 +1,9 @@
 = .NET Modular Monolith Starter
 :toc: macro
 
-A production-ready starter template for building modular monolith applications using .NET 9.0, implementing the Backend-For-Frontend (BFF) pattern with Keycloak authentication. If you're not familiar with the modular monolith concept, you can find an explanation for this choice in the https://github.com/evolutionary-architecture/evolutionary-architecture-by-example/blob/main/README.md#-modular-monolith[Evolutionary Architecture's documentation].
+A production-ready starter template for building modular monolith applications using .NET 9.0, implementing the Backend-For-Frontend (BFF) pattern with Keycloak authentication. 
+
+If you're not familiar with the modular monolith concept, you can find an explanation for this choice in the https://github.com/evolutionary-architecture/evolutionary-architecture-by-example/blob/main/README.adoc#-modular-monolith[Evolutionary Architecture's documentation].
 
 == Features
 
