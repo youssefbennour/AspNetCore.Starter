@@ -2,22 +2,25 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Starter.Offers.Data.Database;
+using Starter.Contracts.Data.Database;
 
 #nullable disable
 
-namespace SuperSimpleArchitecture.Fitnet.Migrations.OffersPersistenceMigrations
+namespace Starter.Contracts.Data.Database.Migrations
 {
-    [DbContext(typeof(OffersPersistence))]
-    partial class OffersPersistenceModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ContractsPersistence))]
+    [Migration("20241221171451_AddErrorToOutboxMessage")]
+    partial class AddErrorToOutboxMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Offers")
+                .HasDefaultSchema("Contracts")
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -50,10 +53,10 @@ namespace SuperSimpleArchitecture.Fitnet.Migrations.OffersPersistenceMigrations
 
                     b.HasIndex("ExecutedOn");
 
-                    b.ToTable("OutboxMessage", "Offers");
+                    b.ToTable("OutboxMessage", "Contracts");
                 });
 
-            modelBuilder.Entity("Starter.Offers.Data.Offer", b =>
+            modelBuilder.Entity("Starter.Contracts.Data.Contract", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,21 +65,21 @@ namespace SuperSimpleArchitecture.Fitnet.Migrations.OffersPersistenceMigrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("numeric");
+                    b.Property<TimeSpan>("Duration")
+                        .HasColumnType("interval");
 
-                    b.Property<DateTimeOffset>("OfferedFromDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTimeOffset>("OfferedFromTo")
+                    b.Property<DateTimeOffset?>("ExpiringAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset>("PreparedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTimeOffset?>("SignedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Offers", "Offers");
+                    b.ToTable("Contracts", "Contracts");
                 });
 #pragma warning restore 612, 618
         }

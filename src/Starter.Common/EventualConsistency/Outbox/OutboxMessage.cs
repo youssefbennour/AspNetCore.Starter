@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Cms;
 using Starter.Common.Events;
 
 namespace Starter.Common.EventualConsistency.Outbox;
@@ -9,6 +10,7 @@ public sealed class OutboxMessage
     public string Message { get; private set; }
     public DateTimeOffset SavedOn { get; private set; }
     public DateTimeOffset? ExecutedOn { get; private set; }
+    public string? Error { get; private set; }
     public string Type { get; private set; }
 
     
@@ -16,6 +18,12 @@ public sealed class OutboxMessage
     {
         ExecutedOn = executedOn;
     }
+
+    public void MarkAsFailed(string error)
+    {
+        Error = error; 
+    }
+    
     private OutboxMessage(string message, DateTimeOffset savedOn, string type)
     {
         Id = Guid.NewGuid();
