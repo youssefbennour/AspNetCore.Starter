@@ -22,7 +22,7 @@ internal static class OpenIdConnectModule
          options.Cookie.Name = openIdConnectOptions.CookieName;
          options.ExpireTimeSpan = TimeSpan.FromHours(8);
          options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-         options.Cookie.SameSite = SameSiteMode.Lax;
+         options.Cookie.SameSite = SameSiteMode.Lax; //Consider switching to SameSiteMode.Strict in production
          options.Cookie.HttpOnly = true;
       })
       .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
