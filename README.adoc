@@ -91,7 +91,8 @@ src/
 The project uses Keycloak as the identity provider with the BFF pattern:
 
 . Frontend applications communicate with the BFF
-. BFF handles authentication with Keycloak
+. BFF Authenticates user by cookie
+. If user is not authenticated, BFF challenges the user to Keycloak & deals a cookie[secure, http only and SameSite strict] to the front-end
 . BFF proxies authenticated requests to the main API
 . API validates JWT tokens and handles authorization
 
