@@ -87,6 +87,23 @@ The project uses Keycloak as the identity provider with the BFF pattern:
 . BFF proxies authenticated requests to the main API
 . API validates JWT tokens and handles authorization
 
+=== Direct API Access
+
+If you need to bypass the BFF and access the APIs directly, you can obtain an access token from Keycloak using the following command:
+
+[source,bash]
+----
+curl --location 'http://localhost:7002/realms/starter-realm/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'username={your username}' \
+--data-urlencode 'password={your password}' \
+--data-urlencode 'client_id=starter-client' \
+--data-urlencode 'client_secret=yNSMFyKxVUsL5g0xASiGXYs7RkZPQJ2h'
+----
+
+The response will contain an access token that can be used to authenticate direct API calls by including it in the `Authorization` header as a Bearer token.
+
 == Running Tests
 
 === Unit Tests
