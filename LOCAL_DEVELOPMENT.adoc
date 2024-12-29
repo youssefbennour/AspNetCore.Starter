@@ -5,7 +5,7 @@ This guide provides additional setup instructions for running the application lo
 
 == Keycloak Local Setup
 
-When running the application locally with Docker Compose without a domain name, you might encounter issues with Keycloak redirects. This happens because the redirect URI issued by .NET will not be accessible from outside the Docker network. Here's how to resolve this:
+When running the application locally with Docker Compose without a domain name, you might encounter issues with Keycloak redirects from the BFF app. This happens because the redirect URI issued by the BFF app will not be accessible from outside the Docker network. Here's how to resolve this:
 
 === 1. Install and Configure Nginx
 
