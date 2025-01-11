@@ -19,7 +19,7 @@ The `OutboxProcessor` class will be responsible for processing these events, ens
 
 Additionally, each module should have its own worker for processing events because each module operates within a separate `DbContext`. This design ensures that event handling is isolated and does not interfere with other modules. 
 
-Furthermore, each module that utilizes the transactional outbox pattern must implement its own interfaces and implementations of the event bus. This is essential as each module needs to pass the corresponding `DbContext` to the event bus. For instance, the `IEventBus` interface defined in `IEventBus` and its persistent implementation in`PersistentEventBus` serve as examples. Similarly, the interfaces for event buses in `IContractsEventBus` and `PersistentContractsEventBus`illustrate the necessary abstractions for implementing this pattern across modules.
+Furthermore, each module that utilizes the transactional outbox pattern must implement its own interfaces and implementations of the event bus. This is essential as each module needs to pass the corresponding `DbContext` to the event bus. For instance, the `IEventBus` and its persistent implementation in `PersistentEventBus` serve as examples. Similarly, the interfaces for event buses in `IContractsEventBus` and `PersistentContractsEventBus`illustrate the necessary abstractions for implementing this pattern across modules.
 
 The use of the transactional outbox pattern in any module is optional and can be configured using Dependency Injection (DI). This flexibility allows for different modules to choose whether to use the outbox pattern, depending on their specific needs.
 
