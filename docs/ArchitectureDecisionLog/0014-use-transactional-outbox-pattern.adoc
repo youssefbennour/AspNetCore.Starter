@@ -19,21 +19,19 @@ The `OutboxProcessor` class will be responsible for processing these events, ens
 
 Additionally, each module should have its own worker for processing events because each module operates within a separate `DbContext`. This design ensures that event handling is isolated and does not interfere with other modules. 
 
-Furthermore, each module that utilizes the transactional outbox pattern must implement its own interfaces and implementations of the event bus. This is essential as each module needs to pass the corresponding `DbContext` to the event bus. For instance, the `IEventBus` and its persistent implementation in `PersistentEventBus` serve as examples. Similarly, the interfaces for event buses in `IContractsEventBus` and `PersistentContractsEventBus`illustrate the necessary abstractions for implementing this pattern across modules.
+Furthermore, each module that utilizes the transactional outbox pattern must implement its own interfaces and implementations of the event bus. This is essential as each module needs to pass the corresponding `DbContext` to the event bus. For instance, the `IEventBus` and its persistent implementation in `PersistentEventBus` serve as examples. Similarly, the interfaces for event buses in `IContractsEventBus` and `PersistentContractsEventBus` illustrate the necessary abstractions for implementing this pattern across modules.
 
 The use of the transactional outbox pattern in any module is optional and can be configured using Dependency Injection (DI). This flexibility allows for different modules to choose whether to use the outbox pattern, depending on their specific needs.
 
 ## Consequences
-One of the key consequences of adopting the transactional outbox pattern is that each module should have its own worker for processing events. This is necessary because each module operates within its own logically separate database. This separation allows for independent processing of events while ensuring that the overall system remains consistent.
 
-Additionally, the implementation of the transactional outbox pattern leads to the following consequences:
+1. **Code complexity**: One of the key consequences of adopting the transactional outbox pattern is that each module should have its own worker for processing events. This is necessary because each module operates within its own logically separate database. This separation allows for independent processing of events while ensuring that the overall system remains consistent.
 
+2. **Reliability in Event Delivery**: The pattern ensures that events are reliably delivered, which is critical for maintaining data integrity across modules. This reliability is essential for business operations that depend on accurate and timely data.
 
-1. **Reliability in Event Delivery**: The pattern ensures that events are reliably delivered, which is critical for maintaining data integrity across modules. This reliability is essential for business operations that depend on accurate and timely data.
+3. **Operational Overhead**: While the outbox pattern improves consistency, it introduces some operational overhead. This includes the need for monitoring the outbox and ensuring that events are processed correctly, which may require additional tooling or infrastructure.
 
-2. **Operational Overhead**: While the outbox pattern improves consistency, it introduces some operational overhead. This includes the need for monitoring the outbox and ensuring that events are processed correctly, which may require additional tooling or infrastructure.
-
-3. **Potential for Event Duplication**: Although the pattern guarantees at least once delivery, there is a risk of event duplication. This necessitates careful design in the event handlers to ensure that duplicate events do not lead to inconsistent states.
+4. **Potential for Event Duplication**: Although the pattern guarantees at least once delivery, there is a risk of event duplication. This necessitates careful design in the event handlers to ensure that duplicate events do not lead to inconsistent states.
 One solution to this problem is to implement the idempotent consumer pattern.
 
 By considering these consequences, we can better prepare for the implementation and ongoing management of the transactional outbox pattern in our application.
