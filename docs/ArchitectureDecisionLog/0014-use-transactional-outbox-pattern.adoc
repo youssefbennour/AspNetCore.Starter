@@ -25,7 +25,7 @@ The use of the transactional outbox pattern in any module is optional and can be
 
 ## Consequences
 
-1. **Code complexity**: One of the key consequences of adopting the transactional outbox pattern is that each module should have its own worker for processing events. This is necessary because each module operates within its own logically separate database. This separation allows for independent processing of events while ensuring that the overall system remains consistent.
+1. **Module setup complexity**: One of the key consequences of adopting the transactional outbox pattern is that each module should have its own worker for processing events (altough they all use `OutboxProcessor` for processing events). This is necessary because each module operates within its own logically separate database. This separation allows for independent processing of events while ensuring that the overall system remains consistent.
 
 2. **Reliability in Event Delivery**: The pattern ensures that events are reliably delivered, which is critical for maintaining data integrity across modules. This reliability is essential for business operations that depend on accurate and timely data.
 
