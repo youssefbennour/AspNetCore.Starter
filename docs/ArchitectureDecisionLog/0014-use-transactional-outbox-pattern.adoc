@@ -28,18 +28,12 @@ One of the key consequences of adopting the transactional outbox pattern is that
 
 Additionally, the implementation of the transactional outbox pattern leads to the following consequences:
 
-1. **Decoupled Architecture**: By using events for communication, modules become more decoupled, allowing for easier maintenance and evolution of individual components without affecting the entire system.
 
-2. **Reliability in Event Delivery**: The pattern ensures that events are reliably delivered, which is critical for maintaining data integrity across modules. This reliability is essential for business operations that depend on accurate and timely data.
+1. **Reliability in Event Delivery**: The pattern ensures that events are reliably delivered, which is critical for maintaining data integrity across modules. This reliability is essential for business operations that depend on accurate and timely data.
 
-3. **Operational Overhead**: While the outbox pattern improves consistency, it introduces some operational overhead. This includes the need for monitoring the outbox and ensuring that events are processed correctly, which may require additional tooling or infrastructure.
+2. **Operational Overhead**: While the outbox pattern improves consistency, it introduces some operational overhead. This includes the need for monitoring the outbox and ensuring that events are processed correctly, which may require additional tooling or infrastructure.
 
-4. **Potential for Event Duplication**: Although the pattern guarantees at least once delivery, there is a risk of event duplication. This necessitates careful design in the event handlers to ensure that duplicate events do not lead to inconsistent states.
-
-5. **Performance Considerations**: The additional database operations involved in saving events may impact performance, particularly under high load scenarios. It is important to monitor and optimize the outbox processing to mitigate any potential bottlenecks.
-
-6. **Complexity in Event Management**: Managing the lifecycle of events in the outbox adds complexity to the system. Developers must ensure that events are processed in a timely manner and that any failures are handled gracefully.
-
-7. **Alignment with Eventual Consistency**: The transactional outbox pattern aligns well with our eventual consistency goals, allowing us to maintain a consistent state across modules over time, even in the face of temporary inconsistencies.
+3. **Potential for Event Duplication**: Although the pattern guarantees at least once delivery, there is a risk of event duplication. This necessitates careful design in the event handlers to ensure that duplicate events do not lead to inconsistent states.
+One solution to this problem is to implement the idempotent consumer pattern.
 
 By considering these consequences, we can better prepare for the implementation and ongoing management of the transactional outbox pattern in our application.
