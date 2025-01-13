@@ -48,13 +48,13 @@ cd src
 === 3. Build the Docker images
 [source,bash]
 ----
-docker-compose build
+docker compose build
 ----
 
 === 4. Start the application
 [source,bash]
 ----
-docker-compose up
+docker compose up
 ----
 
 [IMPORTANT]
