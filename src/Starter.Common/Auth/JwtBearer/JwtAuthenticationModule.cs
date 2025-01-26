@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +11,7 @@ public static class JwtAuthenticationModule
     {
        
         builder.Services.AddAuthentication()
-            .AddJwtBearer(options =>
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme ,options =>
             {
                 JwtOptions jwtOptions =
                     builder.Configuration.GetSection(JwtOptions.Key)
@@ -21,7 +22,7 @@ public static class JwtAuthenticationModule
                     jwtOptions.WellKnown;
                 options.RequireHttpsMetadata = false;
                 options.Authority = jwtOptions.Authority;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateLifetime = true,
@@ -30,7 +31,6 @@ public static class JwtAuthenticationModule
                 };
                 options.Validate();
             });
-        
         return builder;
     }
 

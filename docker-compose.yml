@@ -65,8 +65,9 @@ services:
       - starter-network
     volumes:
       - keycloak-data:/opt/keycloak/data
+      - ./Configs/keycloak/sample-realm.json:/opt/keycloak/data/import/keycloak.json
     command:
-      - "start-dev"
+      "start-dev --import-realm"
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.91.0
