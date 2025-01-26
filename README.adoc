@@ -108,7 +108,7 @@ curl --location 'http://localhost:7002/realms/starter-realm/protocol/openid-conn
 --data-urlencode 'username={your username}' \
 --data-urlencode 'password={your password}' \
 --data-urlencode 'client_id=starter-client' \
---data-urlencode 'client_secret=yNSMFyKxVUsL5g0xASiGXYs7RkZPQJ2h'
+--data-urlencode 'client_secret=2UxRNf8TY7jwycJCWcEWTWz3joSqQlLO'
 ----
 
 The response will contain an access token that can be used to authenticate direct API calls by including it in the `Authorization` header as a Bearer token.
