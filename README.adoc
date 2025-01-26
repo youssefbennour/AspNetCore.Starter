@@ -1,7 +1,9 @@
 = .NET Modular Monolith Starter
 :toc: macro
 
-A production-ready starter template for building modular monolith applications using .NET 9.0, implementing the Backend-For-Frontend (BFF) pattern with Keycloak authentication.
+A production-ready starter template for building modular monolith applications using .NET 9.0, implementing the Backend-For-Frontend (BFF) pattern with Keycloak authentication. 
+
+If you're not familiar with the modular monolith concept, you can find an explanation for this choice in the https://github.com/evolutionary-architecture/evolutionary-architecture-by-example/blob/main/README.adoc#-modular-monolith[Evolutionary Architecture's documentation].
 
 == Features
 
@@ -46,14 +48,25 @@ cd src
 === 3. Build the Docker images
 [source,bash]
 ----
-docker-compose build
+docker compose build
 ----
 
 === 4. Start the application
 [source,bash]
 ----
-docker-compose up
+docker compose up
 ----
+
+[IMPORTANT]
+====
+For local development with Docker Compose, additional setup is required to handle Keycloak authentication properly. Please refer to the link:LOCAL_DEVELOPMENT.adoc[Local Development Guide] for detailed instructions.
+====
+
+[NOTE]
+====
+Integrating the BFF with a front-end requires special attention,  I recommend reading this detailed article:
+https://wrapt.dev/blog/standalone-duende-bff-for-any-spa
+====
 
 The application will be available at:
 
@@ -78,9 +91,27 @@ src/
 The project uses Keycloak as the identity provider with the BFF pattern:
 
 . Frontend applications communicate with the BFF
-. BFF handles authentication with Keycloak
+. BFF Authenticates user by cookie
+. If user is not authenticated, BFF challenges the user to Keycloak & deals a cookie[secure, http only and SameSite strict] to the front-end
 . BFF proxies authenticated requests to the main API
 . API validates JWT tokens and handles authorization
+
+=== Direct API Access
+
+If you need to bypass the BFF and access the APIs directly, you can obtain an access token from Keycloak using the following command:
+
+[source,bash]
+----
+curl --location 'http://localhost:7002/realms/starter-realm/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'username={your username}' \
+--data-urlencode 'password={your password}' \
+--data-urlencode 'client_id=starter-client' \
+--data-urlencode 'client_secret=yNSMFyKxVUsL5g0xASiGXYs7RkZPQJ2h'
+----
+
+The response will contain an access token that can be used to authenticate direct API calls by including it in the `Authorization` header as a Bearer token.
 
 == Running Tests
 

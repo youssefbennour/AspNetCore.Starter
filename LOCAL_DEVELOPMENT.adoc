@@ -1,0 +1,84 @@
+= Local Development Setup
+:toc: macro
+
+This guide provides additional setup instructions for running the application locally with Docker Compose, specifically addressing the Keycloak redirect URI issue.
+
+== Keycloak Local Setup
+
+When running the application locally with Docker Compose without a domain name, you might encounter issues with Keycloak redirects from the BFF app. This happens because the redirect URI issued by the BFF app will not be accessible from outside the Docker network. Here's how to resolve this:
+
+=== 1. Install and Configure Nginx
+
+First, install Nginx if you haven't already. Then configure it as follows:
+
+[source,bash]
+----
+sudo nano /etc/nginx/nginx.conf
+----
+
+Replace or update the configuration with:
+
+[source,nginx]
+----
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+
+    keepalive_timeout  65;
+
+    server {
+        listen       8080;
+        server_name  keycloak;
+
+        location / {
+            proxy_pass http://localhost:7002;
+            proxy_set_header Host $host:$server_port;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Forwarded-Host $host:$server_port;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+
+    include servers/*;
+}
+----
+
+=== 2. Update Hosts File
+
+Add the following entry to your hosts file:
+
+[source,bash]
+----
+sudo nano /etc/hosts
+----
+
+Add this line:
+[source,text]
+----
+127.0.0.1 keycloak
+----
+
+=== 3. Reload Nginx
+
+Apply the changes by reloading Nginx:
+
+[source,bash]
+----
+sudo nginx -s reload
+----
+
+After completing these steps, the Keycloak authentication flow should work properly in your local development environment.
