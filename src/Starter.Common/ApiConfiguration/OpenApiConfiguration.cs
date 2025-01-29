@@ -21,6 +21,20 @@ public static class OpenApiConfiguration {
                 Scheme = "bearer"
             });
             
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new List<string>()
+                }
+            });
         });
         
         services.AddSwaggerExamplesFromAssemblyOf<T>();

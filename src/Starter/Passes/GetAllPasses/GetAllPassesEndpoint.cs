@@ -28,6 +28,7 @@ internal static class GetAllPassesEndpoint
                 Description =
                     "This endpoint is used to retrieve all existing passes.",
             })
+            .RequireAuthorization()
             .Produces<PaginatedList<PassDto>>()
             .Produces(StatusCodes.Status500InternalServerError);
 }
